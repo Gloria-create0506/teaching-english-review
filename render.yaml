@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: teaching-english-review
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: ACCESS_PASSWORD
+        sync: false
+      - key: MAX_IPS_PER_PASSWORD
+        value: "2"
+      - key: SESSION_HOURS
+        value: "8"

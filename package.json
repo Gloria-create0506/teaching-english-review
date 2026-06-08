@@ -1,0 +1,14 @@
+{
+  "name": "teaching-english-review",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Public web deployment for Journey to the West review lessons.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
