@@ -1,0 +1,4145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journey to the West Chapter 6: The Dragon King（东海龙王）| 小升初互动复习课</title>
+<style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --ink: #172033;
+  --muted: #65718a;
+  --paper: #fffdf8;
+  --cream: #fff3d7;
+  --sun: #f3b332;
+  --coral: #e9654f;
+  --leaf: #2f9a70;
+  --sky: #3186d9;
+  --violet: #7f62d6;
+  --line: #dbe2ee;
+  --card: #ffffff;
+  --shadow: 0 18px 44px rgba(23, 32, 51, 0.16);
+  --soft-shadow: 0 10px 24px rgba(23, 32, 51, 0.1);
+  --radius: 8px;
+}
+
+html {
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(243, 179, 50, 0.22), transparent 28rem),
+    radial-gradient(circle at 95% 15%, rgba(49, 134, 217, 0.18), transparent 27rem),
+    linear-gradient(135deg, #fffdf8 0%, #edf7ff 47%, #f9fff4 100%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.topbar {
+  height: 78px;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 24px;
+  background: rgba(255, 253, 248, 0.88);
+  border-bottom: 1px solid rgba(219, 226, 238, 0.9);
+  backdrop-filter: blur(14px);
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: transparent;
+  box-shadow: var(--soft-shadow);
+  overflow: hidden;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.brand-title {
+  min-width: 0;
+}
+
+.brand-title strong {
+  display: block;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-title span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.score-card {
+  min-width: 118px;
+  height: 52px;
+  padding: 7px 12px;
+  border-radius: var(--radius);
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 18px rgba(23, 32, 51, 0.08);
+}
+
+.score-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.score-card strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-button,
+.text-button {
+  height: 46px;
+  min-width: 46px;
+  padding: 0 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 5px 16px rgba(23, 32, 51, 0.08);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.icon-button:hover,
+.text-button:hover,
+.choice-card:hover,
+.chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(23, 32, 51, 0.14);
+}
+
+.icon-button.primary,
+.text-button.primary {
+  color: white;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.icon {
+  width: 23px;
+  height: 23px;
+  display: inline-block;
+  color: currentColor;
+}
+
+.slide-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5px;
+  width: 0;
+  background: linear-gradient(90deg, var(--coral), var(--sun), var(--leaf));
+  z-index: 25;
+  transition: width 0.28s ease;
+}
+
+.progress-monkey {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 26;
+  background: transparent;
+  filter: drop-shadow(0 5px 9px rgba(23, 32, 51, 0.18));
+  transform: translateX(-50%);
+  transition: left 0.28s ease;
+  pointer-events: none;
+  animation: runner-bounce 0.42s steps(2, end) infinite;
+}
+
+.progress-monkey img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+@keyframes runner-bounce {
+  0% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+  50% { transform: translateX(-50%) translateY(-2px) rotate(3deg); }
+  100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: 22px;
+  padding: 74px 68px 46px;
+  opacity: 0;
+  transform: translateX(36px);
+  pointer-events: none;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.slide.previous {
+  transform: translateX(-36px);
+}
+
+.slide h1,
+.slide h2,
+.slide h3,
+.slide p {
+  margin: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: var(--radius);
+  color: #ffffff;
+  background: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.slide-title {
+  max-width: 1100px;
+  font-size: 2.6rem;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.slide-subtitle {
+  max-width: 980px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 34px;
+  align-items: stretch;
+}
+
+.hero-copy {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+}
+
+.hero-copy h1 {
+  font-size: 2.78rem;
+  line-height: 1.06;
+}
+
+.hero-copy p {
+  color: #4f5f76;
+  font-size: 1.02rem;
+  line-height: 1.52;
+}
+
+.visual-stage {
+  min-height: 455px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 22% 20%, rgba(255, 230, 108, 0.52), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0)),
+    linear-gradient(145deg, #8fd0f2 0%, #e9f8ff 36%, #79c78e 37%, #2d8e68 100%);
+  box-shadow: var(--shadow);
+}
+
+.visual-stage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 44%;
+  background:
+    radial-gradient(ellipse at 20% 90%, #1f6c4c 0 18%, transparent 19%),
+    radial-gradient(ellipse at 62% 92%, #246f52 0 26%, transparent 27%),
+    linear-gradient(160deg, transparent 0 28%, rgba(20, 72, 48, 0.8) 29% 100%);
+}
+
+.visual-stage::after {
+  content: "Flower Fruit Mountain";
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(23, 32, 51, 0.72);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.visual-stage.image-ready::before,
+.visual-stage.image-ready::after {
+  display: none;
+}
+
+.stone {
+  position: absolute;
+  left: 12%;
+  bottom: 14%;
+  width: 205px;
+  height: 165px;
+  border-radius: 42% 50% 38% 48%;
+  background:
+    linear-gradient(115deg, transparent 0 47%, rgba(48, 53, 66, 0.92) 48% 51%, transparent 52%),
+    linear-gradient(145deg, #b7b0a2, #626c79);
+  box-shadow: 0 28px 34px rgba(13, 31, 45, 0.32);
+}
+
+.stone::before {
+  content: "";
+  position: absolute;
+  left: 70px;
+  top: -190px;
+  width: 82px;
+  height: 260px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 242, 130, 0.94), rgba(255, 193, 55, 0.62), rgba(255, 210, 80, 0));
+  filter: blur(10px);
+  transform: rotate(-13deg);
+}
+
+.stone::after {
+  content: "水帘洞";
+  position: absolute;
+  left: 50%;
+  bottom: -42px;
+  transform: translateX(-50%);
+  width: max-content;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #6e3b12;
+  background: #fff0b8;
+  border: 2px solid rgba(243, 179, 50, 0.7);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.cloud-palace {
+  position: absolute;
+  right: 8%;
+  top: 10%;
+  width: 250px;
+  height: 118px;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.92), rgba(236, 247, 255, 0.82));
+  box-shadow: 0 16px 34px rgba(36, 96, 145, 0.18);
+}
+
+.cloud-palace::before,
+.cloud-palace::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.88);
+}
+
+.cloud-palace::before {
+  width: 190px;
+  height: 70px;
+  left: -48px;
+  top: 45px;
+}
+
+.cloud-palace::after {
+  width: 150px;
+  height: 66px;
+  right: -42px;
+  top: 50px;
+}
+
+.waterfall {
+  position: absolute;
+  right: 13%;
+  bottom: 0;
+  width: 185px;
+  height: 350px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.55), rgba(112, 196, 232, 0.88), rgba(255,255,255,0.7)),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,255,255,0.55) 19px 23px);
+  box-shadow: inset 0 0 28px rgba(255,255,255,0.7);
+}
+
+.waterfall::before {
+  content: "Subodhi";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translateX(-50%);
+  width: 155px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(23, 32, 51, 0.62);
+  font-size: 0.62rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.monkey-mark {
+  position: absolute;
+  left: 36%;
+  bottom: 18%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 38%, #ffe49b 0 4px, transparent 5px),
+    radial-gradient(circle at 65% 38%, #ffe49b 0 4px, transparent 5px),
+    #7a4527;
+  box-shadow: 0 18px 28px rgba(33, 20, 10, 0.28);
+}
+
+.monkey-mark::before,
+.monkey-mark::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #6b3d22;
+}
+
+.monkey-mark::before {
+  left: -13px;
+}
+
+.monkey-mark::after {
+  right: -13px;
+}
+
+.monkey-body {
+  position: absolute;
+  left: 35.2%;
+  bottom: 7%;
+  width: 110px;
+  height: 82px;
+  border-radius: 45% 45% 38% 38%;
+  background: #71401f;
+  box-shadow: 0 18px 25px rgba(33, 20, 10, 0.22);
+}
+
+.monkey-body::before,
+.monkey-body::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  width: 46px;
+  height: 16px;
+  border-radius: 999px;
+  background: #71401f;
+}
+
+.monkey-body::before {
+  left: -34px;
+  transform: rotate(-24deg);
+}
+
+.monkey-body::after {
+  right: -34px;
+  transform: rotate(24deg);
+}
+
+.light-label {
+  position: absolute;
+  left: 33%;
+  top: 18%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #71440d;
+  background: rgba(255, 239, 170, 0.92);
+  border: 2px solid rgba(243, 179, 50, 0.7);
+  font-size: 0.68rem;
+  font-weight: 900;
+  box-shadow: 0 10px 18px rgba(121, 78, 11, 0.14);
+}
+
+.class-note {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cover-boosters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.booster-card {
+  min-height: 138px;
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(52, 121, 180, 0.18);
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 213, 91, 0.34), transparent 30%),
+    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(224, 242, 255, 0.72));
+  box-shadow: var(--soft-shadow);
+}
+
+.booster-card strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-size: 1.02rem;
+}
+
+.booster-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.booster-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #24476d;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(52, 121, 180, 0.18);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.cover-mini-scene {
+  position: relative;
+  min-height: 138px;
+  padding: 18px 18px 18px 92px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(52, 121, 180, 0.18);
+  background:
+    linear-gradient(115deg, rgba(25, 77, 126, 0.9), rgba(45, 142, 104, 0.78)),
+    radial-gradient(circle at 78% 20%, rgba(255, 230, 108, 0.7), transparent 28%);
+  box-shadow: var(--soft-shadow);
+}
+
+.cover-mini-scene::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: 12px;
+  width: 58px;
+  height: 74px;
+  border-radius: 40% 40% 45% 45%;
+  background:
+    radial-gradient(circle at 50% 23%, #ffe8ad 0 18px, transparent 19px),
+    radial-gradient(circle at 34% 22%, #3b2314 0 3px, transparent 4px),
+    radial-gradient(circle at 66% 22%, #3b2314 0 3px, transparent 4px),
+    #9a5b2d;
+  box-shadow: 0 16px 22px rgba(15, 28, 43, 0.22);
+}
+
+.cover-mini-scene::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  top: -18px;
+  width: 82px;
+  height: 150px;
+  border-radius: 999px;
+  transform: rotate(12deg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(113, 202, 237, 0.38), transparent);
+  filter: blur(2px);
+}
+
+.cover-mini-scene strong,
+.cover-mini-scene span {
+  position: relative;
+  z-index: 1;
+}
+
+.cover-mini-scene strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.cover-mini-scene span {
+  display: block;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.note-card,
+.panel,
+.activity-card,
+.word-card,
+.choice-card,
+.timeline-item,
+.phrase-card,
+.sentence-slot,
+.student-card,
+.teacher-note {
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--soft-shadow);
+}
+
+.note-card {
+  min-height: 112px;
+  padding: 18px;
+}
+
+.note-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.note-card span {
+  color: var(--muted);
+  line-height: 1.35;
+  font-size: 0.88rem;
+}
+
+.lesson-map {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.timeline-item {
+  min-height: 180px;
+  padding: 22px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  border-top: 8px solid var(--sky);
+}
+
+.timeline-item:nth-child(2) {
+  border-top-color: var(--leaf);
+}
+
+.timeline-item:nth-child(3) {
+  border-top-color: var(--sun);
+}
+
+.timeline-item:nth-child(4) {
+  border-top-color: var(--coral);
+}
+
+.timeline-item:nth-child(5) {
+  border-top-color: var(--violet);
+}
+
+.timeline-item strong {
+  font-size: 1.25rem;
+}
+
+.timeline-item span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.word-card {
+  min-height: 205px;
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.word-card.revealed {
+  border-color: rgba(47, 154, 112, 0.8);
+  background: #f5fff8;
+}
+
+.word-card .part {
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: var(--radius);
+  color: white;
+  background: var(--sky);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.word-card .word .syllable,
+.word-card .story-keyword .syllable,
+.word-card .past-word .syllable {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px;
+  border-radius: 6px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.word-card .word .syllable + .syllable::before,
+.word-card .story-keyword .syllable + .syllable::before,
+.word-card .past-word .syllable + .syllable::before {
+  content: "·";
+  margin-right: 6px;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.word-card.revealed .word .syllable,
+.word-card.revealed .story-keyword .syllable,
+.word-card.revealed .past-word .syllable {
+  color: #0d5f8f;
+  background: #e4f4ff;
+}
+
+.word-card.revealed .word .syllable + .syllable::before,
+.word-card.revealed .story-keyword .syllable + .syllable::before,
+.word-card.revealed .past-word .syllable + .syllable::before {
+  opacity: 1;
+}
+
+.word-card.revealed .word .syllable:nth-child(2n),
+.word-card.revealed .story-keyword .syllable:nth-child(2n),
+.word-card.revealed .past-word .syllable:nth-child(2n) {
+  color: #7a4d00;
+  background: #fff0c7;
+}
+
+.phonics {
+  display: none;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  margin: -4px auto 2px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  color: #34445f;
+  background: #f3f6fb;
+  border: 1px solid #dbe2ee;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.word-card.revealed .phonics {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.audio-control {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  color: #ffffff;
+  background: var(--sky);
+  box-shadow: 0 3px 7px rgba(49, 134, 217, 0.2);
+  font-size: 0.41rem;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.audio-control:hover,
+.audio-control:focus {
+  outline: 1px solid rgba(49, 134, 217, 0.28);
+  outline-offset: 1px;
+  transform: translateY(-1px);
+}
+
+.phrase-title-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.word-card .meaning,
+.word-card .example,
+.word-card .simple-example,
+.slide[data-title="Past"] .word-card:not(.revealed) .example {
+  display: none;
+}
+
+.word-card.revealed .example,
+.word-card.revealed .simple-example {
+  display: block;
+}
+
+.word-card .simple-example {
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 0.86rem;
+}
+
+.word-card .example::before,
+.word-card .simple-example::before {
+  display: inline-block;
+  margin: 0 8px 0 0;
+  vertical-align: baseline;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.word-card .example::before {
+  content: "原文";
+  color: var(--sky);
+}
+
+.word-card .simple-example {
+  color: #2d7659;
+}
+
+.word-card .simple-example::before {
+  content: "新句";
+  color: var(--leaf);
+}
+
+.example-note {
+  position: relative;
+  display: inline;
+  cursor: help;
+}
+
+.example-key {
+  display: inline;
+  padding: 0 4px;
+  border-radius: 6px;
+  color: #0f5132;
+  background: #fff0c7;
+  box-shadow: 0 0 0 1px rgba(243, 179, 50, 0.28);
+  font-weight: 900;
+}
+
+.example-pop {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  z-index: 60;
+  display: none;
+  width: min(360px, 76vw);
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  color: #20304d;
+  background: #fffdf8;
+  border: 2px solid #ffd889;
+  box-shadow: 0 14px 30px rgba(23, 32, 51, 0.18);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  transform: translateX(-50%);
+}
+
+.example-pop::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 12px;
+  height: 12px;
+  background: #fffdf8;
+  border-right: 2px solid #ffd889;
+  border-bottom: 2px solid #ffd889;
+  transform: translate(-50%, -6px) rotate(45deg);
+}
+
+.example-note:hover .example-pop,
+.example-note:focus .example-pop,
+.example-note:focus-within .example-pop {
+  display: block;
+}
+
+.phrase-drill-card .example-note,
+.pattern-detail .example-note {
+  display: inline-block;
+}
+
+.phrase-drill-card .example-pop,
+.pattern-detail .example-pop {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+
+.phrase-drill-card .example-pop::after,
+.pattern-detail .example-pop::after {
+  top: auto;
+  bottom: 100%;
+  border: 0;
+  border-left: 2px solid #ffd889;
+  border-top: 2px solid #ffd889;
+  transform: translate(-50%, 6px) rotate(45deg);
+}
+
+.word-card .meaning {
+  display: none;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.word-card.revealed .meaning {
+  display: block;
+}
+
+.word-card.revealed .hint {
+  display: none;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.panel-head h3 {
+  font-size: 1.35rem;
+}
+
+.panel-head p {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.two-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.phrase-bank,
+.match-zone,
+.choice-zone,
+.chip-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.match-board {
+  position: relative;
+  min-height: max-content;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(120px, 0.34fr) minmax(260px, 0.9fr);
+  gap: 18px;
+  align-items: stretch;
+  padding: 22px;
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  box-shadow: var(--soft-shadow);
+  z-index: 1;
+}
+
+.match-column {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  min-width: 0;
+}
+
+.match-column h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.match-stack {
+  display: grid;
+  grid-template-rows: repeat(8, minmax(48px, auto));
+  gap: 9px;
+}
+
+.match-card {
+  min-height: 48px;
+  position: relative;
+  display: grid;
+  border-radius: var(--radius);
+  perspective: 800px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.match-card-inner {
+  position: relative;
+  display: grid;
+  min-height: inherit;
+  transition: transform 0.42s ease;
+  transform-style: preserve-3d;
+}
+
+.match-card-face {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  border: 2px solid #d7e2f1;
+  background: white;
+  color: var(--ink);
+  font-weight: 900;
+  text-align: center;
+  box-shadow: 0 7px 14px rgba(23, 32, 51, 0.08);
+  backface-visibility: hidden;
+}
+
+.match-card-back {
+  color: #0c5e3d;
+  background: #dff8ea;
+  border-color: #8fdfb1;
+  transform: rotateY(180deg);
+}
+
+.match-card.selected .match-card-face {
+  color: white;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.match-card.matched .match-card-inner {
+  transform: rotateY(180deg);
+}
+
+.match-card.wrong .match-card-face {
+  color: #8c281c;
+  background: #ffe3dd;
+  border-color: #f1a092;
+  animation: shake 0.28s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.line-stage {
+  position: relative;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.match-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.match-lines line {
+  stroke: var(--leaf);
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 3px 4px rgba(47, 154, 112, 0.24));
+}
+
+.phrase-drill-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.phrase-drill-card {
+  min-height: 178px;
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #ffffff;
+  box-shadow: var(--soft-shadow);
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.phrase-drill-inner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.44s ease;
+  transform-style: preserve-3d;
+}
+
+.phrase-drill-card.revealed .phrase-drill-inner {
+  transform: rotateY(180deg);
+}
+
+.phrase-drill-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 15px;
+  border-radius: var(--radius);
+  backface-visibility: hidden;
+}
+
+.phrase-drill-front {
+  border-top: 7px solid var(--violet);
+}
+
+.phrase-drill-back {
+  color: #22304b;
+  background: #f4fbff;
+  border-top: 7px solid var(--leaf);
+  transform: rotateY(180deg);
+}
+
+.phrase-drill-card strong {
+  font-size: 1.08rem;
+  line-height: 1.18;
+}
+
+.phrase-drill-card .meaning {
+  color: var(--leaf);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.phrase-drill-back .meaning {
+  width: fit-content;
+  margin: -2px auto 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #e4f8ed;
+  border: 1px solid #8fdfb1;
+}
+
+.phrase-drill-card .label {
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: white;
+  background: var(--ink);
+  font-size: 0.58rem;
+  font-weight: 900;
+}
+
+.phrase-drill-card p {
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.28;
+}
+
+.phrase-challenge {
+  position: relative;
+  display: block;
+  padding: 4px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.phrase-challenge:hover,
+.phrase-challenge.revealed {
+  color: #0c5e3d;
+  background: #e4f8ed;
+}
+
+.phrase-challenge-answer {
+  display: none;
+  margin-top: 6px;
+  padding: 7px 9px;
+  border-radius: var(--radius);
+  color: #0c5e3d;
+  background: #ffffff;
+  border: 1px solid #a3dfba;
+  font-weight: 800;
+}
+
+.phrase-challenge.revealed .phrase-challenge-answer {
+  display: block;
+}
+
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pattern-card {
+  min-height: 360px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--soft-shadow);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.pattern-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.pattern-card.revealed {
+  border-color: #8fdfb1;
+  background: #f7fffb;
+}
+
+.pattern-label {
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: white;
+  background: var(--ink);
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.pattern-card h3 {
+  color: #0c5e3d;
+  font-size: 1.25rem;
+}
+
+.pattern-form {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: #eefaf3;
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.pattern-hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.pattern-detail {
+  display: none;
+  gap: 7px;
+}
+
+.pattern-card.revealed .pattern-detail {
+  display: grid;
+}
+
+.pattern-detail p {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.38;
+}
+
+.pattern-detail strong {
+  color: var(--leaf);
+}
+
+.pattern-challenge {
+  cursor: pointer;
+}
+
+.pattern-answer {
+  display: none;
+  margin-top: 6px;
+  padding: 7px 9px;
+  border-radius: var(--radius);
+  color: #0c5e3d;
+  background: #e7f8ee;
+  font-weight: 800;
+}
+
+.pattern-challenge.answer-visible .pattern-answer {
+  display: block;
+}
+
+.chip,
+.answer-chip {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 17px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(23, 32, 51, 0.08);
+  cursor: pointer;
+}
+
+.chip.selected {
+  color: white;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.answer-chip.correct {
+  color: #0c5e3d;
+  background: #dff8ea;
+  border-color: #8fdfb1;
+}
+
+.exit-chip {
+  position: relative;
+  min-width: 180px;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  overflow: visible;
+}
+
+.exit-chip .exit-prompt {
+  font-weight: 900;
+}
+
+.exit-answer {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  z-index: 70;
+  display: none;
+  width: max-content;
+  max-width: min(520px, 72vw);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  color: #0c5e3d;
+  background: #fffdf8;
+  border: 2px solid #8fdfb1;
+  box-shadow: 0 14px 28px rgba(23, 32, 51, 0.16);
+  font-size: 0.72rem;
+  line-height: 1.42;
+  pointer-events: none;
+  white-space: normal;
+}
+
+.exit-chip.revealed {
+  color: #0c5e3d;
+  background: #e4f8ed;
+  border-color: #8fdfb1;
+}
+
+.exit-chip.revealed .exit-answer {
+  display: block;
+}
+
+.chip.correct {
+  color: #0c5e3d;
+  background: #dff8ea;
+  border-color: #8fdfb1;
+}
+
+.answer-chip.wrong {
+  color: #8c281c;
+  background: #ffe3dd;
+  border-color: #f1a092;
+}
+
+.chip.wrong {
+  color: #8c281c;
+  background: #ffe3dd;
+  border-color: #f1a092;
+}
+
+.match-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #fbfcff;
+}
+
+.match-row strong {
+  font-size: 1.08rem;
+}
+
+.match-row span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.choice-card {
+  min-height: 180px;
+  padding: 20px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.choice-card strong {
+  display: block;
+  font-size: 1.28rem;
+  margin-bottom: 0;
+}
+
+.choice-term {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: #0c5e3d;
+  background: #e4f8ed;
+  border: 1px solid #8fdfb1;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.choice-card.correct .choice-term,
+.choice-card.wrong .choice-term {
+  display: inline-flex;
+}
+
+.choice-card span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.choice-examples {
+  display: none;
+  gap: 7px;
+  justify-items: center;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.choice-card.correct .choice-examples,
+.choice-card.wrong .choice-examples {
+  display: grid;
+}
+
+.choice-example {
+  position: relative;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f6f9fd;
+  border: 1px solid #dbe2ee;
+}
+
+.choice-card.correct {
+  background: #effdf4;
+  border-color: #85dbad;
+}
+
+.choice-card.wrong {
+  background: #fff0ed;
+  border-color: #f3a293;
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+.article-box {
+  max-height: calc(100vh - 280px);
+  overflow: auto;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: var(--soft-shadow);
+}
+
+.article-box p {
+  position: relative;
+  margin: 0 0 20px;
+  font-size: 1.04rem;
+  line-height: 1.72;
+  cursor: pointer;
+}
+
+.article-box mark {
+  padding: 2px 6px;
+  border-radius: 5px;
+  color: #111827;
+  background: #ffe59f;
+}
+
+.article-box .focus {
+  outline: 4px solid rgba(233, 101, 79, 0.45);
+  background: #fff7df;
+}
+
+.article-word {
+  position: relative;
+  display: inline;
+  padding: 1px 3px;
+  border-radius: 6px;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.article-word:hover,
+.article-word.active {
+  color: #0c5e3d;
+  background: #dff8ea;
+  box-shadow: 0 0 0 2px rgba(47, 154, 112, 0.22);
+}
+
+.article-word-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  z-index: 60;
+  display: none;
+  width: max-content;
+  max-width: min(320px, 70vw);
+  padding: 8px 10px;
+  border-radius: 12px;
+  color: #10203a;
+  background: #fffdf8;
+  border: 2px solid #8fdfb1;
+  box-shadow: 0 14px 26px rgba(23, 32, 51, 0.16);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1.35;
+  transform: translateX(-50%);
+  pointer-events: none;
+  white-space: normal;
+}
+
+.article-word:hover .article-word-tip,
+.article-word.active .article-word-tip {
+  display: none;
+}
+
+.article-global-tip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  display: none;
+  width: max-content;
+  max-width: min(360px, 76vw);
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: #10203a;
+  background: #fffdf8;
+  border: 2px solid #8fdfb1;
+  box-shadow: 0 18px 36px rgba(23, 32, 51, 0.22);
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1.42;
+  pointer-events: none;
+}
+
+.article-global-tip.visible {
+  display: block;
+}
+
+.article-global-tip div + div {
+  margin-top: 4px;
+}
+
+.paragraph-translation {
+  display: none;
+  margin: 10px 0 22px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  color: #0d3f33;
+  background:
+    linear-gradient(135deg, rgba(223, 248, 234, 0.92), rgba(232, 246, 255, 0.92));
+  border: 2px solid rgba(143, 223, 177, 0.92);
+  box-shadow: 0 12px 24px rgba(23, 32, 51, 0.1);
+  font-size: 0.98rem;
+  font-weight: 900;
+  line-height: 1.62;
+}
+
+.paragraph-translation.visible {
+  display: block;
+}
+
+.finder-list {
+  display: grid;
+  gap: 12px;
+}
+
+.finder-button {
+  min-height: 64px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: var(--radius);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 14px rgba(23, 32, 51, 0.07);
+  cursor: pointer;
+}
+
+.finder-button strong {
+  font-size: 1rem;
+}
+
+.finder-button span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.sentence-builder {
+  display: grid;
+  gap: 20px;
+}
+
+.sentence-slot {
+  min-height: 96px;
+  padding: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  background: #fbfcff;
+}
+
+.sentence-slot .placeholder {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tile-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.word-tile {
+  min-height: 56px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  color: white;
+  background: var(--sky);
+  font-size: 1.08rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(49, 134, 217, 0.24);
+}
+
+.word-tile.used {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.result-line {
+  min-height: 42px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.result-line.strong {
+  color: var(--leaf);
+  font-weight: 900;
+}
+
+.match-report {
+  position: absolute;
+  right: 68px;
+  top: 74px;
+  z-index: 8;
+  width: min(330px, 30vw);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(66, 91, 130, 0.13);
+  box-shadow: 0 12px 28px rgba(23, 32, 51, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.match-stat {
+  padding: 8px 10px;
+  border-radius: 16px;
+  color: var(--ink);
+  background: rgba(238, 247, 255, 0.78);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.match-stat:nth-child(2) {
+  display: none;
+}
+
+.match-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.56rem;
+  line-height: 1.1;
+}
+
+.match-stat strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.94rem;
+  line-height: 1.15;
+}
+
+.match-review {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 16px;
+  color: #694300;
+  background: rgba(255, 244, 216, 0.86);
+  border: 1px solid #f2d18c;
+  font-weight: 800;
+  line-height: 1.3;
+  font-size: 0.72rem;
+}
+
+.match-review-title {
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.match-review-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  max-height: 126px;
+  overflow: auto;
+}
+
+.match-review-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 7px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(242, 209, 140, 0.92);
+}
+
+.match-review-chip strong {
+  color: #3e2b08;
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.match-review-chip span {
+  flex: 0 0 auto;
+  padding: 2px 6px;
+  border-radius: 999px;
+  color: #7a2f10;
+  background: #ffe1cc;
+  font-size: 0.58rem;
+  font-weight: 900;
+}
+
+.match-review.ready {
+  color: #0c5e3d;
+  background: #e4f8ed;
+  border-color: #a3dfba;
+}
+
+.slide[data-title="Phrases"] .slide-title,
+.slide[data-title="Phrases"] .slide-subtitle {
+  max-width: calc(100% - 370px);
+}
+
+.question-card {
+  min-height: 370px;
+  padding: 36px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 22px;
+  text-align: center;
+  border-radius: var(--radius);
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.question-card .tag {
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  color: white;
+  background: var(--violet);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.question-card strong {
+  max-width: 980px;
+  font-size: 2.25rem;
+  line-height: 1.22;
+}
+
+.question-card p {
+  max-width: 880px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.student-card {
+  min-height: 180px;
+  padding: 22px;
+}
+
+.student-card strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.28rem;
+}
+
+.student-card span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.retell-card {
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.retell-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.retell-card span {
+  display: none;
+}
+
+.retell-card::after {
+  content: "点击显示参考句";
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #0d5f8f;
+  background: #e4f4ff;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.retell-card.revealed {
+  border-color: #a3d4ff;
+  background: #f8fcff;
+}
+
+.retell-card.revealed span {
+  display: block;
+}
+
+.retell-card.revealed::after {
+  content: none;
+  display: none;
+}
+
+.teacher-note {
+  padding: 18px 22px;
+  color: #4a5870;
+  background: #fbfcff;
+  line-height: 1.55;
+}
+
+.bottom-nav {
+  height: 70px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 24px 14px;
+  background: rgba(255, 253, 248, 0.9);
+  border-top: 1px solid rgba(219, 226, 238, 0.9);
+  backdrop-filter: blur(14px);
+  z-index: 20;
+}
+
+.slide-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: #c8d2e1;
+  cursor: pointer;
+}
+
+.dot.active {
+  width: 42px;
+  background: var(--ink);
+}
+
+.footer-status {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 34px;
+  background: rgba(23, 32, 51, 0.45);
+  z-index: 80;
+}
+
+.modal.open {
+  display: grid;
+}
+
+.modal-card {
+  width: min(980px, 94vw);
+  max-height: 86vh;
+  overflow: auto;
+  padding: 32px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.modal-card h3 {
+  margin: 0 0 18px;
+  font-size: 1.7rem;
+}
+
+.modal-card p,
+.modal-card li {
+  color: #40506a;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.modal-card ol {
+  padding-left: 1.4rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.image-missing {
+  display: none;
+}
+
+.visual-fallback {
+  display: none;
+}
+
+.visual-stage.image-missing .visual-fallback {
+  display: block;
+}
+
+.image-ready .visual-fallback {
+  display: none;
+}
+
+.asset-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.image-ready .asset-image {
+  display: block;
+}
+
+@media (max-width: 1050px) {
+  html {
+    font-size: 17px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .scoreboard {
+    display: none;
+  }
+
+  .slide {
+    padding: 38px 32px 48px;
+  }
+
+  .hero-grid,
+  .article-grid,
+  .two-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-stage {
+    min-height: 320px;
+  }
+
+  .word-grid,
+  .class-note,
+  .lesson-map,
+  .student-grid,
+  .choice-grid,
+  .phrase-drill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .slide-shell {
+    min-height: 860px;
+    overflow: visible;
+  }
+
+  .slide {
+    align-content: start;
+    padding-top: 70px;
+    padding-bottom: 28px;
+    gap: 14px;
+  }
+
+  .slide-title {
+    font-size: 2rem;
+  }
+
+  .slide-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.42;
+  }
+
+  .hero-copy h1 {
+    font-size: 2.45rem;
+  }
+
+  .hero-copy p {
+    font-size: 0.94rem;
+    line-height: 1.44;
+  }
+
+  .visual-stage {
+    min-height: 395px;
+  }
+
+  .class-note {
+    gap: 12px;
+  }
+
+  .cover-boosters {
+    gap: 12px;
+  }
+
+  .booster-card,
+  .cover-mini-scene {
+    min-height: 118px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .note-card {
+    min-height: 92px;
+    padding: 14px 16px;
+  }
+
+  .note-card span {
+    font-size: 0.8rem;
+  }
+
+  .word-card {
+    min-height: 142px;
+    padding: 13px;
+    gap: 5px;
+  }
+
+  .word-card .word,
+  .word-card .story-keyword,
+  .word-card .past-word {
+    font-size: 1.2rem;
+  }
+
+  .word-card .meaning {
+    font-size: 0.84rem;
+  }
+
+  .word-card .example,
+  .word-card .simple-example,
+  .word-card .hint {
+    font-size: 0.67rem;
+    line-height: 1.28;
+  }
+
+  .timeline-item {
+    min-height: 148px;
+    padding: 18px;
+  }
+
+  .question-card {
+    min-height: 310px;
+    padding: 28px;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+
+  .panel-head {
+    margin-bottom: 12px;
+  }
+
+  .panel-head h3 {
+    font-size: 1.08rem;
+  }
+
+  .chip,
+  .answer-chip {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 0.86rem;
+  }
+
+  .match-board {
+    min-height: max-content;
+    grid-template-columns: minmax(230px, 0.95fr) minmax(88px, 0.25fr) minmax(230px, 0.95fr);
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .match-column {
+    gap: 8px;
+  }
+
+  .match-column h3 {
+    font-size: 1rem;
+  }
+
+  .match-stack {
+    grid-template-rows: repeat(8, minmax(38px, auto));
+    gap: 6px;
+  }
+
+  .match-card {
+    min-height: 38px;
+  }
+
+  .match-card-face {
+    padding: 6px 9px;
+    font-size: 0.74rem;
+  }
+
+  .slide[data-title="Phrases"] {
+    gap: 10px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title {
+    font-size: 1.75rem;
+  }
+
+  .slide[data-title="Phrases"] .slide-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .slide[data-title="Phrases"] .result-line {
+    min-height: 30px;
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .slide[data-title="Phrases"] .match-report {
+    right: 32px;
+    top: 70px;
+    width: min(285px, 34vw);
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .slide[data-title="Phrases"] .match-stat {
+    padding: 6px 8px;
+  }
+
+  .slide[data-title="Phrases"] .match-review {
+    padding: 7px 8px;
+    gap: 5px;
+  }
+
+  .slide[data-title="Phrases"] .match-review-list {
+    max-height: 82px;
+  }
+
+  .phrase-drill-grid {
+    gap: 10px;
+  }
+
+  .phrase-drill-card {
+    min-height: 168px;
+  }
+
+  .phrase-drill-face {
+    padding: 14px;
+    gap: 7px;
+  }
+
+  .phrase-drill-card strong {
+    font-size: 1rem;
+  }
+
+  .phrase-drill-card p {
+    font-size: 0.68rem;
+    line-height: 1.28;
+  }
+
+  .article-grid {
+    gap: 16px;
+  }
+
+  .article-box {
+    max-height: 382px;
+    padding: 16px 18px;
+  }
+
+  .article-box p {
+    margin-bottom: 12px;
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .finder-list {
+    gap: 7px;
+  }
+
+  .finder-button {
+    min-height: 49px;
+    padding: 8px 11px;
+  }
+
+  .finder-button strong {
+    font-size: 0.82rem;
+  }
+
+  .finder-button span {
+    font-size: 0.66rem;
+  }
+
+  .sentence-slot {
+    min-height: 70px;
+    padding: 12px;
+  }
+
+  .sentence-builder {
+    gap: 12px;
+  }
+
+  .word-tile {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .tile-bank {
+    gap: 8px;
+  }
+
+  .student-card {
+    min-height: 128px;
+    padding: 15px;
+  }
+
+  .student-card strong {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .student-card span {
+    font-size: 0.8rem;
+    line-height: 1.38;
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .app {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: static;
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-nav {
+    position: sticky;
+  }
+
+  .slide-shell {
+    min-height: 860px;
+    overflow: visible;
+  }
+
+  .slide {
+    align-content: start;
+    padding: 70px 18px 42px;
+  }
+
+  .match-report {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title,
+  .slide[data-title="Phrases"] .slide-subtitle {
+    max-width: 100%;
+  }
+
+  .slide-title,
+  .hero-copy h1 {
+    font-size: 2.05rem;
+  }
+
+  .word-grid,
+  .class-note,
+  .lesson-map,
+  .student-grid,
+  .choice-grid,
+  .cover-boosters {
+    grid-template-columns: 1fr;
+  }
+
+  .phrase-drill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .phrase-drill-card {
+    min-height: 132px;
+  }
+
+  .phrase-drill-face {
+    padding: 10px;
+    gap: 4px;
+  }
+
+  .phrase-drill-card strong {
+    font-size: 0.86rem;
+  }
+
+  .phrase-drill-card .meaning {
+    font-size: 0.72rem;
+  }
+
+  .phrase-drill-card p {
+    font-size: 0.56rem;
+    line-height: 1.18;
+  }
+
+  .phrase-drill-card .label {
+    padding: 3px 6px;
+    font-size: 0.5rem;
+  }
+
+  .match-board {
+    grid-template-columns: minmax(150px, 1fr) 44px minmax(150px, 1fr);
+    gap: 8px;
+    padding: 10px;
+    min-height: max-content;
+  }
+
+  .line-stage {
+    display: block;
+    min-width: 44px;
+  }
+
+  .match-column h3 {
+    font-size: 0.92rem;
+  }
+
+  .match-stack {
+    grid-template-rows: repeat(8, minmax(40px, auto));
+    gap: 6px;
+  }
+
+  .match-card {
+    min-height: 40px;
+  }
+
+  .match-card-face {
+    padding: 6px 8px;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .match-board {
+    grid-template-columns: 1fr;
+  }
+
+  .line-stage {
+    display: none;
+  }
+
+  .phrase-drill-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark"><img src="monkey-brand.png" alt="活泼小猴课堂头像"></div>
+      <div class="brand-title">
+        <strong>Journey to the West · Chapter 6: The Dragon King（东海龙王）</strong>
+        <span>复习互动课 · 小升初学生 · 60 分钟 · 词汇短语重点复盘</span>
+      </div>
+    </div>
+    <div class="scoreboard" aria-label="课堂计分">
+      <div class="score-card"><span>Points</span><strong id="studentScore">0</strong></div>
+      <div class="score-card"><span>Challenge</span><strong id="teacherScore">0</strong></div>
+      <div class="score-card"><span>Time</span><strong id="timer">60:00</strong></div>
+    </div>
+    <div class="toolbar">
+      <a class="text-button" href="chapters.html">章节</a>
+      <a class="text-button" href="login.html" data-logout-link>退出</a>
+      <button class="text-button" id="startTimer">开始</button>
+      <button class="text-button" id="openGuide">用法</button>
+    </div>
+  </header>
+
+  <main class="slide-shell" id="slideShell">
+    <div class="progress" id="progress"></div>
+    <div class="progress-monkey" id="progressMonkey" aria-hidden="true"><img src="monkey-runner-cute.png" alt=""></div>
+
+
+
+    <section class="slide active" data-title="Opening"><div class="hero-grid"><div class="hero-copy"><span class="eyebrow">Review Mission · 复习任务</span><h1>The Dragon King: Words, Phrases and Story Power</h1><p>这节课复习悟空嫌普通兵器太轻、潜入东海龙宫找龙王、先后试大剑和大矛、最后被带去看宝库里金箍棒的故事。我们要会说重点词义、解释短语、回原文找证据，并用 6 句话讲清楚这一章。</p><div class="class-note"><div class="note-card"><strong>目标 1</strong><span>会认会说本章核心词汇，并能把词汇放回故事情境。</span></div><div class="note-card"><strong>目标 2</strong><span>重点短语能看懂、会解释、会用在自己的句子里。</span></div><div class="note-card"><strong>目标 3</strong><span>能用 if / because / too ... 等句型说出人物想法和条件。</span></div><div class="note-card"><strong>目标 4</strong><span>能按 “找兵器 → 试兵器 → 去宝库” 的顺序复述故事。</span></div></div><div class="cover-boosters" aria-label="课堂复习互动提示"><div class="booster-card"><strong>今日闯关</strong><div class="booster-list"><span class="booster-chip">词义快答</span><span class="booster-chip">短语连线</span><span class="booster-chip">原文定位</span><span class="booster-chip">口头复述</span></div></div><div class="cover-mini-scene"><strong>Story Clue</strong><span>Eastern Sea → palace → sword → spear → treasure → iron bar</span><span>先看线索，再用 then / because / if 说出故事推进。</span></div></div></div><div class="visual-stage image-ready" id="heroVisual"><img class="asset-image" src="chapter-6-hero.png" alt="Wukong and the Dragon King stand beside a glowing golden iron bar in the treasure room under the Eastern Sea."><div class="visual-fallback" aria-hidden="true"><div class="cloud-palace"></div><div class="waterfall"></div><div class="stone"></div><div class="light-label">Treasure room under the Eastern Sea</div><div class="monkey-body"></div><div class="monkey-mark"></div></div></div></div></section>
+    <section class="slide" data-title="Route"><span class="eyebrow">60-Minute Route · 课堂路线</span><h2 class="slide-title">一节复习课，五轮互动</h2><p class="slide-subtitle">每一轮都要先猜、再证实、再输出。遇到不会的内容，就回到原文和关键词里找线索。</p><div class="lesson-map"><div class="timeline-item"><strong>0-8'</strong><span>故事热身：8 个关键词串起“东海找兵器”的主线。</span></div><div class="timeline-item"><strong>8-22'</strong><span>词汇翻牌：地点、兵器、人物和动作词分组复习。</span></div><div class="timeline-item"><strong>22-35'</strong><span>短语配对：把英语短语和中文意思连起来。</span></div><div class="timeline-item"><strong>35-48'</strong><span>原文定位：带着问题回文章里找证据。</span></div><div class="timeline-item"><strong>48-60'</strong><span>句子拼装 + 口头复述，完成最后输出。</span></div></div><div class="teacher-note">积分玩法：答对一个词、短语或句子就给自己加 1 分；如果能说出原文证据，再加 1 分。</div></section>
+    <section class="slide" data-title="Story"><span class="eyebrow">Story Warm-Up · 文章回忆</span><h2 class="slide-title">用 8 个词，把龙宫寻兵器的故事串起来</h2><p class="slide-subtitle">先看英文关键词回忆情节，再点击卡片确认中文、音标和原句。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">Eastern Sea</span><span class="meaning">东海；悟空去海底找更重的兵器</span><span class="hint">点击翻牌</span><span class="example">A dragon king lives at the bottom of the Eastern Sea.</span></button><button class="word-card" data-reveal><span class="part">magic</span><span class="story-keyword">breathe underwater</span><span class="meaning">在水下呼吸；悟空念咒后潜入海中</span><span class="hint">点击翻牌</span><span class="example">He said a quick spell so he could breathe underwater.</span></button><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">Dragon Palace</span><span class="meaning">龙宫；悟空在海底见到了龙王和龙后</span><span class="hint">点击翻牌</span><span class="example">Soon he arrived at a large palace.</span></button><button class="word-card" data-reveal><span class="part">weapon</span><span class="story-keyword">huge sword</span><span class="meaning">大剑；龟兵拖来的第一件兵器</span><span class="hint">点击翻牌</span><span class="example">He soon came back, slowly dragging a huge sword.</span></button><button class="word-card" data-reveal><span class="part">weapon</span><span class="story-keyword">enormous spear</span><span class="meaning">巨大的矛；第二件兵器还是不够重</span><span class="hint">点击翻牌</span><span class="example">Several turtles and octopuses dragged an enormous spear into the room.</span></button><button class="word-card" data-reveal><span class="part">treasure</span><span class="story-keyword">magical iron bar</span><span class="meaning">神奇的铁棒；龙后提议让悟空去看宝物</span><span class="hint">点击翻牌</span><span class="example">What about the magical iron bar in the treasure?</span></button><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">treasure room</span><span class="meaning">宝库；大家一起去看最重的宝贝</span><span class="hint">点击翻牌</span><span class="example">The group went to the treasure.</span></button><button class="word-card" data-reveal><span class="part">challenge</span><span class="story-keyword">pick it up</span><span class="meaning">把它举起来；龙王最后给悟空的挑战</span><span class="hint">点击翻牌</span><span class="example">If you can pick it up, you can have it.</span></button></div></section>
+    <section class="slide" data-title="Nouns"><span class="eyebrow">Vocabulary Round 1 · 名词</span><h2 class="slide-title">先看人物、地点和兵器词，再说出故事画面</h2><p class="slide-subtitle">点击卡片后，说中文，再用一句话说出它在故事里出现在哪里。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">n.</span><span class="word">weapon</span><span class="meaning">兵器；武器</span><span class="hint">点击翻牌</span><span class="example">Maybe he has a weapon you can use.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">palace</span><span class="meaning">宫殿；龙宫</span><span class="hint">点击翻牌</span><span class="example">Soon he arrived at a large palace.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">sword</span><span class="meaning">剑</span><span class="hint">点击翻牌</span><span class="example">The turtle soldier dragged a huge sword into the room.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">spear</span><span class="meaning">矛</span><span class="hint">点击翻牌</span><span class="example">Wukong lifted the spear and began stabbing at the air.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">treasure</span><span class="meaning">宝物；宝库里的宝贝</span><span class="hint">点击翻牌</span><span class="example">It is a treasure from Heaven.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">pillar</span><span class="meaning">柱子；这里指巨大铁柱</span><span class="hint">点击翻牌</span><span class="example">An enormous iron pillar stood in the center of the room.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">Dragon King</span><span class="meaning">龙王</span><span class="hint">点击翻牌</span><span class="example">The Dragon King looked over when Wukong walked in.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">Dragon Queen</span><span class="meaning">龙后</span><span class="hint">点击翻牌</span><span class="example">The Dragon Queen whispered to her husband.</span></button></div></section>
+    <section class="slide" data-title="Verbs"><span class="eyebrow">Vocabulary Round 2 · 动词</span><h2 class="slide-title">动作词要说出“谁做了什么”</h2><p class="slide-subtitle">先读动词，再说过去式，最后用原句讲清楚动作发生在什么场景里。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">v.</span><span class="word">breathe</span><span class="meaning">呼吸</span><span class="hint">点击翻牌</span><span class="example">He said a quick spell so he could breathe underwater.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">dive</span><span class="meaning">跳水；潜入</span><span class="hint">点击翻牌</span><span class="example">Then he dived into the stream.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">drag</span><span class="meaning">拖</span><span class="hint">点击翻牌</span><span class="example">The turtle soldier dragged a huge sword into the room.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">wave</span><span class="meaning">挥动</span><span class="hint">点击翻牌</span><span class="example">He waved the sword through the air, pretending to fight.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">stomp</span><span class="meaning">跺脚</span><span class="hint">点击翻牌</span><span class="example">Wukong stomped his foot.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">sigh</span><span class="meaning">叹气</span><span class="hint">点击翻牌</span><span class="example">The Dragon King sighed.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">lift</span><span class="meaning">举起</span><span class="hint">点击翻牌</span><span class="example">Wukong lifted the spear and began stabbing at the air.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">whisper</span><span class="meaning">低声说</span><span class="hint">点击翻牌</span><span class="example">The Dragon Queen whispered to her husband.</span></button></div></section>
+    <section class="slide" data-title="Phrases"><span class="eyebrow">Phrase Match · 短语配对</span><h2 class="slide-title">连线翻卡：英语短语 → 中文意思</h2><p class="slide-subtitle">先说理由，再点左边英文和右边中文。配对成功会连线并翻卡。</p><div class="match-report" id="matchReport" aria-live="polite"><div class="match-stat"><span>正确/配对</span><strong id="matchCorrect">0 / 0</strong></div><div class="match-stat"><span>配对次数</span><strong id="matchAttempts">0</strong></div><div class="match-stat"><span>正确率</span><strong id="matchAccuracy">--</strong></div><div class="match-review ready" id="matchReview">复习：暂时无。</div></div><div class="match-board" id="matchBoard"><div class="match-column"><h3>English Phrases</h3><div class="match-stack" id="englishPhrases"></div></div><div class="line-stage" id="lineStage"><svg class="match-lines" id="matchLines" aria-hidden="true"></svg></div><div class="match-column"><h3>Chinese Meanings</h3><div class="match-stack" id="chineseMeanings"></div></div></div><div class="result-line" id="matchResult">目标：完成 8 组配对。</div></section>
+    <section class="slide" data-title="Phrase Lab 1"><span class="eyebrow">Phrase Lab · 短语用法</span><h2 class="slide-title">短语用法 1：先读懂，再能说</h2><p class="slide-subtitle">每张卡先读短语和中文，再翻开看原文句、新句和开口任务。</p><div class="phrase-drill-grid" id="phraseDrillGridA" data-start="0" data-count="4"></div><div class="teacher-note">挑战方式：任选 2 张卡，用自己的话解释短语；再选 1 张卡，把新句换成自己的句子。</div></section>
+    <section class="slide" data-title="Phrase Lab 2"><span class="eyebrow">Phrase Lab · 短语用法</span><h2 class="slide-title">短语用法 2：说理由，造新句</h2><p class="slide-subtitle">继续翻卡。重点看短语在原文里的作用，再迁移到自己的表达里。</p><div class="phrase-drill-grid" id="phraseDrillGridB" data-start="4" data-count="4"></div><div class="teacher-note">挑战方式：任选 3 张卡，说出“谁在什么时候为什么用了这个短语”。</div></section>
+    <section class="slide" data-title="Patterns"><span class="eyebrow">Key Sentences · 关键句型</span><h2 class="slide-title">三种句型，帮你把这一章讲清楚</h2><p class="slide-subtitle">先读句型，再点卡片看原文例句、新句和开口挑战。</p><div class="pattern-grid"><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 1</span><h3>表达需要和原因</h3><div class="pattern-form">I need ... because ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>I need a heavy weapon because I'm as strong as a god.</p><p><strong>新句：</strong>I need a map because this place is new to me.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型说一说悟空为什么去东海。<span class="pattern-answer">参考答案：I need a heavier weapon because I am very powerful.</span></p></div></button><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 2</span><h3>条件句：如果你能……，你就能……</h3><div class="pattern-form">If you can ..., you can ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>If you can pick it up, you can have it.</p><p><strong>新句：</strong>If you can finish first, you can rest first.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型给同学一个课堂挑战。<span class="pattern-answer">参考答案：If you can find the answer, you can get one point.</span></p></div></button><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 3</span><h3>比较重量</h3><div class="pattern-form">This ... is too ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>This spear is too light.</p><p><strong>新句：</strong>This box is too heavy for me.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型评价龙王先拿来的两件兵器。<span class="pattern-answer">参考答案：This sword is too light, and this spear is too light too.</span></p></div></button></div><div class="teacher-note">目标：会认句型、能读原文例句，并能用其中一个句型说出自己的句子。</div></section>
+    <section class="slide" data-title="Original"><span class="eyebrow">Find Evidence · 原文定位</span><h2 class="slide-title">答案不靠猜，回原文找证据</h2><div class="article-grid"><article class="article-box" id="articleBox"><p id="para-idea">“What's wrong with our swords and spears?” asked the gibbon. Wukong said they were fine for normal monkeys and apes, but he was very powerful and needed a much heavier weapon. The gibbon suggested that a dragon king at the bottom of the Eastern Sea might have one.</p><p id="para-arrive">Wukong said a quick spell so he could breathe underwater. Then he dived into the stream, swam to the ocean, and went deeper and deeper. Soon he arrived at a large palace where the Dragon King and the Dragon Queen were having tea.</p><p id="para-ask">Wukong told them he was king of the Fruit and Flower Mountain. He did not want tea. He wanted a heavy weapon because he was as strong as a god. The Dragon King asked a turtle soldier to find one for Sun Wukong.</p><p id="para-sword">The turtle soldier dragged in a huge sword and fell down, out of breath. Wukong picked it up with no trouble at all, waved it through the air, and said the sword was too light. The Dragon Queen whispered that the monkey was rude, but Wukong still wanted something better.</p><p id="para-spear">A few minutes later, several turtles and octopuses dragged an enormous spear into the room. Wukong lifted it and stabbed at the air, but he shook his head again. The spear was still too light. Wukong stomped his foot and said he was not leaving until he got what he wanted.</p><p id="para-bar">The Dragon Queen reminded her husband about the magical iron bar in the treasure. The Dragon King sighed and led Wukong to the treasure room. A huge iron pillar stood in the center, shining with golden light. “If you can pick it up,” said the Dragon King, “you can have it.”</p></article><div class="panel"><div class="panel-head"><h3>Story Questions</h3><p>点一个问题，去原文找证据</p></div><div class="finder-list"><button class="finder-button" data-target="para-idea"><strong>悟空为什么想去找龙王？</strong><span>heavier weapon</span></button><button class="finder-button" data-target="para-arrive"><strong>悟空是怎样到海底宫殿的？</strong><span>spell · underwater</span></button><button class="finder-button" data-target="para-ask"><strong>悟空一见龙王就提出了什么要求？</strong><span>heavy weapon</span></button><button class="finder-button" data-target="para-sword"><strong>为什么龟兵会累得倒下？</strong><span>huge sword · out of breath</span></button><button class="finder-button" data-target="para-spear"><strong>悟空为什么还不肯走？</strong><span>too light · not leaving until</span></button><button class="finder-button" data-target="para-bar"><strong>最后龙王提出了什么条件？</strong><span>pick it up</span></button></div></div></div></section>
+    <section class="slide" data-title="Choose"><span class="eyebrow">Meaning Check · 语境选择</span><h2 class="slide-title">根据原文语境选意思</h2><p class="slide-subtitle">每组问题先说理由，再点击选项验证。</p><div class="panel"><div class="panel-head"><h3 id="choiceQuestion">"heavier weapon" 最接近什么意思？</h3><button class="text-button" id="nextChoice">下一题</button></div><div class="choice-grid" id="choiceGrid"></div><div class="result-line" id="choiceResult">选择前先说：我从哪个词看出来？</div></div></section>
+    <section class="slide" data-title="Build"><span class="eyebrow">Sentence Builder · 句子拼装</span><h2 class="slide-title">把重点句拼回去</h2><p class="slide-subtitle">点击词块加入句子。拼完后点击检查，读出完整句并解释中文。</p><div class="panel sentence-builder"><div class="panel-head"><h3 id="sentenceGoal">目标句：悟空需要一件更重的兵器。</h3><div class="toolbar"><button class="text-button" id="resetSentence">重置</button><button class="text-button primary" id="checkSentence">检查</button><button class="text-button" id="nextSentence">下一句</button></div></div><div class="sentence-slot" id="sentenceSlot"><span class="placeholder">点击下方词块开始拼句</span></div><div class="tile-bank" id="tileBank"></div><div class="result-line" id="sentenceResult">注意大小写和标点可以先不管，重点是词序。</div></div></section>
+    <section class="slide" data-title="Past"><span class="eyebrow">Past Tense Snap · 过去式快问快答</span><h2 class="slide-title">看原形，秒说过去式</h2><p class="slide-subtitle">点击卡片才显示答案和原句，先自己猜，再核对。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">dive</span><span class="meaning">dived</span><span class="hint">点击翻牌</span><span class="example">Then he dived into the stream.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">arrive</span><span class="meaning">arrived</span><span class="hint">点击翻牌</span><span class="example">Soon he arrived at a large palace.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">drag</span><span class="meaning">dragged</span><span class="hint">点击翻牌</span><span class="example">The turtle soldier dragged a huge sword into the room.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">drop</span><span class="meaning">dropped</span><span class="hint">点击翻牌</span><span class="example">He dropped the sword and then fell down, out of breath.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">wave</span><span class="meaning">waved</span><span class="hint">点击翻牌</span><span class="example">He waved the sword through the air.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">stomp</span><span class="meaning">stomped</span><span class="hint">点击翻牌</span><span class="example">Wukong stomped his foot.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">sigh</span><span class="meaning">sighed</span><span class="hint">点击翻牌</span><span class="example">The Dragon King sighed.</span></button><button class="word-card" data-reveal><span class="part">verb</span><span class="past-word">pick</span><span class="meaning">picked</span><span class="hint">点击翻牌</span><span class="example">Wukong picked up the sword with no trouble at all.</span></button></div></section>
+    <section class="slide" data-title="Random"><span class="eyebrow">Question Wheel · 抽题互动</span><h2 class="slide-title">抽一题，说满一句</h2><div class="question-card"><span class="tag" id="questionTag">Vocabulary</span><strong id="randomQuestion">点击“抽题”，开始复习挑战。</strong><p id="questionHint">挑战规则：必须说完整句；答对加 1 分，能从原文找证据再加 1 分。</p><div class="toolbar"><button class="text-button primary" id="drawQuestion">抽题</button><button class="text-button" id="showHint">提示</button><button class="text-button" id="decreaseStudent">积分-1</button><button class="text-button primary" id="increaseStudent">积分+1</button><button class="text-button" id="giveTeacherPoint">挑战+1</button></div></div></section>
+    <section class="slide" data-title="Retell"><span class="eyebrow">Final Output · 口头复述</span><h2 class="slide-title">用 6 张卡完成 Chapter 6 复述</h2><p class="slide-subtitle">每张卡先看关键词，想一想，再点开看参考句。</p><div class="student-grid"><button class="student-card retell-card" data-retell-reveal><strong>1. gibbon · heavier weapon</strong><span>The gibbon told Wukong about the Dragon King because Wukong needed a heavier weapon.</span></button><button class="student-card retell-card" data-retell-reveal><strong>2. spell · underwater</strong><span>Wukong said a spell so he could breathe underwater and swim to the sea.</span></button><button class="student-card retell-card" data-retell-reveal><strong>3. palace · tea</strong><span>He arrived at the Dragon Palace and met the Dragon King and the Dragon Queen.</span></button><button class="student-card retell-card" data-retell-reveal><strong>4. sword · spear</strong><span>The sword was too light, and the spear was too light too.</span></button><button class="student-card retell-card" data-retell-reveal><strong>5. treasure · iron pillar</strong><span>The queen suggested the magical iron bar in the treasure room.</span></button><button class="student-card retell-card" data-retell-reveal><strong>6. pick it up · have it</strong><span>The Dragon King said Wukong could have the iron bar if he could pick it up.</span></button></div><div class="teacher-note">加分标准：能用过去式 1 分；能说出关键词中文 1 分；能加入 because / so / then 连接故事 1 分。</div></section>
+    <section class="slide" data-title="Wrap"><span class="eyebrow">Class Wrap-Up · 课堂收束</span><h2 class="slide-title">今天真正掌握了什么？</h2><div class="two-panel"><div class="panel"><div class="panel-head"><h3>出口挑战</h3><p>最后 3 分钟</p></div><div class="match-zone"><button class="answer-chip exit-chip" data-exit-answer><span class="exit-prompt">说出 5 个名词</span><span class="exit-answer">weapon, palace, sword, spear, treasure</span></button><button class="answer-chip exit-chip" data-exit-answer><span class="exit-prompt">说出 5 个动作词</span><span class="exit-answer">dive, drag, wave, stomp, whisper</span></button><button class="answer-chip exit-chip" data-exit-answer><span class="exit-prompt">解释 3 个短语</span><span class="exit-answer">breathe underwater：在水下呼吸；too light：太轻了；pick it up：把它举起来</span></button><button class="answer-chip exit-chip" data-exit-answer><span class="exit-prompt">找出 2 句原文证据</span><span class="exit-answer">This sword is too light. / If you can pick it up, you can have it.</span></button><button class="answer-chip exit-chip" data-exit-answer><span class="exit-prompt">用 6 句复述故事</span><span class="exit-answer">Wukong needed a heavier weapon. / He went to the Eastern Sea. / The Dragon King showed him a sword. / Then the King showed him a spear. / Both were too light. / Finally the Dragon King led him to the iron bar.</span></button></div></div><div class="panel"><div class="panel-head"><h3>课后轻作业</h3><p>10 分钟以内</p></div><div class="match-zone"><span class="answer-chip correct">默写：weapon, breathe, treasure, pillar, rude</span><span class="answer-chip correct">造句：be back soon / too light / pick it up</span><span class="answer-chip correct">录音：6 句英文复述 Chapter 6</span></div></div></div><div class="teacher-note">今天的重点不是逐句翻译，而是主动取回词汇、短语和故事逻辑，并能用自己的话把“找兵器”的经过说出来。</div></section>
+
+  </main>
+
+  <footer class="bottom-nav">
+    <button class="text-button" id="prevSlide">Previous</button>
+    <div class="slide-tabs" id="slideTabs" aria-label="页面导航"></div>
+    <div class="toolbar">
+      <span class="footer-status" id="footerStatus">1 / 16 · Opening</span>
+      <button class="text-button primary" id="nextSlide">Next</button>
+    </div>
+  </footer>
+</div>
+
+<div class="modal" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <div class="modal-card">
+    <h3 id="guideTitle">课堂使用说明</h3>
+    <ol>
+      <li>用键盘左右方向键或底部按钮翻页；每页是一轮互动，不需要按完整 PPT 讲稿照念。</li>
+      <li>词汇页：先读单词拼读块和音标，再说中文、原文画面和新句。答对后到抽题页使用积分按钮。</li>
+      <li>短语配对页：先点英文，再点中文；完成后看正确率，把下方标出的短语再读一遍、造一句。</li>
+      <li>原文定位页：点击右侧问题会定位对应段落。读出关键词证据。</li>
+      <li>句子拼装页：词块顺序正确后，翻译句子，并替换关键词造一个新句。</li>
+      <li>抽题页：适合课中提神。答题必须说完整句，不能只说一个词。</li>
+    </ol>
+    <p>图片说明：首页使用本地生成的第 6 章主题插图，聚焦“东海宝库里，悟空走向发光金箍棒，龙王夫妇紧张围观”的关键场景；进度条小猴为本地透明 PNG 素材，不依赖网络图片。</p>
+    <div class="modal-actions"><button class="text-button primary" id="closeGuide">关闭</button></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  if (location.protocol === "file:" && !sessionStorage.getItem("teachingEnglishLoggedIn")) {
+    location.replace("login.html");
+    return;
+  }
+
+  var slides = Array.from(document.querySelectorAll(".slide"));
+  var slideTabs = document.getElementById("slideTabs");
+  var footerStatus = document.getElementById("footerStatus");
+  var progress = document.getElementById("progress");
+  var progressMonkey = document.getElementById("progressMonkey");
+  var currentSlide = 0;
+  var studentScore = 0;
+  var teacherScore = 0;
+  var timerSeconds = 60 * 60;
+  var timerHandle = null;
+  var selectedPhrase = null;
+  var completedMatches = 0;
+  var matchedConnections = [];
+  var matchAttempts = 0;
+  var phraseMistakes = {};
+  var currentChoice = 0;
+  var currentSentence = 0;
+  var chosenTiles = [];
+
+
+  var phrases = [
+    {
+        "english": "at the bottom of",
+        "chinese": "在……的底部",
+        "original": "A dragon king lives at the bottom of the Eastern Sea.",
+        "originalZh": "东海的海底住着一位龙王。",
+        "simple": "A shell was at the bottom of the pool.",
+        "simpleZh": "一个贝壳躺在池底。",
+        "task": "用这个短语说龙王住在哪里。",
+        "answer": "He lives at the bottom of the Eastern Sea."
+    },
+    {
+        "english": "be back soon",
+        "chinese": "很快回来",
+        "original": "I'll be back soon!",
+        "originalZh": "我很快就回来！",
+        "simple": "Dad will be back soon.",
+        "simpleZh": "爸爸很快就会回来。",
+        "task": "悟空为什么说自己会很快回来？",
+        "answer": "He wanted to get a weapon and return quickly."
+    },
+    {
+        "english": "breathe underwater",
+        "chinese": "在水下呼吸",
+        "original": "He said a quick spell so he could breathe underwater.",
+        "originalZh": "他念了个咒语，这样就能在水下呼吸了。",
+        "simple": "A diver needs air to breathe underwater.",
+        "simpleZh": "潜水员在水下呼吸需要空气。",
+        "task": "悟空为什么要先会这个本领？",
+        "answer": "He needed it before he went to the Dragon Palace."
+    },
+    {
+        "english": "out of breath",
+        "chinese": "上气不接下气",
+        "original": "He dropped the sword and then fell down, out of breath.",
+        "originalZh": "他把剑放下后就倒在地上，喘不过气来。",
+        "simple": "I was out of breath after the long run.",
+        "simpleZh": "长跑后我上气不接下气。",
+        "task": "谁累得上气不接下气？为什么？",
+        "answer": "The turtle soldier was out of breath because the sword was huge."
+    },
+    {
+        "english": "too light",
+        "chinese": "太轻了",
+        "original": "This sword is too light.",
+        "originalZh": "这把剑太轻了。",
+        "simple": "This bag is too light for camping.",
+        "simpleZh": "这个包拿去露营太轻了。",
+        "task": "悟空为什么两次都说 too light？",
+        "answer": "Because both the sword and the spear were not heavy enough for him."
+    },
+    {
+        "english": "find me something else",
+        "chinese": "再给我找别的",
+        "original": "Find me something else!",
+        "originalZh": "再给我找点别的来！",
+        "simple": "If this book is hard, find me something else.",
+        "simpleZh": "如果这本书太难，就再给我找一本别的。",
+        "task": "悟空在什么情况下说这句话？",
+        "answer": "He said it after the spear was still too light."
+    },
+    {
+        "english": "not leaving until",
+        "chinese": "在……之前不会离开",
+        "original": "I'm not leaving until I get what I want!",
+        "originalZh": "要是拿不到我想要的兵器，我是不会走的！",
+        "simple": "I'm not leaving until I finish the work.",
+        "simpleZh": "在完成这项工作之前，我不会离开。",
+        "task": "这句话说明悟空当时是什么态度？",
+        "answer": "He was firm and would not give up."
+    },
+    {
+        "english": "pick it up",
+        "chinese": "把它举起来",
+        "original": "If you can pick it up, you can have it.",
+        "originalZh": "如果你能把它举起来，它就是你的了。",
+        "simple": "Can you pick it up by yourself?",
+        "simpleZh": "你能自己把它举起来吗？",
+        "task": "龙王为什么最后提这个条件？",
+        "answer": "Because the iron bar was too heavy for anyone else."
+    }
+];
+
+  var choiceQuestions = [
+    {
+        "question": "\"heavier weapon\" 最接近什么意思？",
+        "options": [
+            "更重的兵器",
+            "更长的路",
+            "更亮的宫殿"
+        ],
+        "answer": 0,
+        "hint": "悟空嫌 sword 和 spear 都 too light。"
+    },
+    {
+        "question": "\"breathe underwater\" 说明悟空先解决了什么问题？",
+        "options": [
+            "怎么在水下呼吸",
+            "怎么在空中飞",
+            "怎么把门关上"
+        ],
+        "answer": 0,
+        "hint": "他要去东海海底，所以先要能在水下呼吸。"
+    },
+    {
+        "question": "\"out of breath\" 最接近什么意思？",
+        "options": [
+            "上气不接下气",
+            "安静地站着",
+            "非常高兴"
+        ],
+        "answer": 0,
+        "hint": "龟兵拖完大剑就倒下了。"
+    },
+    {
+        "question": "\"too light\" 在这一章里表达什么？",
+        "options": [
+            "不够重",
+            "不够快",
+            "不够长"
+        ],
+        "answer": 0,
+        "hint": "悟空力量太大，所以他需要 much heavier weapon。"
+    },
+    {
+        "question": "\"not leaving until I get what I want\" 表达了悟空什么态度？",
+        "options": [
+            "一定要拿到想要的东西",
+            "先回家再说",
+            "愿意马上道歉"
+        ],
+        "answer": 0,
+        "hint": "他说自己在拿不到兵器前不会离开。"
+    },
+    {
+        "question": "\"pick it up\" 在最后指什么动作？",
+        "options": [
+            "把铁棒举起来",
+            "把茶端起来",
+            "把门推开"
+        ],
+        "answer": 0,
+        "hint": "龙王带悟空去看宝库里的巨大铁柱。"
+    }
+];
+
+  var choiceOptionTerms = {
+    "更重的兵器": "heavier weapon",
+    "更长的路": "a longer road",
+    "更亮的宫殿": "a brighter palace",
+    "怎么在水下呼吸": "breathe underwater",
+    "怎么在空中飞": "fly in the sky",
+    "怎么把门关上": "close the door",
+    "上气不接下气": "out of breath",
+    "安静地站着": "stand quietly",
+    "非常高兴": "very happy",
+    "不够重": "too light",
+    "不够快": "too slow",
+    "不够长": "too short",
+    "一定要拿到想要的东西": "not leaving until ...",
+    "先回家再说": "go back first",
+    "愿意马上道歉": "say sorry at once",
+    "把铁棒举起来": "pick it up",
+    "把茶端起来": "pick up the tea",
+    "把门推开": "push the door open"
+};
+
+  var choiceOptionExamples = {
+    "更重的兵器": [
+        {
+            "text": "I need a much heavier weapon.",
+            "meaning": "我需要一件重得多的兵器。"
+        }
+    ],
+    "更长的路": [
+        {
+            "text": "The road was longer than we thought.",
+            "meaning": "这条路比我们想的更长。"
+        }
+    ],
+    "更亮的宫殿": [
+        {
+            "text": "The brighter palace shone at night.",
+            "meaning": "更明亮的宫殿在夜里发光。"
+        }
+    ],
+    "怎么在水下呼吸": [
+        {
+            "text": "He could breathe underwater after the spell.",
+            "meaning": "念完咒语后，他就能在水下呼吸了。"
+        }
+    ],
+    "怎么在空中飞": [
+        {
+            "text": "Birds can fly in the sky.",
+            "meaning": "鸟会在天空中飞。"
+        }
+    ],
+    "怎么把门关上": [
+        {
+            "text": "Please close the door quietly.",
+            "meaning": "请安静地把门关上。"
+        }
+    ],
+    "上气不接下气": [
+        {
+            "text": "The turtle soldier was out of breath.",
+            "meaning": "龟兵累得上气不接下气。"
+        }
+    ],
+    "安静地站着": [
+        {
+            "text": "The class stood quietly in line.",
+            "meaning": "全班安静地排队站着。"
+        }
+    ],
+    "非常高兴": [
+        {
+            "text": "The children were very happy.",
+            "meaning": "孩子们非常高兴。"
+        }
+    ],
+    "不够重": [
+        {
+            "text": "This spear is too light.",
+            "meaning": "这支矛太轻了。"
+        }
+    ],
+    "不够快": [
+        {
+            "text": "The boat was too slow.",
+            "meaning": "这条船太慢了。"
+        }
+    ],
+    "不够长": [
+        {
+            "text": "The rope was too short.",
+            "meaning": "这根绳子太短了。"
+        }
+    ],
+    "一定要拿到想要的东西": [
+        {
+            "text": "I'm not leaving until I get what I want.",
+            "meaning": "在拿到我想要的东西前，我不会离开。"
+        }
+    ],
+    "先回家再说": [
+        {
+            "text": "Let's go back first.",
+            "meaning": "我们先回去吧。"
+        }
+    ],
+    "愿意马上道歉": [
+        {
+            "text": "He wanted to say sorry at once.",
+            "meaning": "他想立刻道歉。"
+        }
+    ],
+    "把铁棒举起来": [
+        {
+            "text": "If you can pick it up, you can have it.",
+            "meaning": "如果你能把它举起来，它就是你的了。"
+        }
+    ],
+    "把茶端起来": [
+        {
+            "text": "She picked up the tea cup.",
+            "meaning": "她端起了茶杯。"
+        }
+    ],
+    "把门推开": [
+        {
+            "text": "He pushed the door open.",
+            "meaning": "他把门推开了。"
+        }
+    ]
+};
+
+  var sentenceTasks = [
+    {
+        "goal": "目标句：悟空需要一件更重的兵器。",
+        "answer": [
+            "I",
+            "need",
+            "a",
+            "much",
+            "heavier",
+            "weapon."
+        ],
+        "distractors": [
+            "tea",
+            "dragon",
+            "light"
+        ]
+    },
+    {
+        "goal": "目标句：他念了个咒语，这样就能在水下呼吸。",
+        "answer": [
+            "He",
+            "said",
+            "a",
+            "quick",
+            "spell",
+            "so",
+            "he",
+            "could",
+            "breathe",
+            "underwater."
+        ],
+        "distractors": [
+            "forest",
+            "sleep",
+            "queen"
+        ]
+    },
+    {
+        "goal": "目标句：龟兵慢慢拖着一把巨剑进来。",
+        "answer": [
+            "The",
+            "turtle",
+            "soldier",
+            "slowly",
+            "dragged",
+            "a",
+            "huge",
+            "sword",
+            "in."
+        ],
+        "distractors": [
+            "tea",
+            "flew",
+            "cloud"
+        ]
+    },
+    {
+        "goal": "目标句：这支矛还是太轻了。",
+        "answer": [
+            "This",
+            "spear",
+            "was",
+            "still",
+            "too",
+            "light."
+        ],
+        "distractors": [
+            "happy",
+            "river",
+            "small"
+        ]
+    },
+    {
+        "goal": "目标句：在拿到想要的东西前，我不会离开。",
+        "answer": [
+            "I",
+            "am",
+            "not",
+            "leaving",
+            "until",
+            "I",
+            "get",
+            "what",
+            "I",
+            "want."
+        ],
+        "distractors": [
+            "tea",
+            "palace",
+            "slowly"
+        ]
+    },
+    {
+        "goal": "目标句：如果你能把它举起来，它就是你的了。",
+        "answer": [
+            "If",
+            "you",
+            "can",
+            "pick",
+            "it",
+            "up,",
+            "you",
+            "can",
+            "have",
+            "it."
+        ],
+        "distractors": [
+            "queen",
+            "sword",
+            "under"
+        ]
+    }
+];
+
+  var randomQuestions = [
+    [
+        "Vocabulary",
+        "说出 Eastern Sea, treasure, pillar 的中文。",
+        "Eastern Sea：东海；treasure：宝物；pillar：柱子，文中指巨大的铁柱。"
+    ],
+    [
+        "Story",
+        "悟空为什么要去东海找龙王？",
+        "因为普通的剑和矛对他来说太轻了，他想找更重的兵器。"
+    ],
+    [
+        "Evidence",
+        "哪一句能证明龟兵累坏了？",
+        "He dropped the sword and then fell down, out of breath."
+    ],
+    [
+        "Phrase",
+        "用 too light 说一说龙王前两次给的兵器。",
+        "The sword was too light, and the spear was too light too."
+    ],
+    [
+        "Reason",
+        "龙后为什么提到 magical iron bar？",
+        "Because she wanted the monkey out of the palace quickly."
+    ],
+    [
+        "Prediction",
+        "龙王最后为什么说 if you can pick it up, you can have it？",
+        "Because the iron bar was so heavy that nobody else could lift it."
+    ]
+];
+
+  var simpleExamples = {
+    "Eastern Sea": "The Eastern Sea is far from the mountain.",
+    "breathe underwater": "Fish can breathe underwater all day.",
+    "Dragon Palace": "The Dragon Palace was bright and grand.",
+    "huge sword": "The huge sword was still too light for Wukong.",
+    "enormous spear": "An enormous spear stood by the wall.",
+    "magical iron bar": "The magical iron bar shone with golden light.",
+    "treasure room": "The treasure room was in the center of the palace.",
+    "pick it up": "Please pick it up with both hands.",
+    "weapon": "A good weapon must fit the hero.",
+    "palace": "The palace stood under the deep sea.",
+    "sword": "The sword flashed in the air.",
+    "spear": "The spear looked heavy, but Wukong shook his head.",
+    "treasure": "This treasure was too heavy for the soldiers.",
+    "pillar": "The pillar reached high above Wukong.",
+    "Dragon King": "The Dragon King wanted the rude guest to leave quickly.",
+    "Dragon Queen": "The Dragon Queen had the final idea.",
+    "breathe": "Take a deep breath and breathe slowly.",
+    "dive": "The monkey could dive into the water at once.",
+    "drag": "It took many soldiers to drag the spear.",
+    "wave": "Wukong waved the spear with one hand.",
+    "stomp": "He stomped when he did not get what he wanted.",
+    "sigh": "The queen sighed after the long talk.",
+    "lift": "Only Wukong could lift the heavy treasure.",
+    "whisper": "Please whisper when the room is quiet."
+};
+
+  var phonicsData = {
+    "Eastern Sea": {
+        "ipa": "/ˌiː.stərn ˈsiː/",
+        "parts": [
+            "East",
+            "ern",
+            "Sea"
+        ]
+    },
+    "breathe underwater": {
+        "ipa": "/briːð ˌʌn.dərˈwɔː.tər/",
+        "parts": [
+            "breathe",
+            "un",
+            "der",
+            "wa",
+            "ter"
+        ]
+    },
+    "Dragon Palace": {
+        "ipa": "/ˈdræɡ.ən ˈpæl.ɪs/",
+        "parts": [
+            "Drag",
+            "on",
+            "Pal",
+            "ace"
+        ]
+    },
+    "huge sword": {
+        "ipa": "/hjuːdʒ sɔːrd/",
+        "parts": [
+            "huge",
+            "sword"
+        ]
+    },
+    "enormous spear": {
+        "ipa": "/ɪˈnɔːr.məs spɪr/",
+        "parts": [
+            "e",
+            "nor",
+            "mous",
+            "spear"
+        ]
+    },
+    "magical iron bar": {
+        "ipa": "/ˈmædʒ.ɪ.kəl ˈaɪ.ərn bɑːr/",
+        "parts": [
+            "mag",
+            "i",
+            "cal",
+            "i",
+            "ron",
+            "bar"
+        ]
+    },
+    "treasure room": {
+        "ipa": "/ˈtreʒ.ər ruːm/",
+        "parts": [
+            "trea",
+            "sure",
+            "room"
+        ]
+    },
+    "pick it up": {
+        "ipa": "/pɪk ɪt ʌp/",
+        "parts": [
+            "pick",
+            "it",
+            "up"
+        ]
+    },
+    "weapon": {
+        "ipa": "/ˈwep.ən/",
+        "parts": [
+            "weap",
+            "on"
+        ]
+    },
+    "palace": {
+        "ipa": "/ˈpæl.ɪs/",
+        "parts": [
+            "Pal",
+            "ace"
+        ]
+    },
+    "sword": {
+        "ipa": "/sɔːrd/",
+        "parts": [
+            "sword"
+        ]
+    },
+    "spear": {
+        "ipa": "/spɪr/",
+        "parts": [
+            "spear"
+        ]
+    },
+    "treasure": {
+        "ipa": "/ˈtreʒ.ər/",
+        "parts": [
+            "trea",
+            "sure"
+        ]
+    },
+    "pillar": {
+        "ipa": "/ˈpɪl.ər/",
+        "parts": [
+            "pil",
+            "lar"
+        ]
+    },
+    "Dragon King": {
+        "ipa": "/ˈdræɡ.ən kɪŋ/",
+        "parts": [
+            "Drag",
+            "on",
+            "King"
+        ]
+    },
+    "Dragon Queen": {
+        "ipa": "/ˈdræɡ.ən kwiːn/",
+        "parts": [
+            "Drag",
+            "on",
+            "Queen"
+        ]
+    },
+    "breathe": {
+        "ipa": "/briːð/",
+        "parts": [
+            "breathe"
+        ]
+    },
+    "dive": {
+        "ipa": "/daɪv/",
+        "parts": [
+            "dive"
+        ]
+    },
+    "drag": {
+        "ipa": "/dræɡ/",
+        "parts": [
+            "drag"
+        ]
+    },
+    "wave": {
+        "ipa": "/weɪv/",
+        "parts": [
+            "wave"
+        ]
+    },
+    "stomp": {
+        "ipa": "/stɑːmp/",
+        "parts": [
+            "stomp"
+        ]
+    },
+    "sigh": {
+        "ipa": "/saɪ/",
+        "parts": [
+            "sigh"
+        ]
+    },
+    "lift": {
+        "ipa": "/lɪft/",
+        "parts": [
+            "lift"
+        ]
+    },
+    "whisper": {
+        "ipa": "/ˈwɪs.pər/",
+        "parts": [
+            "whis",
+            "per"
+        ]
+    },
+    "arrive": {
+        "ipa": "/əˈraɪv/",
+        "parts": [
+            "ar",
+            "rive"
+        ]
+    },
+    "drop": {
+        "ipa": "/drɑːp/",
+        "parts": [
+            "drop"
+        ]
+    },
+    "pick": {
+        "ipa": "/pɪk/",
+        "parts": [
+            "pick"
+        ]
+    }
+};
+
+  var exampleTermForms = {
+    "Eastern Sea": [
+        "Eastern Sea",
+        "sea"
+    ],
+    "breathe underwater": [
+        "breathe underwater",
+        "breathe",
+        "underwater"
+    ],
+    "Dragon Palace": [
+        "Dragon Palace",
+        "dragon",
+        "palace"
+    ],
+    "huge sword": [
+        "huge sword",
+        "sword"
+    ],
+    "enormous spear": [
+        "enormous spear",
+        "spear"
+    ],
+    "magical iron bar": [
+        "magical iron bar",
+        "iron bar"
+    ],
+    "treasure room": [
+        "treasure room",
+        "treasure",
+        "room"
+    ],
+    "pick it up": [
+        "pick it up",
+        "pick",
+        "up"
+    ],
+    "weapon": [
+        "weapon",
+        "weapons"
+    ],
+    "palace": [
+        "palace"
+    ],
+    "sword": [
+        "sword"
+    ],
+    "spear": [
+        "spear"
+    ],
+    "treasure": [
+        "treasure"
+    ],
+    "pillar": [
+        "pillar"
+    ],
+    "Dragon King": [
+        "Dragon King",
+        "dragon",
+        "king"
+    ],
+    "Dragon Queen": [
+        "Dragon Queen",
+        "queen"
+    ],
+    "breathe": [
+        "breathe"
+    ],
+    "dive": [
+        "dive",
+        "dived"
+    ],
+    "drag": [
+        "drag",
+        "dragged"
+    ],
+    "wave": [
+        "wave",
+        "waved"
+    ],
+    "stomp": [
+        "stomp",
+        "stomped"
+    ],
+    "sigh": [
+        "sigh",
+        "sighed"
+    ],
+    "lift": [
+        "lift",
+        "lifted"
+    ],
+    "whisper": [
+        "whisper",
+        "whispered"
+    ],
+    "arrive": [
+        "arrive",
+        "arrived"
+    ],
+    "drop": [
+        "drop",
+        "dropped"
+    ],
+    "pick": [
+        "pick",
+        "picked"
+    ],
+    "at the bottom of": [
+        "at the bottom of",
+        "bottom"
+    ],
+    "be back soon": [
+        "be back soon",
+        "back",
+        "soon"
+    ],
+    "out of breath": [
+        "out of breath",
+        "breath"
+    ],
+    "too light": [
+        "too light",
+        "light"
+    ],
+    "find me something else": [
+        "find me something else",
+        "something else"
+    ],
+    "not leaving until": [
+        "not leaving until",
+        "leaving",
+        "until"
+    ]
+};
+
+  var exampleExplanations = {
+    "A dragon king lives at the bottom of the Eastern Sea.": "东海的海底住着一位龙王。",
+    "The Eastern Sea is far from the mountain.": "东海离花果山很远。",
+    "He said a quick spell so he could breathe underwater.": "他念了个咒语，这样就能在水下呼吸了。",
+    "Fish can breathe underwater all day.": "鱼可以整天在水下呼吸。",
+    "Soon he arrived at a large palace.": "很快他来到了一座巨大的宫殿前。",
+    "The Dragon Palace was bright and grand.": "龙宫又明亮又气派。",
+    "He soon came back, slowly dragging a huge sword.": "他很快回来了，慢慢拖着一把巨大的剑。",
+    "The huge sword was still too light for Wukong.": "这把大剑对悟空来说还是太轻了。",
+    "Several turtles and octopuses dragged an enormous spear into the room.": "几个龟兵和章鱼精把一支巨大的矛拖进了房间。",
+    "An enormous spear stood by the wall.": "一支巨大的矛立在墙边。",
+    "What about the magical iron bar in the treasure?": "宝库里的那根神奇铁棒怎么样？",
+    "The magical iron bar shone with golden light.": "那根神奇的铁棒闪着金光。",
+    "The group went to the treasure.": "大家一起去了宝库。",
+    "The treasure room was in the center of the palace.": "宝库在龙宫的中央。",
+    "If you can pick it up, you can have it.": "如果你能把它举起来，它就是你的了。",
+    "Please pick it up with both hands.": "请你用双手把它举起来。",
+    "Maybe he has a weapon you can use.": "也许他有一件你能用的兵器。",
+    "A good weapon must fit the hero.": "一件好兵器必须适合英雄。",
+    "The palace stood under the deep sea.": "宫殿立在深海下面。",
+    "The turtle soldier dragged a huge sword into the room.": "龟兵把一把巨大的剑拖进了房间。",
+    "The sword flashed in the air.": "那把剑在空中闪了一下。",
+    "Wukong lifted the spear and began stabbing at the air.": "悟空举起那支矛，开始朝空中刺去。",
+    "The spear looked heavy, but Wukong shook his head.": "那支矛看起来很重，可悟空还是摇了摇头。",
+    "It is a treasure from Heaven.": "那是天庭赐下的宝贝。",
+    "This treasure was too heavy for the soldiers.": "这件宝物对士兵们来说太重了。",
+    "An enormous iron pillar stood in the center of the room.": "房间中央立着一根巨大的铁柱。",
+    "The pillar reached high above Wukong.": "那根柱子高高地立在悟空面前。",
+    "The Dragon King looked over when Wukong walked in.": "悟空走进来时，龙王抬眼看了过来。",
+    "The Dragon King wanted the rude guest to leave quickly.": "龙王想让这个无礼的客人快点离开。",
+    "The Dragon Queen whispered to her husband.": "龙后在丈夫耳边轻声说话。",
+    "The Dragon Queen had the final idea.": "龙后最后想出了一个主意。",
+    "Take a deep breath and breathe slowly.": "深吸一口气，慢慢呼吸。",
+    "Then he dived into the stream.": "接着他跳进了小溪里。",
+    "The monkey could dive into the water at once.": "这只猴子可以立刻潜入水里。",
+    "It took many soldiers to drag the spear.": "要好几个士兵才能把那支矛拖过来。",
+    "He waved the sword through the air, pretending to fight.": "他在空中挥动那把剑，假装在战斗。",
+    "Wukong waved the spear with one hand.": "悟空单手挥动那支矛。",
+    "Wukong stomped his foot.": "悟空跺了跺脚。",
+    "He stomped when he did not get what he wanted.": "当他拿不到想要的东西时，他就跺脚。",
+    "The Dragon King sighed.": "龙王叹了口气。",
+    "The queen sighed after the long talk.": "长谈之后，龙后叹了口气。",
+    "Only Wukong could lift the heavy treasure.": "只有悟空能举起那件沉重的宝物。",
+    "Please whisper when the room is quiet.": "房间安静时，请低声说话。",
+    "A shell was at the bottom of the pool.": "一个贝壳躺在池底。",
+    "I'll be back soon!": "我很快就回来！",
+    "Dad will be back soon.": "爸爸很快就会回来。",
+    "A diver needs air to breathe underwater.": "潜水员在水下呼吸需要空气。",
+    "He dropped the sword and then fell down, out of breath.": "他把剑放下后就倒在地上，喘不过气来。",
+    "I was out of breath after the long run.": "长跑后我上气不接下气。",
+    "This sword is too light.": "这把剑太轻了。",
+    "This bag is too light for camping.": "这个包拿去露营太轻了。",
+    "Find me something else!": "再给我找点别的来！",
+    "If this book is hard, find me something else.": "如果这本书太难，就再给我找一本别的。",
+    "I'm not leaving until I get what I want!": "要是拿不到我想要的兵器，我是不会走的！",
+    "I'm not leaving until I finish the work.": "在完成这项工作之前，我不会离开。",
+    "Can you pick it up by yourself?": "你能自己把它举起来吗？",
+    "I need a heavy weapon because I'm as strong as a god.": "我需要一件重兵器，因为我的力量和神仙一样强。",
+    "I need a map because this place is new to me.": "我需要一张地图，因为这个地方对我来说很陌生。",
+    "If you can finish first, you can rest first.": "如果你能先完成，你就能先休息。",
+    "This spear is too light.": "这支矛太轻了。",
+    "This box is too heavy for me.": "这个箱子对我来说太重了。",
+    "He waved the sword through the air.": "他在空中挥动那把剑。",
+    "Wukong picked up the sword with no trouble at all.": "悟空毫不费力地拿起了那把剑。",
+    "I need a much heavier weapon.": "我需要一件重得多的兵器。",
+    "The road was longer than we thought.": "这条路比我们想的更长。",
+    "The brighter palace shone at night.": "更明亮的宫殿在夜里发光。",
+    "He could breathe underwater after the spell.": "念完咒语后，他就能在水下呼吸了。",
+    "Birds can fly in the sky.": "鸟会在天空中飞。",
+    "Please close the door quietly.": "请安静地把门关上。",
+    "The turtle soldier was out of breath.": "龟兵累得上气不接下气。",
+    "The class stood quietly in line.": "全班安静地排队站着。",
+    "The children were very happy.": "孩子们非常高兴。",
+    "The boat was too slow.": "这条船太慢了。",
+    "The rope was too short.": "这根绳子太短了。",
+    "I'm not leaving until I get what I want.": "在拿到我想要的东西前，我不会离开。",
+    "Let's go back first.": "我们先回去吧。",
+    "He wanted to say sorry at once.": "他想立刻道歉。",
+    "She picked up the tea cup.": "她端起了茶杯。",
+    "He pushed the door open.": "他把门推开了。"
+};
+
+  var articleWordMeanings = {
+    "a": "一个",
+    "all": "所有的",
+    "air": "空气",
+    "again": "再一次",
+    "and": "和；并且",
+    "an": "一个",
+    "anyone": "任何人",
+    "apes": "猿",
+    "arrived": "到达了",
+    "as": "像；如同",
+    "asked": "问道",
+    "at": "在",
+    "about": "关于",
+    "back": "回来",
+    "bar": "棒；条状物",
+    "be": "是；会",
+    "because": "因为",
+    "become": "变得",
+    "bottom": "底部",
+    "breath": "呼吸；气息",
+    "breathe": "呼吸",
+    "better": "更好的",
+    "but": "但是",
+    "by": "通过；凭借",
+    "can": "能；可以",
+    "center": "中心",
+    "closer": "更近地",
+    "could": "能够",
+    "deeper": "更深地",
+    "did": "做；助动词过去式",
+    "dived": "跳入；潜入",
+    "dragon": "龙",
+    "dragged": "拖着",
+    "drink": "喝",
+    "down": "向下；倒下",
+    "eastern": "东方的",
+    "else": "别的",
+    "enormous": "巨大的",
+    "fell": "倒下了",
+    "few": "几个；少量的",
+    "fine": "好的；合适的",
+    "find": "找到",
+    "flower": "花",
+    "foot": "脚",
+    "for": "对于；为了",
+    "fruit": "水果",
+    "get": "得到",
+    "got": "得到了",
+    "gibbon": "长臂猿",
+    "god": "神",
+    "golden": "金色的",
+    "group": "一群人；队伍",
+    "had": "有；吃；喝（过去式）",
+    "have": "有",
+    "having": "正在喝；正在享用",
+    "he": "他",
+    "heavier": "更重的",
+    "heavy": "重的",
+    "head": "头",
+    "her": "她；她的",
+    "his": "他的",
+    "husband": "丈夫",
+    "huge": "巨大的",
+    "i": "我",
+    "if": "如果",
+    "in": "在……里面",
+    "into": "进入……里面",
+    "iron": "铁",
+    "is": "是",
+    "it": "它",
+    "king": "王",
+    "knew": "知道了",
+    "king's": "王的",
+    "large": "大的",
+    "later": "后来；稍后",
+    "led": "带领（过去式）",
+    "let": "让",
+    "lift": "举起",
+    "lifted": "举起了",
+    "light": "轻的；光",
+    "lives": "居住",
+    "looked": "看了",
+    "magic": "魔法",
+    "magical": "神奇的",
+    "me": "我（宾格）",
+    "measure": "测量",
+    "might": "可能",
+    "minute": "分钟",
+    "minutes": "分钟（复数）",
+    "monkey": "猴子",
+    "monkeys": "猴子们",
+    "mountain": "山",
+    "much": "很多；更",
+    "my": "我的",
+    "need": "需要",
+    "needed": "需要了",
+    "nervous": "紧张的",
+    "no": "不；没有",
+    "normal": "普通的",
+    "not": "不",
+    "ocean": "海洋",
+    "octopuses": "章鱼精；章鱼们",
+    "of": "……的",
+    "one": "一个；一件",
+    "our": "我们的",
+    "out": "出去",
+    "palace": "宫殿",
+    "picked": "拿起了",
+    "pick": "拿起；举起",
+    "pillar": "柱子",
+    "powerful": "强大的",
+    "pretending": "假装",
+    "queen": "王后",
+    "quick": "快速的",
+    "quickly": "快速地",
+    "reminded": "提醒了",
+    "rude": "无礼的",
+    "room": "房间",
+    "said": "说",
+    "sea": "海",
+    "several": "几个",
+    "shook": "摇了摇",
+    "shone": "发光了",
+    "shining": "发着光的",
+    "sighed": "叹了口气",
+    "so": "所以；这样",
+    "soldier": "士兵",
+    "something": "某样东西",
+    "soon": "很快",
+    "spear": "矛",
+    "spears": "矛",
+    "spell": "咒语",
+    "stabbed": "刺了；戳了",
+    "stood": "站立着",
+    "still": "仍然",
+    "stomped": "跺脚了",
+    "stream": "小溪",
+    "strong": "强壮的",
+    "suggested": "建议了",
+    "swords": "剑",
+    "swam": "游了",
+    "sword": "剑",
+    "table": "桌子",
+    "tea": "茶",
+    "treasure": "宝物；宝库",
+    "than": "比",
+    "that": "那个；那",
+    "the": "这；那（冠词）",
+    "them": "他们；它们",
+    "then": "然后",
+    "they": "他们；她们；它们",
+    "thing": "东西",
+    "this": "这；这个",
+    "thought": "想了想",
+    "to": "到；向；去",
+    "too": "太；也",
+    "through": "穿过；通过",
+    "told": "告诉了",
+    "trouble": "麻烦",
+    "turtle": "乌龟；龟兵",
+    "turtles": "龟兵们；乌龟们",
+    "under": "在……下面",
+    "underwater": "在水下",
+    "until": "直到",
+    "up": "向上",
+    "use": "使用",
+    "used": "被使用",
+    "very": "非常",
+    "walked": "走了",
+    "want": "想要",
+    "wanted": "想要",
+    "was": "是（过去式）",
+    "watched": "看着",
+    "waving": "挥动",
+    "waved": "挥动了",
+    "weapon": "兵器",
+    "we'll": "我们会",
+    "went": "去了",
+    "were": "是（过去式复数）",
+    "what": "什么",
+    "what's": "有什么问题；怎么了",
+    "where": "哪里",
+    "whispered": "低声说",
+    "who": "谁",
+    "with": "和；带着",
+    "wrong": "有问题的",
+    "sun": "孙（孙悟空中的姓）",
+    "wukong": "悟空",
+    "leaving": "离开（现在分词）",
+    "you": "你；你们",
+    "your": "你的；你们的"
+};
+
+  var articleWordParts = {
+    "gibbon": "n. 名词",
+    "swords": "n. 名词",
+    "spears": "n. 名词",
+    "monkeys": "n. 名词",
+    "apes": "n. 名词",
+    "powerful": "adj. 形容词",
+    "heavier": "adj. 形容词比较级",
+    "weapon": "n. 名词",
+    "dragon": "n. 名词",
+    "king": "n. 名词",
+    "bottom": "n. 名词",
+    "eastern": "adj. 形容词",
+    "sea": "n. 名词",
+    "spell": "n. 名词",
+    "breathe": "v. 动词",
+    "underwater": "adv. 副词",
+    "dived": "v. 动词",
+    "stream": "n. 名词",
+    "swam": "v. 动词",
+    "deeper": "adv. 副词比较级",
+    "palace": "n. 名词",
+    "queen": "n. 名词",
+    "tea": "n. 名词",
+    "heavy": "adj. 形容词",
+    "turtle": "n. 名词",
+    "soldier": "n. 名词",
+    "dragged": "v. 动词",
+    "huge": "adj. 形容词",
+    "sword": "n. 名词",
+    "out": "adv. 副词",
+    "breath": "n. 名词",
+    "picked": "v. 动词",
+    "waved": "v. 动词",
+    "pretending": "v. 动词",
+    "rude": "adj. 形容词",
+    "octopuses": "n. 名词",
+    "enormous": "adj. 形容词",
+    "spear": "n. 名词",
+    "lifted": "v. 动词",
+    "shook": "v. 动词",
+    "stomped": "v. 动词",
+    "outrage": "n. 名词",
+    "magical": "adj. 形容词",
+    "iron": "n. 名词",
+    "bar": "n. 名词",
+    "treasure": "n. 名词",
+    "sighed": "v. 动词",
+    "pillar": "n. 名词",
+    "beams": "n. 名词",
+    "golden": "adj. 形容词",
+    "light": "n. 名词 / adj. 形容词",
+    "shining": "v. 动词",
+    "rivers": "n. 名词复数",
+    "pick": "v. 动词"
+};
+
+  var articleTranslations = {
+    "para-idea": "长臂猿问：“我们的剑和矛有什么问题吗？”悟空说，对普通猴子和猿来说当然够用了，可他的力量非常大，需要更重的兵器。于是长臂猿建议他去东海海底找龙王试一试。",
+    "para-arrive": "悟空先念了个咒语，让自己可以在水下呼吸。接着他跳进小溪，一路游向大海，越游越深，很快就到了龙王和龙后正在喝茶的大宫殿。",
+    "para-ask": "悟空告诉他们自己是花果山的大王。他顾不上喝茶，只想要一件重兵器，因为他觉得自己的力量和神仙一样大。于是龙王叫龟兵去给孙悟空找兵器。",
+    "para-sword": "龟兵拖来一把巨剑，累得上气不接下气。悟空却轻轻松松就拿了起来，还在空中挥了挥，说这把剑太轻了。龙后悄悄说这猴子真没礼貌，可悟空还是要更好的兵器。",
+    "para-spear": "过了一会儿，几个龟兵和章鱼精又拖来一支巨大的矛。悟空举起来朝空中刺了几下，还是摇头，说这支矛也太轻了。悟空跺着脚表示，拿不到想要的兵器就绝不离开。",
+    "para-bar": "龙后提醒丈夫，宝库里不是还有那根神奇的铁棒吗？龙王叹了口气，只好带悟空去了宝库。房间中央立着一根闪着金光的巨大铁柱。龙王说：“如果你能把它举起来，它就是你的了。”"
+};
+
+  function initArticleInteractions() {
+    var articleBox = document.getElementById("articleBox");
+    if (!articleBox || articleBox.dataset.interactiveReady) return;
+    articleBox.dataset.interactiveReady = "true";
+    var globalTip = document.getElementById("articleGlobalTip");
+    if (!globalTip) {
+      globalTip = document.createElement("div");
+      globalTip.className = "article-global-tip";
+      globalTip.id = "articleGlobalTip";
+      globalTip.setAttribute("role", "tooltip");
+      document.body.appendChild(globalTip);
+    }
+
+    var terms = Object.keys(articleWordMeanings).sort(function (a, b) {
+      return b.length - a.length;
+    });
+    var matcher = new RegExp("\\b(" + terms.map(escapeRegExp).join("|") + "|[A-Za-z]+(?:['’][A-Za-z]+)?)\\b", "gi");
+
+    function annotateTextNode(textNode) {
+      var text = textNode.nodeValue;
+      if (!text || !matcher.test(text)) {
+        matcher.lastIndex = 0;
+        return;
+      }
+      matcher.lastIndex = 0;
+      var fragment = document.createDocumentFragment();
+      var lastIndex = 0;
+      var match;
+      while ((match = matcher.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        }
+        var original = match[0];
+        var key = original.toLowerCase();
+        var meaning = articleWordMeanings[key] || "课堂基础词，可结合上下文理解。";
+        var part = getArticlePartOfSpeech(key);
+        var span = document.createElement("span");
+        span.className = "article-word";
+        span.setAttribute("tabindex", "0");
+        span.dataset.part = part;
+        span.dataset.meaning = meaning;
+        span.innerHTML = escapeHtml(original) +
+          '<span class="article-word-tip">词性：' + escapeHtml(part) + '<br>词义：' + escapeHtml(meaning) + '</span>';
+        fragment.appendChild(span);
+        lastIndex = matcher.lastIndex;
+      }
+      if (lastIndex < text.length) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+      }
+      textNode.parentNode.replaceChild(fragment, textNode);
+    }
+
+    articleBox.querySelectorAll("p").forEach(function (paragraph) {
+      if (paragraph.dataset.articleReady) return;
+      paragraph.dataset.articleReady = "true";
+      var walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+      var textNodes = [];
+      var node;
+      while ((node = walker.nextNode())) {
+        textNodes.push(node);
+      }
+      textNodes.forEach(annotateTextNode);
+
+      var translation = document.createElement("div");
+      translation.className = "paragraph-translation";
+      translation.textContent = articleTranslations[paragraph.id] || "";
+      paragraph.insertAdjacentElement("afterend", translation);
+
+      paragraph.addEventListener("click", function () {
+        var wasVisible = translation.classList.contains("visible");
+        articleBox.querySelectorAll(".paragraph-translation").forEach(function (item) {
+          item.classList.remove("visible");
+        });
+        if (!wasVisible) {
+          translation.classList.add("visible");
+          translation.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      });
+    });
+
+    function positionArticleTip(word) {
+      if (!word || !globalTip) return;
+      globalTip.innerHTML =
+        '<div>词性：' + escapeHtml(word.dataset.part || "word 基础词") + '</div>' +
+        '<div>词义：' + escapeHtml(word.dataset.meaning || "") + '</div>';
+      globalTip.classList.add("visible");
+      var rect = word.getBoundingClientRect();
+      var tipRect = globalTip.getBoundingClientRect();
+      var left = rect.left + rect.width / 2 - tipRect.width / 2;
+      var top = rect.top - tipRect.height - 12;
+      if (top < 12) {
+        top = rect.bottom + 12;
+      }
+      left = Math.max(12, Math.min(left, window.innerWidth - tipRect.width - 12));
+      top = Math.max(12, Math.min(top, window.innerHeight - tipRect.height - 12));
+      globalTip.style.left = left + "px";
+      globalTip.style.top = top + "px";
+    }
+
+    function hideArticleTip() {
+      if (!globalTip) return;
+      globalTip.classList.remove("visible");
+    }
+
+    articleBox.addEventListener("mouseover", function (event) {
+      var word = event.target.closest(".article-word");
+      if (!word || !articleBox.contains(word)) return;
+      positionArticleTip(word);
+    });
+
+    articleBox.addEventListener("click", function (event) {
+      var word = event.target.closest(".article-word");
+      if (!word || !articleBox.contains(word)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      articleBox.querySelectorAll(".article-word.active").forEach(function (item) {
+        if (item !== word) item.classList.remove("active");
+      });
+      word.classList.add("active");
+      positionArticleTip(word);
+    }, true);
+
+    articleBox.addEventListener("mouseout", function (event) {
+      var word = event.target.closest(".article-word");
+      if (!word) return;
+      if (event.relatedTarget && word.contains(event.relatedTarget)) return;
+      word.classList.remove("active");
+      hideArticleTip();
+    });
+
+    articleBox.addEventListener("mouseleave", function () {
+      articleBox.querySelectorAll(".article-word.active").forEach(function (item) {
+        item.classList.remove("active");
+      });
+      hideArticleTip();
+    });
+
+    articleBox.addEventListener("pointerleave", function () {
+      articleBox.querySelectorAll(".article-word.active").forEach(function (item) {
+        item.classList.remove("active");
+      });
+      hideArticleTip();
+    });
+
+    articleBox.addEventListener("scroll", hideArticleTip);
+    window.addEventListener("resize", hideArticleTip);
+  }
+
+  function initFinder() {
+    document.querySelectorAll(".finder-button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        document.querySelectorAll(".article-box p").forEach(function (paragraph) {
+          paragraph.classList.remove("focus");
+        });
+        var target = document.getElementById(button.dataset.target);
+        target.classList.add("focus");
+        target.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+    });
+  }
+
+  function renderChoiceOptionExamples(option) {
+    var examples = choiceOptionExamples[option] || [];
+    var term = choiceOptionTerms[option] || "";
+    if (!examples.length && !term) return "";
+    var termHtml = term ? '<span class="choice-term">' + escapeHtml(term) + '</span>' : "";
+    var examplesHtml = examples.length ? '<div class="choice-examples">' + examples.map(function (example) {
+      return '<span class="choice-example">' +
+        buildExampleNote(example.text, [], "例句解释：" + example.meaning) +
+      '</span>';
+    }).join("") + '</div>' : "";
+    return termHtml + examplesHtml;
+  }
+
+  function renderChoice() {
+    var question = choiceQuestions[currentChoice];
+    var grid = document.getElementById("choiceGrid");
+    document.getElementById("choiceQuestion").textContent = question.question;
+    document.getElementById("choiceResult").textContent = "选择前先说：我从哪个词看出来？";
+    grid.innerHTML = "";
+    question.options.forEach(function (option, index) {
+      var card = document.createElement("button");
+      card.className = "choice-card";
+      card.innerHTML = "<strong>" + option + "</strong>" + renderChoiceOptionExamples(option);
+      card.addEventListener("click", function () {
+        var isCorrect = index === question.answer;
+        card.classList.add(isCorrect ? "correct" : "wrong");
+        document.getElementById("choiceResult").textContent = isCorrect ? "正确。提示：" + question.hint : "再想想。提示：" + question.hint;
+        if (isCorrect) {
+          studentScore += 1;
+          updateScores();
+        }
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  function renderSentence() {
+    var task = sentenceTasks[currentSentence];
+    var tileBank = document.getElementById("tileBank");
+    document.getElementById("sentenceGoal").textContent = task.goal;
+    document.getElementById("sentenceResult").textContent = "注意大小写和标点可以先不管，重点是词序。";
+    document.getElementById("sentenceSlot").innerHTML = '<span class="placeholder">点击下方词块开始拼句</span>';
+    chosenTiles = [];
+    tileBank.innerHTML = "";
+    task.answer.concat(task.distractors)
+      .sort(function () { return Math.random() - 0.5; })
+      .forEach(function (word) {
+        var tile = document.createElement("button");
+        tile.className = "word-tile";
+        tile.textContent = word;
+        tile.addEventListener("click", function () {
+          tile.classList.add("used");
+          chosenTiles.push(word);
+          renderChosenTiles();
+        });
+        tileBank.appendChild(tile);
+      });
+  }
+
+  function renderChosenTiles() {
+    var slot = document.getElementById("sentenceSlot");
+    slot.innerHTML = "";
+    chosenTiles.forEach(function (word, index) {
+      var chip = document.createElement("button");
+      chip.className = "answer-chip";
+      chip.textContent = word;
+      chip.title = "点击移除";
+      chip.addEventListener("click", function () {
+        chosenTiles.splice(index, 1);
+        renderSentence();
+        chosenTiles.forEach(function (selectedWord) {
+          var tile = Array.from(document.querySelectorAll("#tileBank .word-tile")).find(function (candidate) {
+            return candidate.textContent === selectedWord && !candidate.classList.contains("used");
+          });
+          if (tile) tile.click();
+        });
+      });
+      slot.appendChild(chip);
+    });
+    if (!chosenTiles.length) {
+      slot.innerHTML = '<span class="placeholder">点击下方词块开始拼句</span>';
+    }
+  }
+
+  function checkSentence() {
+    var answer = sentenceTasks[currentSentence].answer;
+    var normalizedChosen = chosenTiles.join(" ").toLowerCase();
+    var normalizedAnswer = answer.join(" ").toLowerCase();
+    var result = document.getElementById("sentenceResult");
+    if (normalizedChosen === normalizedAnswer) {
+      result.textContent = "拼对了。现在翻译句子，并大声读 2 遍。";
+      result.classList.add("strong");
+      studentScore += 2;
+      updateScores();
+    } else {
+      result.textContent = "还差一点。先检查开头、动词和 through / into 的位置。";
+      result.classList.remove("strong");
+    }
+  }
+
+  function drawQuestion() {
+    var question = randomQuestions[Math.floor(Math.random() * randomQuestions.length)];
+    document.getElementById("questionTag").textContent = question[0];
+    document.getElementById("randomQuestion").textContent = question[1];
+    document.getElementById("questionHint").textContent = "挑战规则：必须说完整句；答对加 1 分，能从原文找证据再加 1 分。";
+    document.getElementById("showHint").onclick = function () {
+      document.getElementById("questionHint").textContent = question[2];
+    };
+  }
+
+  function initHeroImageState() {
+    var visual = document.getElementById("heroVisual");
+    var image = visual.querySelector("img");
+    function showImage() {
+      visual.classList.add("image-ready");
+      visual.classList.remove("image-missing");
+    }
+    function showFallback() {
+      visual.classList.remove("image-ready");
+      visual.classList.add("image-missing");
+    }
+    image.addEventListener("load", showImage);
+    image.addEventListener("error", showFallback);
+    if (image.complete && image.naturalWidth > 0) {
+      showImage();
+    } else if (image.complete) {
+      showFallback();
+    }
+  }
+
+  function initNavigationLinks() {
+    document.querySelectorAll("[data-logout-link]").forEach(function (link) {
+      if (location.protocol !== "file:") {
+        link.href = "/logout";
+        return;
+      }
+      link.addEventListener("click", function () {
+        sessionStorage.removeItem("teachingEnglishLoggedIn");
+      });
+    });
+  }
+
+  document.getElementById("prevSlide").addEventListener("click", function () { goToSlide(currentSlide - 1); });
+  document.getElementById("nextSlide").addEventListener("click", function () { goToSlide(currentSlide + 1); });
+  document.getElementById("increaseStudent").addEventListener("click", function () { studentScore += 1; updateScores(); });
+  document.getElementById("decreaseStudent").addEventListener("click", function () { studentScore = Math.max(0, studentScore - 1); updateScores(); });
+  document.getElementById("giveTeacherPoint").addEventListener("click", function () { teacherScore += 1; updateScores(); });
+  document.getElementById("startTimer").addEventListener("click", toggleTimer);
+  document.getElementById("openGuide").addEventListener("click", function () { document.getElementById("guideModal").classList.add("open"); });
+  document.getElementById("closeGuide").addEventListener("click", function () { document.getElementById("guideModal").classList.remove("open"); });
+  document.getElementById("nextChoice").addEventListener("click", function () { currentChoice = (currentChoice + 1) % choiceQuestions.length; renderChoice(); });
+  document.getElementById("resetSentence").addEventListener("click", renderSentence);
+  document.getElementById("checkSentence").addEventListener("click", checkSentence);
+  document.getElementById("nextSentence").addEventListener("click", function () { currentSentence = (currentSentence + 1) % sentenceTasks.length; renderSentence(); });
+  document.getElementById("drawQuestion").addEventListener("click", drawQuestion);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight" || event.key === "PageDown") {
+      event.preventDefault();
+      goToSlide(currentSlide + 1);
+    }
+    if (event.key === "ArrowLeft" || event.key === "PageUp") {
+      event.preventDefault();
+      goToSlide(currentSlide - 1);
+    }
+    if (event.key === "Home") {
+      event.preventDefault();
+      goToSlide(0);
+    }
+    if (event.key === "End") {
+      event.preventDefault();
+      goToSlide(slides.length - 1);
+    }
+  });
+
+  initTabs();
+  initSimpleExamples();
+  initWordPhonics();
+  initRevealCards();
+  initRetellCards();
+  initPatternCards();
+  initExitChallenges();
+  initPhraseMatch();
+  initPhraseDrill();
+  initAudioControls();
+  initExampleNotes();
+  initNavigationLinks();
+  initFinder();
+  initArticleInteractions();
+  renderChoice();
+  renderSentence();
+  updateSlide();
+  updateScores();
+  updateTimer();
+  initHeroImageState();
+})();
+</script>
+</body>
+</html>

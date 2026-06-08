@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>选择复习章节</title>
+  <style>
+    :root {
+      --ink: #172238;
+      --muted: #60708d;
+      --sky: #3186d9;
+      --leaf: #2f9a70;
+      --sun: #f3b332;
+      --coral: #f27d64;
+      --card: rgba(255, 255, 255, 0.94);
+      --line: rgba(66, 91, 130, 0.15);
+      --shadow: 0 24px 70px rgba(34, 48, 74, 0.16);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(243, 179, 50, 0.28), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(49, 134, 217, 0.28), transparent 32%),
+        linear-gradient(135deg, #fff8e7 0%, #e7f5ff 52%, #f1fff6 100%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 56px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-mark {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(34, 48, 74, 0.14);
+      font-size: 2.5rem;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-title strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.55rem;
+      line-height: 1.2;
+    }
+
+    .brand-title span {
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .logout {
+      min-height: 48px;
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: #ffffff;
+      background: var(--ink);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 900;
+      box-shadow: 0 12px 26px rgba(23, 34, 56, 0.18);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      align-items: stretch;
+      margin-bottom: 26px;
+    }
+
+    .hero-copy,
+    .class-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 42px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #0d5f8f;
+      background: #e4f4ff;
+      font-size: 0.96rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 3.2vw, 3.05rem);
+      line-height: 1.12;
+      letter-spacing: -0.018em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.2rem;
+      line-height: 1.7;
+    }
+
+    .class-card {
+      padding: 32px;
+      display: grid;
+      gap: 18px;
+      align-content: center;
+      background:
+        linear-gradient(150deg, rgba(255, 241, 186, 0.5), rgba(255, 255, 255, 0.94)),
+        var(--card);
+    }
+
+    .class-card strong {
+      font-size: 1.6rem;
+    }
+
+    .class-card ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.8;
+      font-weight: 800;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .chapter-card {
+      min-height: 310px;
+      padding: 28px;
+      display: grid;
+      align-content: space-between;
+      gap: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .chapter-card.available:hover,
+    .chapter-card.available:focus {
+      transform: translateY(-4px);
+      border-color: rgba(47, 154, 112, 0.65);
+      box-shadow: 0 28px 76px rgba(47, 154, 112, 0.18);
+      outline: none;
+    }
+
+    .chapter-card.locked {
+      opacity: 0.72;
+      cursor: not-allowed;
+    }
+
+    .chapter-label {
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--sky);
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .chapter-card.available .chapter-label {
+      background: var(--leaf);
+    }
+
+    .chapter-card h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 2.5vw, 2.05rem);
+      line-height: 1.16;
+    }
+
+    .chapter-card p {
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    .chapter-action {
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--sky), var(--leaf));
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .locked .chapter-action {
+      color: #6b7488;
+      background: #eef2f7;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: min(100% - 32px, 760px);
+        padding-top: 28px;
+      }
+
+      .topbar,
+      .hero {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        padding: 30px 32px;
+      }
+
+      h1 {
+        font-size: clamp(1.9rem, 5.4vw, 2.45rem);
+        line-height: 1.14;
+        letter-spacing: -0.012em;
+      }
+
+      p {
+        font-size: 1.02rem;
+        line-height: 1.65;
+      }
+
+      .chapter-card {
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 28px, 520px);
+        padding-top: 24px;
+      }
+
+      .topbar {
+        margin-bottom: 24px;
+      }
+
+      .brand {
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+      }
+
+      .brand-title strong {
+        font-size: 1.28rem;
+        line-height: 1.25;
+      }
+
+      .brand-title span {
+        font-size: 0.92rem;
+      }
+
+      .logout {
+        min-height: 46px;
+        font-size: 0.98rem;
+      }
+
+      .hero {
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+
+      .hero-copy,
+      .class-card {
+        border-radius: 24px;
+      }
+
+      .hero-copy {
+        padding: 24px 22px 26px;
+      }
+
+      .eyebrow {
+        margin-bottom: 14px;
+        font-size: 0.86rem;
+      }
+
+      h1 {
+        margin-bottom: 12px;
+        font-size: 1.72rem;
+        line-height: 1.16;
+        letter-spacing: -0.006em;
+      }
+
+      p {
+        font-size: 0.96rem;
+        line-height: 1.62;
+      }
+
+      .class-card {
+        padding: 26px 24px;
+        gap: 14px;
+      }
+
+      .class-card strong {
+        font-size: 1.35rem;
+      }
+
+      .class-card ul {
+        padding-left: 20px;
+        font-size: 0.96rem;
+        line-height: 1.68;
+      }
+
+      .chapter-grid {
+        gap: 18px;
+      }
+
+      .chapter-card {
+        min-height: 232px;
+        padding: 24px;
+        gap: 18px;
+        border-radius: 24px;
+      }
+
+      .chapter-card h2 {
+        font-size: 1.62rem;
+      }
+
+      .chapter-card p {
+        font-size: 0.96rem;
+        line-height: 1.52;
+      }
+
+      .chapter-action {
+        min-height: 50px;
+        border-radius: 16px;
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><img src="monkey-brand.png" alt="课堂小猴头像"></div>
+        <div class="brand-title">
+          <strong>Journey to the West · 复习中心</strong>
+          <span>选择今天要复习的章节</span>
+        </div>
+      </div>
+      <a class="logout" href="login.html" data-logout-link>退出登录</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Chapter Review Hub · 章节选择</span>
+          <h1>Pick a Review Lesson</h1>
+          <p>先选择章节，再进入对应的互动课件。这样以后增加新章节时，学生也能从同一个入口进入不同复习任务。</p>
+        </div>
+        <div class="class-card">
+          <strong>课堂路径</strong>
+          <ul>
+            <li>登录密码页 → 章节选择页 → 复习课件</li>
+            <li>课件中可返回章节选择页</li>
+            <li>不再上课时可点击退出登录</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter-grid" aria-label="章节复习课件">
+        <a class="chapter-card available" href="index.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 1<br>The Monkey</h2>
+            <p>石猴出世：单词、短语、关键句、原文定位和故事复述。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 1 复习课</span>
+        </a>
+
+        <a class="chapter-card available" href="chapter-2.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 2<br>Water Curtain Cave</h2>
+            <p>冲过瀑布、发现山洞、成为猴王，再坐木筏出发去找圣人。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 2 复习课</span>
+        </a>
+
+        <a class="chapter-card available" href="chapter-3.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 3<br>Subodhi</h2>
+            <p>跨海寻师、遇见樵夫、拜见菩提祖师、得名孙悟空，并读懂秘密暗示。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 3 复习课</span>
+        </a>
+      
+
+        <a class="chapter-card available" href="chapter-4.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 4<br>Secret Formulas</h2>
+            <p>悟空半夜听懂暗示、学会秘诀和变化，却因当众变松树炫耀，被菩提祖师赶回花果山。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 4 复习课</span>
+        </a>
+
+        <a class="chapter-card available" href="chapter-5.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 5<br>The Demon of Chaos</h2>
+            <p>复习混世魔王、悟空分身术救猴群，以及训练猴群自保。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 5 复习课</span>
+        </a>
+
+        <a class="chapter-card available" href="chapter-6.html">
+          <div>
+            <span class="chapter-label">Available</span>
+            <h2>Chapter 6<br>The Dragon King</h2>
+            <p>悟空嫌兵器太轻，潜入东海龙宫找龙王，试过大剑和大矛后，终于被带去看发着金光的金箍棒。</p>
+          </div>
+          <span class="chapter-action">进入 Chapter 6 复习课</span>
+        </a>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function () {
+      if (location.protocol === "file:" && !sessionStorage.getItem("teachingEnglishLoggedIn")) {
+        location.replace("login.html");
+        return;
+      }
+
+      document.querySelectorAll("[data-logout-link]").forEach(function (link) {
+        if (location.protocol !== "file:") {
+          link.href = "/logout";
+          return;
+        }
+        link.addEventListener("click", function () {
+          sessionStorage.removeItem("teachingEnglishLoggedIn");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
