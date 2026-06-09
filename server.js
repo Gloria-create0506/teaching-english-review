@@ -9,9 +9,7 @@ const PORT = Number(process.env.PORT || 8765);
 const ACCESS_PASSWORD = process.env.ACCESS_PASSWORD || "monkey2026";
 const MAX_IPS_PER_PASSWORD = Math.max(1, Number(process.env.MAX_IPS_PER_PASSWORD || 2));
 const SESSION_HOURS = Math.max(1, Number(process.env.SESSION_HOURS || 8));
-const STATE_FILE = process.env.AUTH_STATE_FILE
-  ? path.resolve(ROOT, process.env.AUTH_STATE_FILE)
-  : path.join(ROOT, "auth-state.json");
+const STATE_FILE = path.join(ROOT, "auth-state.json");
 const COOKIE_NAME = "jtwauth";
 
 const MIME_TYPES = {
@@ -49,12 +47,6 @@ function readState() {
 
 function writeState(state) {
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), "utf8");
-}
-
-function isHttpsRequest(request) {
-  const forwardedProto = request.headers["x-forwarded-proto"];
-  const proto = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto;
-  return proto === "https" || Boolean(request.socket.encrypted);
 }
 
 function getClientIp(request) {
@@ -110,38 +102,6 @@ function send(response, statusCode, body, type = "text/html; charset=utf-8", hea
 function redirect(response, location) {
   response.writeHead(302, { Location: location, "Cache-Control": "no-store" });
   response.end();
-}
-
-function buildSessionCookie(token, maxAge, request) {
-  const parts = [
-    `${COOKIE_NAME}=${encodeURIComponent(token)}`,
-    "HttpOnly",
-    "SameSite=Lax",
-    "Path=/",
-    `Max-Age=${maxAge}`,
-  ];
-
-  if (isHttpsRequest(request)) {
-    parts.push("Secure");
-  }
-
-  return parts.join("; ");
-}
-
-function clearSessionCookie(request) {
-  const parts = [
-    `${COOKIE_NAME}=`,
-    "HttpOnly",
-    "SameSite=Lax",
-    "Path=/",
-    "Max-Age=0",
-  ];
-
-  if (isHttpsRequest(request)) {
-    parts.push("Secure");
-  }
-
-  return parts.join("; ");
 }
 
 function readRequestBody(request) {
@@ -220,7 +180,7 @@ async function handleLogin(request, response, state) {
   const maxAge = SESSION_HOURS * 60 * 60;
   response.writeHead(302, {
     Location: "/chapters",
-    "Set-Cookie": buildSessionCookie(token, maxAge, request),
+    "Set-Cookie": `${COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`,
     "Cache-Control": "no-store",
   });
   response.end();
@@ -231,11 +191,6 @@ const server = http.createServer(async (request, response) => {
   const state = readState();
 
   try {
-    if (url.pathname === "/healthz") {
-      send(response, 200, JSON.stringify({ ok: true }), "application/json; charset=utf-8");
-      return;
-    }
-
     if (url.pathname === "/login" && request.method === "GET") {
       const message = url.searchParams.get("logged_out") === "1" ? "已退出登录，需要继续上课请重新输入密码。" : "";
       send(response, 200, renderLoginPage(message));
@@ -250,7 +205,7 @@ const server = http.createServer(async (request, response) => {
     if (url.pathname === "/logout") {
       response.writeHead(302, {
         Location: "/login?logged_out=1",
-        "Set-Cookie": clearSessionCookie(request),
+        "Set-Cookie": `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`,
         "Cache-Control": "no-store",
       });
       response.end();

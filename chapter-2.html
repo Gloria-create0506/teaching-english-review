@@ -2533,277 +2533,6 @@ button {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* Public web responsive overrides */
-:root {
-  --page-gutter: clamp(16px, 3vw, 40px);
-  --topbar-height: 78px;
-  --bottom-nav-height: 70px;
-  --content-max-width: 1380px;
-}
-
-html {
-  font-size: clamp(13px, 0.45vw + 11px, 17px);
-}
-
-body {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.app {
-  min-height: 100dvh;
-  height: auto;
-}
-
-.topbar {
-  min-height: 78px;
-  height: auto;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  padding: 14px clamp(16px, 2vw, 24px);
-  position: sticky;
-  top: 0;
-}
-
-.brand-title strong {
-  font-size: clamp(0.95rem, 0.8rem + 0.35vw, 1.1rem);
-}
-
-.brand-title span {
-  font-size: clamp(0.62rem, 0.58rem + 0.15vw, 0.72rem);
-}
-
-.score-card {
-  min-width: 104px;
-}
-
-.score-card strong {
-  font-size: 1rem;
-}
-
-.toolbar {
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.slide-shell {
-  min-height: calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px));
-  overflow: visible;
-  padding: 10px 0 18px;
-}
-
-.slide {
-  position: relative;
-  inset: auto;
-  display: none;
-  width: min(100%, var(--content-max-width));
-  margin: 0 auto;
-  padding: clamp(52px, 5vw, 70px) var(--page-gutter) clamp(22px, 3vw, 38px);
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-  align-content: start;
-}
-
-.slide.active {
-  display: grid;
-  z-index: 1;
-}
-
-.slide.previous {
-  display: none;
-}
-
-.slide-title {
-  max-width: 980px;
-  font-size: clamp(1.55rem, 1.2rem + 1.15vw, 2.2rem);
-}
-
-.slide-subtitle,
-.hero-copy p,
-.teacher-note,
-.panel-head p,
-.panel p {
-  font-size: clamp(0.86rem, 0.8rem + 0.2vw, 1rem);
-  line-height: 1.55;
-}
-
-.hero-copy h1 {
-  font-size: clamp(1.75rem, 1.35rem + 1.45vw, 2.35rem);
-}
-
-.visual-stage {
-  min-height: clamp(260px, 34vw, 420px);
-}
-
-.bottom-nav {
-  min-height: 70px;
-  height: auto;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  padding: 10px clamp(16px, 2vw, 24px) 14px;
-  position: sticky;
-  bottom: 0;
-}
-
-.slide-tabs {
-  flex-wrap: wrap;
-}
-
-.hero-grid,
-.article-grid,
-.two-panel {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.word-grid {
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-}
-
-.class-note,
-.lesson-map,
-.student-grid,
-.choice-grid {
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-}
-
-.phrase-drill-grid {
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-}
-
-.word-card,
-.timeline-item,
-.student-card,
-.question-card,
-.phrase-drill-card,
-.note-card {
-  min-height: auto;
-}
-
-.word-card {
-  padding: 16px;
-}
-
-.word-card .word,
-.word-card .story-keyword,
-.word-card .past-word {
-  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem);
-}
-
-.article-box {
-  max-height: min(58vh, 680px);
-}
-
-.match-board {
-  min-height: auto;
-}
-
-@media (max-width: 1050px) {
-  html {
-    font-size: 15px;
-  }
-
-  .topbar {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .scoreboard {
-    display: none;
-  }
-
-  .slide {
-    padding: 34px clamp(20px, 3vw, 28px) 34px;
-  }
-
-  .hero-grid,
-  .article-grid,
-  .two-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .visual-stage {
-    min-height: 300px;
-  }
-}
-
-@media (max-height: 760px) and (min-width: 761px) {
-  .slide-shell {
-    min-height: auto;
-  }
-}
-
-@media (max-width: 760px) {
-  .topbar {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 14px 16px;
-    position: static;
-  }
-
-  .brand {
-    align-items: flex-start;
-  }
-
-  .brand-title strong {
-    font-size: 0.98rem;
-  }
-
-  .toolbar {
-    justify-content: flex-start;
-  }
-
-  .slide-shell {
-    min-height: auto;
-  }
-
-  .slide {
-    width: 100%;
-    padding: 26px 16px 24px;
-  }
-
-  .progress-monkey {
-    top: 10px;
-    width: 42px;
-    height: 42px;
-  }
-
-  .bottom-nav {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 10px 16px 14px;
-  }
-
-  .slide-tabs {
-    justify-content: flex-start;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .phrase-drill-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 520px) {
-  .toolbar .text-button,
-  .toolbar .icon-button {
-    min-width: 0;
-  }
-
-  .slide-title,
-  .hero-copy h1 {
-    font-size: 1.45rem;
-  }
-
-  .word-grid,
-  .class-note,
-  .lesson-map,
-  .student-grid,
-  .choice-grid,
-  .phrase-drill-grid {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
 </head>
 <body>
@@ -3584,15 +3313,6 @@ body {
     return '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">' + paths[name] + '</svg>';
   }
 
-  function syncResponsiveShell() {
-    var root = document.documentElement;
-    var topbar = document.querySelector(".topbar");
-    var bottomNav = document.querySelector(".bottom-nav");
-    root.style.setProperty("--topbar-height", (topbar ? topbar.offsetHeight : 78) + "px");
-    root.style.setProperty("--bottom-nav-height", (bottomNav ? bottomNav.offsetHeight : 70) + "px");
-  }
-
-
   function updateSlide() {
     slides.forEach(function (slide, index) {
       slide.classList.remove("active", "previous");
@@ -3609,7 +3329,6 @@ body {
     progress.style.width = progressPercent + "%";
     progressMonkey.style.left = "min(" + progressPercent + "%, calc(100% - 25px))";
     footerStatus.textContent = (currentSlide + 1) + " / " + slides.length + " · " + slides[currentSlide].dataset.title;
-    syncResponsiveShell();
   }
 
   function goToSlide(index) {
@@ -4317,8 +4036,7 @@ body {
     "life": "生活；生命",
     "lives": "生命（复数）"
   });
-  window.addEventListener("resize", syncResponsiveShell);
-  window.addEventListener("orientationchange", syncResponsiveShell);
+
   var articleWordParts = {
     "splashed through": "phr. 动词短语",
     "filled with": "phr. 动词短语",
@@ -4705,8 +4423,6 @@ body {
       goToSlide(slides.length - 1);
     }
   });
-  window.addEventListener("resize", syncResponsiveShell);
-  window.addEventListener("orientationchange", syncResponsiveShell);
 
   initTabs();
   initSimpleExamples();
@@ -4724,7 +4440,6 @@ body {
   initArticleInteractions();
   renderChoice();
   renderSentence();
-  syncResponsiveShell();
   updateSlide();
   updateScores();
   updateTimer();
