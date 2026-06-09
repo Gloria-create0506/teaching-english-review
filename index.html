@@ -2534,15 +2534,17 @@ button {
   }
 }
 
+
 /* Public web responsive overrides */
 :root {
-  --page-gutter: clamp(18px, 4vw, 68px);
+  --page-gutter: clamp(16px, 3vw, 40px);
   --topbar-height: 78px;
   --bottom-nav-height: 70px;
+  --content-max-width: 1380px;
 }
 
 html {
-  font-size: clamp(15px, 1.05vw + 11px, 20px);
+  font-size: clamp(13px, 0.45vw + 11px, 17px);
 }
 
 body {
@@ -2564,6 +2566,22 @@ body {
   top: 0;
 }
 
+.brand-title strong {
+  font-size: clamp(0.95rem, 0.8rem + 0.35vw, 1.1rem);
+}
+
+.brand-title span {
+  font-size: clamp(0.62rem, 0.58rem + 0.15vw, 0.72rem);
+}
+
+.score-card {
+  min-width: 104px;
+}
+
+.score-card strong {
+  font-size: 1rem;
+}
+
 .toolbar {
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -2572,27 +2590,51 @@ body {
 .slide-shell {
   min-height: calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px));
   overflow: visible;
+  padding: 10px 0 18px;
 }
 
 .slide {
-  padding: 74px var(--page-gutter) 46px;
+  position: relative;
+  inset: auto;
+  display: none;
+  width: min(100%, var(--content-max-width));
+  margin: 0 auto;
+  padding: clamp(52px, 5vw, 70px) var(--page-gutter) clamp(22px, 3vw, 38px);
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  align-content: start;
 }
 
 .slide.active {
-  position: relative;
+  display: grid;
   z-index: 1;
 }
 
+.slide.previous {
+  display: none;
+}
+
 .slide-title {
-  font-size: clamp(1.8rem, 1.45rem + 1.35vw, 2.6rem);
+  max-width: 980px;
+  font-size: clamp(1.55rem, 1.2rem + 1.15vw, 2.2rem);
+}
+
+.slide-subtitle,
+.hero-copy p,
+.teacher-note,
+.panel-head p,
+.panel p {
+  font-size: clamp(0.86rem, 0.8rem + 0.2vw, 1rem);
+  line-height: 1.55;
 }
 
 .hero-copy h1 {
-  font-size: clamp(2rem, 1.55rem + 1.8vw, 2.78rem);
+  font-size: clamp(1.75rem, 1.35rem + 1.45vw, 2.35rem);
 }
 
 .visual-stage {
-  min-height: clamp(300px, 42vh, 455px);
+  min-height: clamp(260px, 34vw, 420px);
 }
 
 .bottom-nav {
@@ -2608,19 +2650,85 @@ body {
   flex-wrap: wrap;
 }
 
+.hero-grid,
+.article-grid,
+.two-panel {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.word-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.class-note,
+.lesson-map,
+.student-grid,
+.choice-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.phrase-drill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.word-card,
+.timeline-item,
+.student-card,
+.question-card,
+.phrase-drill-card,
+.note-card {
+  min-height: auto;
+}
+
+.word-card {
+  padding: 16px;
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem);
+}
+
+.article-box {
+  max-height: min(58vh, 680px);
+}
+
+.match-board {
+  min-height: auto;
+}
+
 @media (max-width: 1050px) {
+  html {
+    font-size: 15px;
+  }
+
   .topbar {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
+  .scoreboard {
+    display: none;
+  }
+
   .slide {
-    padding: 38px clamp(24px, 4vw, 32px) 48px;
+    padding: 34px clamp(20px, 3vw, 28px) 34px;
+  }
+
+  .hero-grid,
+  .article-grid,
+  .two-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-stage {
+    min-height: 300px;
   }
 }
 
 @media (max-height: 760px) and (min-width: 761px) {
   .slide-shell {
-    min-height: max(860px, calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px)));
+    min-height: auto;
   }
 }
 
@@ -2645,12 +2753,12 @@ body {
   }
 
   .slide-shell {
-    min-height: max(860px, calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px)));
+    min-height: auto;
   }
 
   .slide {
-    align-content: start;
-    padding: 58px 18px 34px;
+    width: 100%;
+    padding: 26px 16px 24px;
   }
 
   .progress-monkey {
@@ -2670,6 +2778,10 @@ body {
     overflow-x: auto;
     padding-bottom: 4px;
   }
+
+  .phrase-drill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 520px) {
@@ -2680,7 +2792,16 @@ body {
 
   .slide-title,
   .hero-copy h1 {
-    font-size: 1.75rem;
+    font-size: 1.45rem;
+  }
+
+  .word-grid,
+  .class-note,
+  .lesson-map,
+  .student-grid,
+  .choice-grid,
+  .phrase-drill-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -4359,6 +4480,8 @@ body {
     "with": "和；与……一起",
     "worked": "起作用；工作"
   });
+  window.addEventListener("resize", syncResponsiveShell);
+  window.addEventListener("orientationchange", syncResponsiveShell);
   var articleWordParts = {
     "from the beginning of time": "phr. 短语",
     "split open": "phr. 动词短语",

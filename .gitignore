@@ -1,0 +1,8 @@
+auth-state.json
+.venv/
+.python-packages/
+python-packages/
+python-deps/
+__pycache__/
+dist/
+*.whl
