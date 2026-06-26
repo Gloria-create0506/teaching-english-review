@@ -4,12 +4,12 @@ This project hosts interactive English review webpages for Journey to the West C
 
 ## Current auth model
 
-The project now uses full account authentication:
+The project now uses a simplified account system:
 
 - email registration
-- email verification
 - email sign-in
-- password reset by email
+- signed-in password change
+- optional registration domain whitelist
 
 Because of that, the site must run through `server.js`. Pure static file mode is no longer enough for real user access.
 
@@ -26,23 +26,15 @@ Because of that, the site must run through `server.js`. Pure static file mode is
 
 ## Required environment variables
 
-These are required for real registration and password reset:
+Recommended environment variables:
 
-- `RESEND_API_KEY`: Resend API key
-- `EMAIL_FROM`: verified sender email, for example `Journey Review <noreply@yourdomain.com>`
-
-These are recommended:
-
-- `APP_BASE_URL`: public base URL, for example `https://teaching-english-review.onrender.com`
 - `ALLOWED_EMAIL_DOMAINS`: comma-separated registration whitelist, for example `qq.com,gmail.com,school.edu`
 - `SESSION_HOURS`: default `24`
-- `VERIFY_TOKEN_HOURS`: default `24`
-- `RESET_TOKEN_MINUTES`: default `30`
 
 ## Local run
 
 1. Install Node.js 18 or newer.
-2. Set `RESEND_API_KEY` and `EMAIL_FROM`.
+2. If you want to limit who can register, set `ALLOWED_EMAIL_DOMAINS`.
 3. Run:
 
 ```powershell
@@ -70,13 +62,8 @@ This project is ready for Render.
 3. Make sure these environment variables are set in Render:
 
 ```text
-RESEND_API_KEY=your_resend_api_key
-EMAIL_FROM=Journey Review <noreply@yourdomain.com>
-APP_BASE_URL=https://your-public-domain
 ALLOWED_EMAIL_DOMAINS=qq.com,gmail.com,school.edu
 SESSION_HOURS=24
-VERIFY_TOKEN_HOURS=24
-RESET_TOKEN_MINUTES=30
 ```
 
 4. Start command:
@@ -94,6 +81,13 @@ auth-state.json
 ```
 
 This file is intentionally ignored by git.
+
+If a user forgets a password in this simplified version, either:
+
+- create a new account for that user, or
+- manually edit `auth-state.json` on the server
+
+If the user is already signed in, they can open `/account` and change the password directly.
 
 ## Packaging
 

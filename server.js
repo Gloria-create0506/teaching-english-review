@@ -7,15 +7,10 @@ const { URL, URLSearchParams } = require("url");
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 8765);
 const SESSION_HOURS = Math.max(1, Number(process.env.SESSION_HOURS || 24));
-const VERIFY_TOKEN_HOURS = Math.max(1, Number(process.env.VERIFY_TOKEN_HOURS || 24));
-const RESET_TOKEN_MINUTES = Math.max(5, Number(process.env.RESET_TOKEN_MINUTES || 30));
 const ALLOWED_EMAIL_DOMAINS = String(process.env.ALLOWED_EMAIL_DOMAINS || "")
   .split(",")
   .map((item) => item.trim().toLowerCase())
   .filter(Boolean);
-const APP_BASE_URL = String(process.env.APP_BASE_URL || "").replace(/\/+$/, "");
-const RESEND_API_KEY = String(process.env.RESEND_API_KEY || "").trim();
-const EMAIL_FROM = String(process.env.EMAIL_FROM || "").trim();
 const STATE_FILE = process.env.AUTH_STATE_FILE
   ? path.resolve(ROOT, process.env.AUTH_STATE_FILE)
   : path.join(ROOT, "auth-state.json");
@@ -309,7 +304,7 @@ function renderAuthLayout(options) {
     messageTone = "error",
     helperHtml = "",
     sideTitle = "Journey Review",
-    sideText = "Sign in with your verified email to open the lesson hub and continue your review.",
+    sideText = "Sign in with your classroom email account to open the lesson hub and continue your review.",
   } = options;
 
   const safeMessage = message ? `<div class="message ${escapeHtml(messageTone)}">${escapeHtml(message)}</div>` : "";
@@ -584,7 +579,7 @@ function renderLoginPage(message = "", tone = "error", defaults = {}) {
   const emailValue = defaults.email ? escapeHtml(defaults.email) : "";
   return renderAuthLayout({
     title: "Sign in",
-    subtitle: "Use your verified email account to open the lesson hub.",
+    subtitle: "Use your email account to open the lesson hub.",
     message,
     messageTone: tone,
     formHtml: `
@@ -603,7 +598,6 @@ function renderLoginPage(message = "", tone = "error", defaults = {}) {
     helperHtml: `
       <div class="links">
         <span>Need an account?</span><a href="/register">Create one</a>
-        <span>Forgot password?</span><a href="/forgot-password">Reset it</a>
       </div>
     `,
   });
@@ -616,7 +610,7 @@ function renderRegisterPage(message = "", tone = "error", defaults = {}) {
     : "Any valid email address can register.";
   return renderAuthLayout({
     title: "Create account",
-    subtitle: "Register with your email, then verify it before signing in.",
+    subtitle: "Create an email account to sign in directly.",
     message,
     messageTone: tone,
     formHtml: `
@@ -637,7 +631,7 @@ function renderRegisterPage(message = "", tone = "error", defaults = {}) {
       </form>
     `,
     helperHtml: `
-      <div class="helper">Password must be at least 8 characters. After registration we will send a verification link to your email.</div>
+      <div class="helper">Password must be at least 8 characters. After registration you can sign in directly.</div>
       <div class="helper">${domainHint}</div>
       <div class="links">
         <span>Already registered?</span><a href="/login">Back to sign in</a>
@@ -646,43 +640,29 @@ function renderRegisterPage(message = "", tone = "error", defaults = {}) {
   });
 }
 
-function renderForgotPasswordPage(message = "", tone = "error", defaults = {}) {
-  const emailValue = defaults.email ? escapeHtml(defaults.email) : "";
+function renderAccountPage(user, message = "", tone = "error") {
+  const email = user && user.email ? user.email : "";
+  const domainHint = ALLOWED_EMAIL_DOMAINS.length
+    ? `Registration is limited to: ${escapeHtml(allowedDomainsLabel())}.`
+    : "Registration is currently open to any valid email address.";
   return renderAuthLayout({
-    title: "Reset password",
-    subtitle: "Enter your email and we will send a password reset link.",
+    title: "Account settings",
+    subtitle: "Change your password while you are signed in.",
     message,
     messageTone: tone,
     formHtml: `
-      <form method="post" action="/forgot-password">
+      <form method="post" action="/account/password">
         <div class="field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required value="${emailValue}">
+          <label for="email">Current account</label>
+          <input id="email" type="email" value="${escapeHtml(email)}" readonly>
         </div>
-        <button type="submit">Send reset link</button>
-      </form>
-    `,
-    helperHtml: `
-      <div class="links">
-        <a href="/login">Back to sign in</a>
-        <a href="/register">Create account</a>
-      </div>
-    `,
-  });
-}
-
-function renderResetPasswordPage(token, message = "", tone = "error") {
-  return renderAuthLayout({
-    title: "Choose a new password",
-    subtitle: "Set a new password for your account.",
-    message,
-    messageTone: tone,
-    formHtml: `
-      <form method="post" action="/reset-password">
-        <input type="hidden" name="token" value="${escapeHtml(token)}">
         <div class="field">
-          <label for="password">New password</label>
-          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+          <label for="currentPassword">Current password</label>
+          <input id="currentPassword" name="currentPassword" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="newPassword">New password</label>
+          <input id="newPassword" name="newPassword" type="password" autocomplete="new-password" minlength="8" required>
         </div>
         <div class="field">
           <label for="confirmPassword">Confirm new password</label>
@@ -692,8 +672,11 @@ function renderResetPasswordPage(token, message = "", tone = "error") {
       </form>
     `,
     helperHtml: `
+      <div class="helper">Use at least 8 characters. The new password takes effect immediately.</div>
+      <div class="helper">${domainHint}</div>
       <div class="links">
-        <a href="/login">Back to sign in</a>
+        <a href="/chapters">Back to lessons</a>
+        <a href="/logout">Sign out</a>
       </div>
     `,
   });
@@ -713,78 +696,6 @@ function renderNoticePage(title, subtitle, message, tone = "info", links = []) {
   });
 }
 
-function emailServiceConfigured() {
-  return Boolean(RESEND_API_KEY && EMAIL_FROM);
-}
-
-async function sendEmailMessage(payload) {
-  if (!emailServiceConfigured()) {
-    throw new Error("Email service is not configured. Set RESEND_API_KEY and EMAIL_FROM first.");
-  }
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: EMAIL_FROM,
-      to: [payload.to],
-      subject: payload.subject,
-      html: payload.html,
-      text: payload.text,
-    }),
-  });
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const detail = data && data.message ? data.message : JSON.stringify(data);
-    throw new Error(`Email delivery failed: ${detail}`);
-  }
-
-  return data;
-}
-
-function verificationEmailContent(baseUrl, token, email) {
-  const verifyUrl = `${baseUrl}/verify-email?token=${encodeURIComponent(token)}`;
-  return {
-    subject: "Verify your Journey Review account",
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #22304a;">
-        <h2>Verify your email</h2>
-        <p>Hello,</p>
-        <p>You created an account for the Journey to the West review site with <strong>${escapeHtml(email)}</strong>.</p>
-        <p>Please verify your email by clicking the button below:</p>
-        <p><a href="${verifyUrl}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#3186d9;color:#ffffff;text-decoration:none;font-weight:700;">Verify email</a></p>
-        <p>If the button does not work, copy this link into your browser:</p>
-        <p>${verifyUrl}</p>
-        <p>This link expires in ${VERIFY_TOKEN_HOURS} hour(s).</p>
-      </div>
-    `,
-    text: `Verify your email for Journey Review: ${verifyUrl} (expires in ${VERIFY_TOKEN_HOURS} hour(s))`,
-  };
-}
-
-function resetEmailContent(baseUrl, token, email) {
-  const resetUrl = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}`;
-  return {
-    subject: "Reset your Journey Review password",
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.7; color: #22304a;">
-        <h2>Reset your password</h2>
-        <p>Hello,</p>
-        <p>We received a password reset request for <strong>${escapeHtml(email)}</strong>.</p>
-        <p>Click the button below to set a new password:</p>
-        <p><a href="${resetUrl}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#2f9a70;color:#ffffff;text-decoration:none;font-weight:700;">Reset password</a></p>
-        <p>If the button does not work, copy this link into your browser:</p>
-        <p>${resetUrl}</p>
-        <p>This link expires in ${RESET_TOKEN_MINUTES} minute(s).</p>
-      </div>
-    `,
-    text: `Reset your Journey Review password: ${resetUrl} (expires in ${RESET_TOKEN_MINUTES} minute(s))`,
-  };
-}
 
 function getSafeFilePath(urlPath) {
   const decodedPath = decodeURIComponent(urlPath.split("?")[0]);
@@ -826,11 +737,6 @@ async function handleLogin(request, response, state) {
     return;
   }
 
-  if (!user.verifiedAt) {
-    send(response, 403, renderLoginPage("This email is not verified yet. Please open the verification email first.", "error", { email }));
-    return;
-  }
-
   const token = createSession(state, email, request);
   user.lastLoginAt = Date.now();
   user.updatedAt = Date.now();
@@ -860,11 +766,6 @@ async function handleRegister(request, response, state) {
     return;
   }
 
-  if (!emailServiceConfigured()) {
-    send(response, 500, renderRegisterPage("Email service is not configured yet. Set RESEND_API_KEY and EMAIL_FROM before opening registration.", "error", { email }));
-    return;
-  }
-
   if (password.length < 8) {
     send(response, 400, renderRegisterPage("Password must be at least 8 characters long.", "error", { email }));
     return;
@@ -876,7 +777,7 @@ async function handleRegister(request, response, state) {
   }
 
   const existing = state.users[email];
-  if (existing && existing.verifiedAt) {
+  if (existing) {
     send(response, 409, renderRegisterPage("This email is already registered. Please sign in instead.", "error", { email }));
     return;
   }
@@ -886,30 +787,20 @@ async function handleRegister(request, response, state) {
     email,
     passwordSalt: passwordRecord.salt,
     passwordHash: passwordRecord.hash,
-    verifiedAt: existing ? existing.verifiedAt || null : null,
-    createdAt: existing ? existing.createdAt : Date.now(),
+    verifiedAt: Date.now(),
+    createdAt: Date.now(),
     updatedAt: Date.now(),
-    lastLoginAt: existing ? existing.lastLoginAt || null : null,
+    lastLoginAt: null,
   };
-
-  const token = issueToken(state.verificationTokens, email, VERIFY_TOKEN_HOURS * 60 * 60 * 1000);
   writeState(state);
-
-  try {
-    const content = verificationEmailContent(getBaseUrl(request), token, email);
-    await sendEmailMessage({ to: email, ...content });
-  } catch (error) {
-    send(response, 500, renderRegisterPage(error.message, "error", { email }));
-    return;
-  }
 
   send(
     response,
     200,
     renderNoticePage(
-      "Check your email",
-      "Your account was created. One more step is required before sign-in.",
-      `A verification email has been sent to ${email}. Open the link in that email, then come back to sign in.`,
+      "Account created",
+      "Your email account is ready.",
+      `The account ${email} has been created successfully. You can sign in now.`,
       "success",
       [
         { href: "/login", label: "Back to sign in" },
@@ -919,145 +810,56 @@ async function handleRegister(request, response, state) {
   );
 }
 
-async function handleForgotPassword(request, response, state) {
-  if (!emailServiceConfigured()) {
-    send(response, 500, renderForgotPasswordPage("Email service is not configured yet. Set RESEND_API_KEY and EMAIL_FROM before using password reset.", "error"));
+async function handlePasswordChange(request, response, state) {
+  const token = parseCookies(request)[COOKIE_NAME];
+  const session = token ? state.sessions[token] : null;
+  if (!session || !session.email) {
+    redirect(response, "/login");
     return;
   }
 
-  const form = new URLSearchParams(await readRequestBody(request));
-  const email = normalizeEmail(form.get("email"));
-
-  if (!looksLikeEmail(email)) {
-    send(response, 400, renderForgotPasswordPage("Enter a valid email address.", "error", { email }));
-    return;
-  }
-
-  const user = state.users[email];
-  if (user && user.verifiedAt) {
-    const token = issueToken(state.resetTokens, email, RESET_TOKEN_MINUTES * 60 * 1000);
+  const user = state.users[session.email];
+  if (!user) {
+    if (token) delete state.sessions[token];
     writeState(state);
-    try {
-      const content = resetEmailContent(getBaseUrl(request), token, email);
-      await sendEmailMessage({ to: email, ...content });
-    } catch (error) {
-      send(response, 500, renderForgotPasswordPage(error.message, "error", { email }));
-      return;
-    }
+    redirect(response, "/login", {
+      "Set-Cookie": clearSessionCookie(request),
+    });
+    return;
   }
 
-  send(
-    response,
-    200,
-    renderNoticePage(
-      "Check your email",
-      "If that email is registered, the reset link is on its way.",
-      "For security, we always show the same result here. If the account exists and is verified, the reset email has been sent.",
-      "success",
-      [{ href: "/login", label: "Back to sign in" }]
-    )
-  );
-}
-
-async function handleResetPassword(request, response, state) {
   const form = new URLSearchParams(await readRequestBody(request));
-  const token = form.get("token") || "";
-  const password = form.get("password") || "";
+  const currentPassword = form.get("currentPassword") || "";
+  const newPassword = form.get("newPassword") || "";
   const confirmPassword = form.get("confirmPassword") || "";
 
-  const tokenRecord = peekToken(state.resetTokens, token);
-  if (!tokenRecord) {
-    send(response, 400, renderNoticePage("Reset link expired", "Request a fresh password reset email and try again.", "This reset link is invalid or has expired.", "error", [
-      { href: "/forgot-password", label: "Request a new reset link" },
-      { href: "/login", label: "Back to sign in" },
-    ]));
+  if (!verifyPassword(currentPassword, user)) {
+    send(response, 400, renderAccountPage(user, "Current password is incorrect.", "error"));
     return;
   }
 
-  if (password.length < 8) {
-    send(response, 400, renderResetPasswordPage(token, "Password must be at least 8 characters long.", "error"));
+  if (newPassword.length < 8) {
+    send(response, 400, renderAccountPage(user, "New password must be at least 8 characters long.", "error"));
     return;
   }
 
-  if (password !== confirmPassword) {
-    send(response, 400, renderResetPasswordPage(token, "The two passwords do not match.", "error"));
+  if (newPassword !== confirmPassword) {
+    send(response, 400, renderAccountPage(user, "The two new passwords do not match.", "error"));
     return;
   }
 
-  const consumed = consumeToken(state.resetTokens, token);
-  if (!consumed) {
-    send(response, 400, renderNoticePage("Reset link expired", "Request a fresh password reset email and try again.", "This reset link is invalid or has expired.", "error", [
-      { href: "/forgot-password", label: "Request a new reset link" },
-      { href: "/login", label: "Back to sign in" },
-    ]));
+  if (currentPassword === newPassword) {
+    send(response, 400, renderAccountPage(user, "Please choose a password different from the current one.", "error"));
     return;
   }
 
-  const user = state.users[consumed.email];
-  if (!user) {
-    send(response, 400, renderNoticePage("Account not found", "Please register again if needed.", "The account for this reset link no longer exists.", "error", [
-      { href: "/register", label: "Create account" },
-      { href: "/login", label: "Back to sign in" },
-    ]));
-    return;
-  }
-
-  const passwordRecord = createPasswordRecord(password);
+  const passwordRecord = createPasswordRecord(newPassword);
   user.passwordSalt = passwordRecord.salt;
   user.passwordHash = passwordRecord.hash;
   user.updatedAt = Date.now();
-  clearSessionsForEmail(state, consumed.email);
-  clearTokensForEmail(state.resetTokens, consumed.email);
   writeState(state);
 
-  send(
-    response,
-    200,
-    renderNoticePage(
-      "Password updated",
-      "Your password has been reset successfully.",
-      "You can now sign in with your new password.",
-      "success",
-      [{ href: "/login", label: "Sign in now" }]
-    )
-  );
-}
-
-function handleVerifyEmail(request, response, state, token) {
-  const record = consumeToken(state.verificationTokens, token);
-  if (!record) {
-    send(response, 400, renderNoticePage("Verification link expired", "Please request a new verification email by registering again.", "This verification link is invalid or has expired.", "error", [
-      { href: "/register", label: "Register again" },
-      { href: "/login", label: "Back to sign in" },
-    ]));
-    return;
-  }
-
-  const user = state.users[record.email];
-  if (!user) {
-    send(response, 400, renderNoticePage("Account not found", "Please create your account again.", "The account for this verification link no longer exists.", "error", [
-      { href: "/register", label: "Create account" },
-      { href: "/login", label: "Back to sign in" },
-    ]));
-    return;
-  }
-
-  user.verifiedAt = Date.now();
-  user.updatedAt = Date.now();
-  clearTokensForEmail(state.verificationTokens, record.email);
-  writeState(state);
-
-  send(
-    response,
-    200,
-    renderNoticePage(
-      "Email verified",
-      "Your account is ready.",
-      `The email ${record.email} has been verified. You can sign in now.`,
-      "success",
-      [{ href: "/login", label: "Go to sign in" }]
-    )
-  );
+  send(response, 200, renderAccountPage(user, "Password updated successfully.", "success"));
 }
 
 const server = http.createServer(async (request, response) => {
@@ -1105,36 +907,42 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    if (url.pathname === "/verify-email" && request.method === "GET") {
-      handleVerifyEmail(request, response, state, url.searchParams.get("token") || "");
-      return;
-    }
-
-    if (url.pathname === "/forgot-password" && request.method === "GET") {
-      send(response, 200, renderForgotPasswordPage());
-      return;
-    }
-
-    if (url.pathname === "/forgot-password" && request.method === "POST") {
-      await handleForgotPassword(request, response, state);
-      return;
-    }
-
-    if (url.pathname === "/reset-password" && request.method === "GET") {
-      const token = url.searchParams.get("token") || "";
-      if (!peekToken(state.resetTokens, token)) {
-        send(response, 400, renderNoticePage("Reset link expired", "Request a fresh password reset email and try again.", "This reset link is invalid or has expired.", "error", [
-          { href: "/forgot-password", label: "Request a new reset link" },
-          { href: "/login", label: "Back to sign in" },
-        ]));
+    if (url.pathname === "/account" && request.method === "GET") {
+      const token = parseCookies(request)[COOKIE_NAME];
+      const session = token ? state.sessions[token] : null;
+      const user = session && session.email ? state.users[session.email] : null;
+      if (!user) {
+        if (token) delete state.sessions[token];
+        writeState(state);
+        redirect(response, "/login", {
+          "Set-Cookie": clearSessionCookie(request),
+        });
         return;
       }
-      send(response, 200, renderResetPasswordPage(token));
+      send(response, 200, renderAccountPage(user));
       return;
     }
 
-    if (url.pathname === "/reset-password" && request.method === "POST") {
-      await handleResetPassword(request, response, state);
+    if (url.pathname === "/account/password" && request.method === "POST") {
+      await handlePasswordChange(request, response, state);
+      return;
+    }
+
+    if (url.pathname === "/forgot-password") {
+      send(
+        response,
+        200,
+        renderNoticePage(
+          "Password help",
+          "This simplified version does not use email reset.",
+          "If a student forgets the password, create a new account for them or edit auth-state.json manually on the server.",
+          "info",
+          [
+            { href: "/login", label: "Back to sign in" },
+            { href: "/register", label: "Create another account" },
+          ]
+        )
+      );
       return;
     }
 
@@ -1174,16 +982,10 @@ const server = http.createServer(async (request, response) => {
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Journey review server: http://localhost:${PORT}/`);
   console.log(`Session length: ${SESSION_HOURS} hour(s)`);
-  console.log(`Email verification window: ${VERIFY_TOKEN_HOURS} hour(s)`);
-  console.log(`Reset link window: ${RESET_TOKEN_MINUTES} minute(s)`);
   if (ALLOWED_EMAIL_DOMAINS.length) {
     console.log(`Allowed registration domains: ${allowedDomainsLabel()}`);
   } else {
     console.log("Allowed registration domains: any");
   }
-  if (!emailServiceConfigured()) {
-    console.log("Warning: registration email is disabled until RESEND_API_KEY and EMAIL_FROM are configured.");
-  } else {
-    console.log(`Email sender: ${EMAIL_FROM}`);
-  }
+  console.log("Auth mode: email + password registration without email verification");
 });

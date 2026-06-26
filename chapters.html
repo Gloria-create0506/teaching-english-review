@@ -84,7 +84,13 @@
       font-weight: 800;
     }
 
-    .logout {
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill-link {
       min-height: 48px;
       padding: 0 18px;
       display: inline-flex;
@@ -97,6 +103,13 @@
       font-size: 1rem;
       font-weight: 900;
       box-shadow: 0 12px 26px rgba(23, 34, 56, 0.18);
+    }
+
+    .pill-link.account {
+      color: var(--ink);
+      background: #ffffff;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(23, 34, 56, 0.08);
     }
 
     .hero {
@@ -309,9 +322,14 @@
         font-size: 0.92rem;
       }
 
-      .logout {
+      .topbar-actions {
+        width: 100%;
+      }
+
+      .pill-link {
         min-height: 46px;
         font-size: 0.98rem;
+        flex: 1 1 0;
       }
 
       .hero {
@@ -398,7 +416,10 @@
           <span>选择今天要复习的章节</span>
         </div>
       </div>
-      <a class="logout" href="login.html" data-logout-link>退出登录</a>
+      <div class="topbar-actions">
+        <a class="pill-link account" href="login.html" data-account-link>修改密码</a>
+        <a class="pill-link" href="login.html" data-logout-link>退出登录</a>
+      </div>
     </header>
 
     <main>
@@ -499,6 +520,17 @@
         }
         link.addEventListener("click", function () {
           sessionStorage.removeItem("teachingEnglishLoggedIn");
+        });
+      });
+
+      document.querySelectorAll("[data-account-link]").forEach(function (link) {
+        if (location.protocol !== "file:") {
+          link.href = "/account";
+          return;
+        }
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          alert("修改密码功能需要通过 start-server.bat 启动服务器后使用。");
         });
       });
     })();
