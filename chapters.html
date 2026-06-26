@@ -1,9 +1,9 @@
-﻿<!doctype html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>閫夋嫨澶嶄範绔犺妭</title>
+  <title>Choose Review Lesson</title>
   <style>
     :root {
       --ink: #172238;
@@ -11,7 +11,6 @@
       --sky: #3186d9;
       --leaf: #2f9a70;
       --sun: #f3b332;
-      --coral: #f27d64;
       --card: rgba(255, 255, 255, 0.94);
       --line: rgba(66, 91, 130, 0.15);
       --shadow: 0 24px 70px rgba(34, 48, 74, 0.16);
@@ -26,7 +25,7 @@
       margin: 0;
       min-height: 100vh;
       color: var(--ink);
-      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
       background:
         radial-gradient(circle at 12% 18%, rgba(243, 179, 50, 0.28), transparent 28%),
         radial-gradient(circle at 86% 18%, rgba(49, 134, 217, 0.28), transparent 32%),
@@ -62,7 +61,6 @@
       border-radius: 24px;
       background: #fff;
       box-shadow: 0 12px 30px rgba(34, 48, 74, 0.14);
-      font-size: 2.5rem;
     }
 
     .brand-mark img {
@@ -103,6 +101,7 @@
       font-size: 1rem;
       font-weight: 900;
       box-shadow: 0 12px 26px rgba(23, 34, 56, 0.18);
+      white-space: nowrap;
     }
 
     .pill-link.account {
@@ -228,6 +227,10 @@
       background: var(--leaf);
     }
 
+    .chapter-card.locked .chapter-label {
+      background: #8a94a8;
+    }
+
     .chapter-card h2 {
       margin: 0;
       font-size: clamp(1.65rem, 2.5vw, 2.05rem);
@@ -254,10 +257,6 @@
     .locked .chapter-action {
       color: #6b7488;
       background: #eef2f7;
-    }
-
-    .chapter-card.locked .chapter-label {
-      background: #8a94a8;
     }
 
     @media (max-width: 900px) {
@@ -414,98 +413,97 @@
   <div class="page">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark"><img src="monkey-brand.png" alt="璇惧爞灏忕尨澶村儚"></div>
+        <div class="brand-mark"><img src="monkey-brand.png" alt="Journey Review"></div>
         <div class="brand-title">
-          <strong>Journey to the West 路 澶嶄範涓績</strong>
-          <span>閫夋嫨浠婂ぉ瑕佸涔犵殑绔犺妭</span>
+          <strong>Journey to the West Review Hub</strong>
+          <span>Choose the lesson you want to open today</span>
         </div>
       </div>
       <div class="topbar-actions">
-        <a class="pill-link account" href="login.html" data-account-link>淇敼瀵嗙爜</a>
-        <a class="pill-link" href="login.html" data-logout-link>閫€鍑虹櫥褰?/a>
+        <a class="pill-link account" href="login.html" data-account-link>Change Password</a>
+        <a class="pill-link" href="login.html" data-logout-link>Sign Out</a>
       </div>
     </header>
 
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <span class="eyebrow">Chapter Review Hub 路 绔犺妭閫夋嫨</span>
+          <span class="eyebrow">Chapter Review Hub</span>
           <h1>Pick a Review Lesson</h1>
-          <p>鍏堥€夋嫨绔犺妭锛屽啀杩涘叆瀵瑰簲鐨勪簰鍔ㄨ浠躲€傝繖鏍蜂互鍚庡鍔犳柊绔犺妭鏃讹紝瀛︾敓涔熻兘浠庡悓涓€涓叆鍙ｈ繘鍏ヤ笉鍚屽涔犱换鍔°€?/p>
+          <p>Choose a chapter first, then open the matching interactive lesson. This hub lets students enter different review lessons from one shared starting page.</p>
         </div>
         <div class="class-card">
-          <strong>璇惧爞璺緞</strong>
+          <strong>Class Path</strong>
           <ul>
-            <li>鐧诲綍瀵嗙爜椤?鈫?绔犺妭閫夋嫨椤?鈫?澶嶄範璇句欢</li>
-            <li>璇句欢涓彲杩斿洖绔犺妭閫夋嫨椤?/li>
-            <li>涓嶅啀涓婅鏃跺彲鐐瑰嚮閫€鍑虹櫥褰?/li>
+            <li>Sign in, choose a chapter, then open the lesson</li>
+            <li>Each lesson can return to this chapter hub</li>
+            <li>Use Sign Out when class is finished</li>
           </ul>
         </div>
       </section>
 
-      <section class="chapter-grid" aria-label="绔犺妭澶嶄範璇句欢">
+      <section class="chapter-grid" aria-label="Review lessons">
         <a class="chapter-card available" href="index.html" data-lesson-file="index.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 1<br>The Monkey</h2>
-            <p>鐭崇尨鍑轰笘锛氬崟璇嶃€佺煭璇€佸叧閿彞銆佸師鏂囧畾浣嶅拰鏁呬簨澶嶈堪銆?/p>
+            <p>The stone monkey is born: review words, phrases, key sentences, source lines and retelling.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 1 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 1 Review</span>
         </a>
 
         <a class="chapter-card available" href="chapter-2.html" data-lesson-file="chapter-2.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 2<br>Water Curtain Cave</h2>
-            <p>鍐茶繃鐎戝竷銆佸彂鐜板北娲炪€佹垚涓虹尨鐜嬶紝鍐嶅潗鏈ㄧ瓘鍑哄彂鍘绘壘鍦ｄ汉銆?/p>
+            <p>Cross the waterfall, find the cave, become the Monkey King, and set off to look for a holy teacher.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 2 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 2 Review</span>
         </a>
 
         <a class="chapter-card available" href="chapter-3.html" data-lesson-file="chapter-3.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 3<br>Subodhi</h2>
-            <p>璺ㄦ捣瀵诲笀銆侀亣瑙佹ǖ澶€佹嫓瑙佽彥鎻愮甯堛€佸緱鍚嶅瓩鎮熺┖锛屽苟璇绘噦绉樺瘑鏆楃ず銆?/p>
+            <p>Cross the sea, meet the woodcutter, visit Subodhi, receive the name Sun Wukong, and understand the secret hint.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 3 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 3 Review</span>
         </a>
-      
 
         <a class="chapter-card available" href="chapter-4.html" data-lesson-file="chapter-4.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 4<br>Secret Formulas</h2>
-            <p>鎮熺┖鍗婂鍚噦鏆楃ず銆佸浼氱璇€鍜屽彉鍖栵紝鍗村洜褰撲紬鍙樻澗鏍戠偒鑰€锛岃鑿╂彁绁栧笀璧跺洖鑺辨灉灞便€?/p>
+            <p>Wukong understands the midnight hint, learns formulas and transformations, but is sent back after changing in public.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 4 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 4 Review</span>
         </a>
 
         <a class="chapter-card available" href="chapter-5.html" data-lesson-file="chapter-5.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 5<br>The Demon of Chaos</h2>
-            <p>澶嶄範娣蜂笘榄旂帇銆佹偀绌哄垎韬湳鏁戠尨缇わ紝浠ュ強璁粌鐚寸兢鑷繚銆?/p>
+            <p>Review the Demon of Chaos, Wukong's rescue, and the monkey army training for self-protection.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 5 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 5 Review</span>
         </a>
 
         <a class="chapter-card available" href="chapter-6.html" data-lesson-file="chapter-6.html">
           <div>
             <span class="chapter-label">Available</span>
             <h2>Chapter 6<br>The Dragon King</h2>
-            <p>鎮熺┖瀚屽叺鍣ㄥお杞伙紝娼滃叆涓滄捣榫欏鎵鹃緳鐜嬶紝璇曡繃澶у墤鍜屽ぇ鐭涘悗锛岀粓浜庤甯﹀幓鐪嬪彂鐫€閲戝厜鐨勯噾绠嶆銆?/p>
+            <p>Wukong thinks the weapons are too light, enters the Dragon King's palace, and is shown the golden staff.</p>
           </div>
-          <span class="chapter-action">杩涘叆 Chapter 6 澶嶄範璇?/span>
+          <span class="chapter-action">Open Chapter 6 Review</span>
         </a>
 
         <a class="chapter-card available" href="module-4-unit-1-body-party.html" data-lesson-file="module-4-unit-1-body-party.html">
           <div>
             <span class="chapter-label">New</span>
             <h2>Module 4 Unit 1<br>Zootopia Dialogue Lesson</h2>
-            <p>涓夊勾绾у璇濆紡鏂版巿璇撅細鍏堣瀛︾敓琛ュ叏 Judy 鍜?Nick 鐨勫璇濓紝鍐嶆彮鏅撶瓟妗堛€佺璐洪€氬叧锛屽苟瀹屾垚 Final Challenge銆?/p>
+            <p>Students complete Judy and Nick's dialogue, check answers, celebrate progress, and finish the final challenge.</p>
           </div>
-          <span class="chapter-action">杩涘叆鐤媯鍔ㄧ墿鍩庢柊鎺堣</span>
+          <span class="chapter-action">Open Module 4 Lesson</span>
         </a>
       </section>
     </main>
@@ -534,9 +532,10 @@
         }
         link.addEventListener("click", function (event) {
           event.preventDefault();
-          alert("修改密码功能需要通过 start-server.bat 启动服务器后使用。");
+          alert("Change Password works only when the site is started with start-server.bat.");
         });
       });
+
       var lockConfig = window.__LESSON_LOCKS__ || { lockedLessons: [] };
       var lockedLessons = Array.isArray(lockConfig.lockedLessons) ? lockConfig.lockedLessons : [];
       var lockedSet = Object.create(null);
@@ -561,15 +560,14 @@
 
         var action = card.querySelector(".chapter-action");
         if (action) {
-          action.textContent = "当前已锁定";
+          action.textContent = "Currently Locked";
         }
 
         card.addEventListener("click", function (event) {
           event.preventDefault();
-          alert("这一课目前已锁定，需要老师解锁后才能进入。");
+          alert("This lesson is locked right now. Ask the teacher to unlock it first.");
         });
       });
-
     })();
   </script>
 </body>
