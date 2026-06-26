@@ -31,6 +31,7 @@ for /f "tokens=2 delims=:" %%A in ('ipconfig ^| findstr /R /C:"IPv4.*[0-9]"') do
 )
 echo.
 if not "%ALLOWED_EMAIL_DOMAINS%"=="" echo Allowed registration domains: %ALLOWED_EMAIL_DOMAINS%
+if not "%LOCKED_LESSONS%"=="" echo Locked lessons: %LOCKED_LESSONS%
 echo.
 echo Keep this window open while users access the site.
 echo Press Ctrl+C to stop the server.

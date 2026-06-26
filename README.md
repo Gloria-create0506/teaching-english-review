@@ -29,19 +29,21 @@ Because of that, the site must run through `server.js`. Pure static file mode is
 Recommended environment variables:
 
 - `ALLOWED_EMAIL_DOMAINS`: comma-separated registration whitelist, for example `qq.com,gmail.com,school.edu`
+- `LOCKED_LESSONS`: comma-separated locked lessons, for example `module-4,chapter-6`
 - `SESSION_HOURS`: default `24`
 
 ## Local run
 
 1. Install Node.js 18 or newer.
 2. If you want to limit who can register, set `ALLOWED_EMAIL_DOMAINS`.
-3. Run:
+3. If you want to lock certain lessons, set `LOCKED_LESSONS`.
+4. Run:
 
 ```powershell
 node server.js
 ```
 
-4. Open:
+5. Open:
 
 ```text
 http://localhost:8765/login
@@ -63,8 +65,16 @@ This project is ready for Render.
 
 ```text
 ALLOWED_EMAIL_DOMAINS=qq.com,gmail.com,school.edu
+LOCKED_LESSONS=module-4,chapter-6
 SESSION_HOURS=24
 ```
+
+`LOCKED_LESSONS` supports either aliases or full file names. Examples:
+
+- `module-4`
+- `module-4-unit-1-body-party.html`
+- `chapter-6`
+- `chapter-6.html`
 
 4. Start command:
 

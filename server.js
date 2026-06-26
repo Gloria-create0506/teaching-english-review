@@ -11,10 +11,41 @@ const ALLOWED_EMAIL_DOMAINS = String(process.env.ALLOWED_EMAIL_DOMAINS || "")
   .split(",")
   .map((item) => item.trim().toLowerCase())
   .filter(Boolean);
+const LOCKED_LESSONS = String(process.env.LOCKED_LESSONS || "")
+  .split(",")
+  .map((item) => item.trim())
+  .filter(Boolean);
 const STATE_FILE = process.env.AUTH_STATE_FILE
   ? path.resolve(ROOT, process.env.AUTH_STATE_FILE)
   : path.join(ROOT, "auth-state.json");
 const COOKIE_NAME = "jtwauth";
+
+const LESSON_FILE_ALIASES = {
+  "chapter-1": "index.html",
+  "chapter1": "index.html",
+  "index": "index.html",
+  "index.html": "index.html",
+  "chapter-2": "chapter-2.html",
+  "chapter2": "chapter-2.html",
+  "chapter-2.html": "chapter-2.html",
+  "chapter-3": "chapter-3.html",
+  "chapter3": "chapter-3.html",
+  "chapter-3.html": "chapter-3.html",
+  "chapter-4": "chapter-4.html",
+  "chapter4": "chapter-4.html",
+  "chapter-4.html": "chapter-4.html",
+  "chapter-5": "chapter-5.html",
+  "chapter5": "chapter-5.html",
+  "chapter-5.html": "chapter-5.html",
+  "chapter-6": "chapter-6.html",
+  "chapter6": "chapter-6.html",
+  "chapter-6.html": "chapter-6.html",
+  "module-4": "module-4-unit-1-body-party.html",
+  "module4": "module-4-unit-1-body-party.html",
+  "module-4-unit-1": "module-4-unit-1-body-party.html",
+  "module-4-unit-1-body-party": "module-4-unit-1-body-party.html",
+  "module-4-unit-1-body-party.html": "module-4-unit-1-body-party.html",
+};
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -81,6 +112,31 @@ function isAllowedRegistrationEmail(email) {
 
 function allowedDomainsLabel() {
   return ALLOWED_EMAIL_DOMAINS.join(", ");
+}
+
+function normalizeLessonFile(value) {
+  const normalized = String(value || "").trim().toLowerCase().replace(/^\/+/, "");
+  if (!normalized) return "";
+  if (LESSON_FILE_ALIASES[normalized]) return LESSON_FILE_ALIASES[normalized];
+  return path.basename(normalized);
+}
+
+const LOCKED_LESSON_FILES = new Set(
+  LOCKED_LESSONS
+    .map((item) => normalizeLessonFile(item))
+    .filter(Boolean)
+);
+
+function lockedLessonsLabel() {
+  return Array.from(LOCKED_LESSON_FILES).join(", ");
+}
+
+function isLockedLessonFile(fileName) {
+  return LOCKED_LESSON_FILES.has(normalizeLessonFile(fileName));
+}
+
+function isLockedLessonRequest(urlPath) {
+  return isLockedLessonFile(path.basename(urlPath.split("?")[0]));
 }
 
 function hashToken(token) {
@@ -696,6 +752,28 @@ function renderNoticePage(title, subtitle, message, tone = "info", links = []) {
   });
 }
 
+function renderLockedLessonPage(fileName) {
+  return renderNoticePage(
+    "Lesson locked",
+    "This lesson is currently unavailable.",
+    `${fileName} is locked right now. Ask the teacher to unlock it before opening this lesson.`,
+    "info",
+    [
+      { href: "/chapters", label: "Back to lessons" },
+      { href: "/account", label: "Account settings" },
+    ]
+  );
+}
+
+function renderChaptersPage() {
+  const templatePath = path.join(ROOT, "chapters.html");
+  const template = fs.readFileSync(templatePath, "utf8");
+  const configScript = `<script>window.__LESSON_LOCKS__=${JSON.stringify({
+    lockedLessons: Array.from(LOCKED_LESSON_FILES),
+  })};</script>`;
+  return template.replace("</head>", `${configScript}</head>`);
+}
+
 
 function getSafeFilePath(urlPath) {
   const decodedPath = decodeURIComponent(urlPath.split("?")[0]);
@@ -970,7 +1048,18 @@ const server = http.createServer(async (request, response) => {
     }
 
     if (url.pathname === "/chapters") {
-      request.url = "/chapters.html";
+      send(response, 200, renderChaptersPage());
+      return;
+    }
+
+    if (url.pathname === "/chapters.html") {
+      send(response, 200, renderChaptersPage());
+      return;
+    }
+
+    if (isLockedLessonRequest(url.pathname)) {
+      send(response, 403, renderLockedLessonPage(path.basename(url.pathname)));
+      return;
     }
 
     serveStatic(request, response);
@@ -986,6 +1075,11 @@ server.listen(PORT, "0.0.0.0", () => {
     console.log(`Allowed registration domains: ${allowedDomainsLabel()}`);
   } else {
     console.log("Allowed registration domains: any");
+  }
+  if (LOCKED_LESSON_FILES.size) {
+    console.log(`Locked lessons: ${lockedLessonsLabel()}`);
+  } else {
+    console.log("Locked lessons: none");
   }
   console.log("Auth mode: email + password registration without email verification");
 });
