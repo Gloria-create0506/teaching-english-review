@@ -4,11 +4,11 @@ chcp 65001 >nul
 cd /d "%~dp0"
 
 echo.
-echo Opening the review lesson in file mode...
-echo Password: monkey2026
+echo This project now uses email registration and login.
+echo Static file mode cannot complete sign-in or registration.
 echo.
-echo If the page does not open automatically, open login.html in this folder.
+echo Please use start-server.bat instead.
+echo This page will open a short explanation screen.
 echo.
 
 start "" "%~dp0login.html"
-

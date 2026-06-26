@@ -202,23 +202,23 @@ button {
 }
 
 .progress {
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: var(--topbar-height, 78px);
   height: 5px;
   width: 0;
   background: linear-gradient(90deg, var(--coral), var(--sun), var(--leaf));
-  z-index: 25;
+  z-index: 65;
   transition: width 0.28s ease;
 }
 
 .progress-monkey {
-  position: absolute;
-  top: 14px;
+  position: fixed;
+  top: calc(var(--topbar-height, 78px) + 9px);
   left: 0;
   width: 50px;
   height: 50px;
-  z-index: 26;
+  z-index: 66;
   background: transparent;
   filter: drop-shadow(0 5px 9px rgba(23, 32, 51, 0.18));
   transform: translateX(-50%);
@@ -746,7 +746,11 @@ button {
   padding: 20px;
   display: grid;
   gap: 10px;
-  align-content: start;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  min-width: 0;
+  overflow: hidden;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
@@ -771,6 +775,9 @@ button {
 .word-card .past-word {
   font-size: 1.55rem;
   font-weight: 900;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .word-card .word .syllable,
@@ -859,13 +866,6 @@ button {
   transform: translateY(-1px);
 }
 
-.phrase-title-row {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
 .word-card .meaning,
 .word-card .example,
 .slide[data-title="Past"] .word-card:not(.revealed) .example {
@@ -877,7 +877,7 @@ button {
 }
 
 .word-card .simple-example {
-  color: var(--muted);
+  color: #2d7659;
   line-height: 1.45;
   font-size: 0.86rem;
 }
@@ -885,20 +885,17 @@ button {
 .word-card .example::before,
 .word-card .simple-example::before {
   display: inline-block;
-  margin: 0 8px 0 0;
+  margin: 0 0.45em 0 0;
   vertical-align: baseline;
-  font-size: 0.62rem;
+  font-size: inherit;
+  line-height: inherit;
   font-weight: 900;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .word-card .example::before {
   content: "原文";
   color: var(--sky);
-}
-
-.word-card .simple-example {
-  color: #2d7659;
 }
 
 .word-card .simple-example::before {
@@ -987,6 +984,8 @@ button {
   color: var(--ink);
   font-size: 1rem;
   font-weight: 800;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .word-card.revealed .meaning {
@@ -1209,11 +1208,6 @@ button {
   transform: rotateY(180deg);
 }
 
-.phrase-drill-card strong {
-  font-size: 1.08rem;
-  line-height: 1.18;
-}
-
 .phrase-drill-card .meaning {
   color: var(--leaf);
   font-size: 0.88rem;
@@ -1338,7 +1332,8 @@ button {
 
 .pattern-detail {
   display: none;
-  gap: 7px;
+  gap: 10px;
+  margin-top: 2px;
 }
 
 .pattern-card.revealed .pattern-detail {
@@ -1346,13 +1341,56 @@ button {
 }
 
 .pattern-detail p {
-  color: var(--muted);
-  font-size: 0.72rem;
-  line-height: 1.38;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  color: #40506a;
+  background: rgba(238, 250, 243, 0.72);
+  font-size: clamp(1rem, 1.08vw, 1.05rem);
+  line-height: 1.55;
+  font-weight: 700;
 }
 
 .pattern-detail strong {
+  display: inline-block;
+  margin-right: 0.45em;
   color: var(--leaf);
+  font-weight: 900;
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+.pattern-detail .example-note {
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+.pattern-challenge {
+  position: relative;
+  cursor: pointer;
+}
+
+.pattern-challenge:hover,
+.pattern-challenge.revealed {
+  color: #0c5e3d;
+  background: #e4f8ed;
+}
+
+.pattern-answer {
+  display: none;
+  margin-top: 8px;
+  padding: 9px 11px;
+  border-radius: var(--radius);
+  color: #0c5e3d;
+  background: #fffdf8;
+  border: 1px solid #a3dfba;
+  font-weight: 800;
+}
+
+.pattern-challenge.revealed .pattern-answer {
+  display: block;
 }
 
 .chip,
@@ -1724,17 +1762,20 @@ button {
 .tile-bank {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .word-tile {
-  min-height: 56px;
-  padding: 12px 16px;
+  min-height: 46px;
+  padding: 9px 12px;
   border-radius: var(--radius);
   color: white;
   background: var(--sky);
-  font-size: 1.08rem;
+  font-size: clamp(0.82rem, 0.78rem + 0.28vw, 1.02rem);
   font-weight: 900;
+  line-height: 1.1;
+  white-space: nowrap;
   cursor: pointer;
   box-shadow: 0 8px 16px rgba(49, 134, 217, 0.24);
 }
@@ -2055,6 +2096,47 @@ button {
   margin-top: 18px;
 }
 
+.match-complete-card {
+  width: min(760px, 94vw);
+}
+
+.match-complete-summary {
+  margin: 0;
+  padding: 18px;
+  border: 1px solid rgba(27, 45, 74, 0.12);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font-weight: 800;
+}
+
+.match-complete-review {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.match-complete-review-title {
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.match-complete-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.match-complete-chip {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(27, 45, 74, 0.12);
+  background: #fff8e8;
+  color: #40506a;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
 .image-missing {
   display: none;
 }
@@ -2074,7 +2156,8 @@ button {
 .asset-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: linear-gradient(135deg, #e8f5f5, #f8fbf0);
   display: none;
 }
 
@@ -2138,7 +2221,7 @@ button {
 
   .slide {
     align-content: start;
-    padding-top: 70px;
+    padding-top: clamp(26px, 4vh, 42px);
     padding-bottom: 28px;
     gap: 14px;
   }
@@ -2323,10 +2406,6 @@ button {
     gap: 7px;
   }
 
-  .phrase-drill-card strong {
-    font-size: 1rem;
-  }
-
   .phrase-drill-card p {
     font-size: 0.68rem;
     line-height: 1.28;
@@ -2411,13 +2490,10 @@ button {
   }
 
   .topbar {
-    position: static;
+    position: sticky;
+    top: 0;
     height: auto;
     grid-template-columns: 1fr;
-  }
-
-  .bottom-nav {
-    position: sticky;
   }
 
   .slide-shell {
@@ -2469,10 +2545,6 @@ button {
   .phrase-drill-face {
     padding: 10px;
     gap: 4px;
-  }
-
-  .phrase-drill-card strong {
-    font-size: 0.86rem;
   }
 
   .phrase-drill-card .meaning {
@@ -2533,6 +2605,1262 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Public web responsive overrides */
+:root {
+  --page-gutter: clamp(16px, 3vw, 40px);
+  --topbar-height: 78px;
+  --bottom-nav-height: 70px;
+  --content-max-width: 1380px;
+}
+
+html {
+  font-size: clamp(13px, 0.45vw + 11px, 17px);
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app {
+  min-height: 100dvh;
+  height: auto;
+}
+
+.topbar {
+  min-height: 78px;
+  height: auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  padding: 14px clamp(16px, 2vw, 24px);
+  position: sticky;
+  top: 0;
+}
+
+.brand-title strong {
+  font-size: clamp(0.95rem, 0.8rem + 0.35vw, 1.1rem);
+}
+
+.brand-title span {
+  font-size: clamp(0.62rem, 0.58rem + 0.15vw, 0.72rem);
+}
+
+.score-card {
+  min-width: 104px;
+}
+
+.score-card strong {
+  font-size: 1rem;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.slide-shell {
+  min-height: calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px));
+  overflow: visible;
+  padding: 4px 0 calc(var(--bottom-nav-height, 70px) + 28px);
+}
+
+.slide {
+  position: relative;
+  inset: auto;
+  display: none;
+  width: min(100%, var(--content-max-width));
+  margin: 0 auto;
+  padding: clamp(26px, 3.3vw, 42px) var(--page-gutter) clamp(22px, 3vw, 38px);
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  align-content: start;
+}
+
+.slide.active {
+  display: grid;
+  z-index: 1;
+}
+
+.slide.previous {
+  display: none;
+}
+
+.slide-title {
+  max-width: 980px;
+  font-size: clamp(1.55rem, 1.2rem + 1.15vw, 2.2rem);
+}
+
+.slide-subtitle,
+.hero-copy p,
+.teacher-note,
+.panel-head p,
+.panel p {
+  font-size: clamp(0.86rem, 0.8rem + 0.2vw, 1rem);
+  line-height: 1.55;
+}
+
+.hero-copy h1 {
+  font-size: clamp(1.75rem, 1.35rem + 1.45vw, 2.35rem);
+}
+
+.visual-stage {
+  min-height: clamp(260px, 34vw, 420px);
+}
+
+.bottom-nav {
+  min-height: 70px;
+  height: auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 10px clamp(16px, 2vw, 24px) 14px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 70;
+  box-sizing: border-box;
+}
+
+.slide-tabs {
+  flex-wrap: wrap;
+}
+
+.hero-grid,
+.article-grid,
+.two-panel {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.word-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.class-note,
+.lesson-map,
+.student-grid,
+.choice-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.phrase-drill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.word-card,
+.timeline-item,
+.student-card,
+.question-card,
+.phrase-drill-card,
+.note-card {
+  min-height: auto;
+}
+
+.word-card {
+  padding: 16px;
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem);
+}
+
+.article-box {
+  max-height: min(58vh, 680px);
+}
+
+.match-board {
+  min-height: auto;
+}
+
+@media (max-width: 1050px) {
+  html {
+    font-size: 15px;
+  }
+
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .scoreboard {
+    display: none;
+  }
+
+  .slide {
+    padding: 34px clamp(20px, 3vw, 28px) 34px;
+  }
+
+  .hero-grid,
+  .article-grid,
+  .two-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-stage {
+    min-height: 300px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .slide-shell {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand {
+    align-items: flex-start;
+  }
+
+  .brand-title strong {
+    font-size: 0.98rem;
+  }
+
+  .toolbar {
+    justify-content: flex-start;
+  }
+
+  .slide-shell {
+    min-height: auto;
+  }
+
+  .slide {
+    width: 100%;
+    padding: 26px 16px 24px;
+  }
+
+  .progress-monkey {
+    width: 42px;
+    height: 42px;
+  }
+
+  .bottom-nav {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 10px 16px 14px;
+  }
+
+  .slide-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .phrase-drill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .toolbar .text-button,
+  .toolbar .icon-button {
+    min-width: 0;
+  }
+
+  .slide-title,
+  .hero-copy h1 {
+    font-size: 1.45rem;
+  }
+
+  .word-grid,
+  .class-note,
+  .lesson-map,
+  .student-grid,
+  .choice-grid,
+  .phrase-drill-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive layout core: globally even, centered projection layout */
+.slide {
+  gap: clamp(14px, 1.7vh, 22px);
+  justify-items: stretch;
+}
+
+.slide-title {
+  width: min(100%, 1080px);
+  font-size: clamp(1.75rem, 2.45vw, 2.45rem);
+}
+
+.slide-subtitle {
+  width: min(100%, 980px);
+  font-size: clamp(0.9rem, 1.18vw, 1.04rem);
+}
+
+.hero-grid,
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: min(100%, 1120px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-grid,
+.article-grid,
+.two-panel {
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+.class-note,
+.lesson-map,
+.word-grid,
+.pattern-grid,
+.choice-grid,
+.student-grid,
+.phrase-drill-grid {
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(14px, 1.55vw, 20px);
+}
+
+.class-note {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lesson-map {
+  width: min(100%, 1120px);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.word-grid {
+  width: min(100%, 1080px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pattern-grid,
+.choice-grid {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.student-grid {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.phrase-drill-grid {
+  width: min(100%, 980px);
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+
+.word-card,
+.timeline-item,
+.note-card,
+.choice-card,
+.pattern-card,
+.student-card,
+.phrase-drill-card {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.word-card {
+  min-height: clamp(188px, 20vh, 220px);
+  padding: clamp(15px, 1.45vw, 20px);
+}
+
+.timeline-item {
+  min-height: clamp(150px, 18vh, 188px);
+  padding: clamp(16px, 1.6vw, 22px);
+}
+
+.note-card {
+  min-height: clamp(106px, 13vh, 128px);
+}
+
+.pattern-card {
+  min-height: clamp(330px, 40vh, 380px);
+}
+
+.choice-card {
+  min-height: clamp(178px, 22vh, 210px);
+}
+
+.student-card {
+  min-height: clamp(148px, 18vh, 180px);
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: clamp(1.15rem, 1.45vw, 1.5rem);
+  line-height: 1.15;
+}
+
+.word-card .example,
+.word-card .simple-example,
+.word-card .hint {
+  line-height: 1.34;
+}
+
+.word-card.revealed .example,
+.word-card.revealed .simple-example {
+  display: block;
+  align-items: normal;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal;
+  text-align: center;
+  font-size: clamp(0.74rem, 0.9vw, 0.88rem);
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.word-card.revealed .example-note,
+.word-card.revealed .example-text {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.word-card .example,
+.word-card .simple-example,
+.phrase-example,
+.pattern-detail p {
+  line-height: 1.48;
+}
+
+.question-card,
+.teacher-note {
+  width: min(100%, 980px);
+}
+
+.sentence-builder {
+  width: min(100%, 980px);
+}
+
+.slide[data-title="Phrases"] {
+  align-content: start;
+  padding-top: clamp(26px, 3.3vw, 42px);
+}
+
+.slide[data-title="Phrases"] .slide-title,
+.slide[data-title="Phrases"] .slide-subtitle {
+  max-width: min(760px, calc(100% - 340px));
+  margin-left: 0;
+}
+
+.match-report {
+  top: clamp(44px, 7vh, 76px);
+  right: clamp(24px, 5vw, 68px);
+  width: min(300px, 31vw);
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+}
+
+.match-review {
+  grid-column: 1 / -1;
+  max-height: 124px;
+  overflow: auto;
+}
+
+.match-review-title {
+  margin-bottom: 5px;
+}
+
+.match-review-list {
+  display: grid;
+  gap: 5px;
+}
+
+.match-review-chip {
+  padding: 5px 8px;
+  line-height: 1.25;
+}
+
+.match-board {
+  min-height: 0;
+  grid-template-columns: minmax(230px, 1fr) minmax(72px, 0.18fr) minmax(230px, 1fr);
+  align-items: stretch;
+  margin-top: 4px;
+}
+
+.match-card,
+.match-card-inner,
+.match-card-face {
+  min-height: 46px;
+}
+
+.match-card-face {
+  font-size: clamp(0.74rem, 0.9vw, 0.9rem);
+  line-height: 1.22;
+}
+
+.slide[data-title="Phrase Lab 1"],
+.slide[data-title="Phrase Lab 2"] {
+  align-content: start;
+}
+
+.phrase-drill-card {
+  min-height: clamp(158px, 19vh, 188px);
+  overflow: visible;
+}
+
+.phrase-drill-card.revealed {
+  min-height: clamp(236px, 29vh, 276px);
+}
+
+.phrase-drill-face {
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: clamp(14px, 1.45vw, 20px);
+  text-align: center;
+}
+
+.phrase-drill-front {
+  background: linear-gradient(145deg, #ffffff, #f8fbff);
+}
+
+.phrase-title-row {
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.phrase-title-row strong {
+  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  line-height: 1.22;
+}
+
+.phrase-drill-card p {
+  font-size: clamp(0.72rem, 0.9vw, 0.86rem);
+  line-height: 1.38;
+}
+
+.phrase-drill-back .meaning {
+  margin: 0;
+  font-size: clamp(0.86rem, 1vw, 1rem);
+}
+
+.phrase-example,
+.phrase-challenge {
+  width: min(100%, 34rem);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.phrase-example strong,
+.phrase-example .example-note,
+.phrase-example .example-text {
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
+.phrase-example strong {
+  display: inline-block;
+  margin-right: 0.45em;
+}
+
+.phrase-challenge-answer {
+  text-align: center;
+}
+
+.phrase-drill-back .example-note {
+  max-width: 100%;
+}
+
+.teacher-note {
+  line-height: 1.45;
+}
+
+@media (max-width: 1050px) {
+  .class-note,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 760px);
+  }
+
+  .word-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 920px);
+  }
+
+  .lesson-map {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 840px);
+  }
+
+  .phrase-drill-grid {
+    width: min(100%, 820px);
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+
+  .pattern-card {
+    min-height: 300px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .slide-shell {
+    min-height: 920px;
+  }
+
+  .word-card {
+    min-height: 176px;
+  }
+
+  .timeline-item {
+    min-height: 138px;
+  }
+
+  .choice-card,
+  .student-card {
+    min-height: 142px;
+  }
+
+  .pattern-card {
+    min-height: 286px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title,
+  .slide[data-title="Phrases"] .slide-subtitle {
+    max-width: min(620px, calc(100% - 310px));
+  }
+
+  .slide[data-title="Phrases"] .match-report {
+    top: 58px;
+    width: min(285px, 33vw);
+  }
+
+  .phrase-drill-card {
+    min-height: 154px;
+  }
+
+  .phrase-drill-card.revealed {
+    min-height: 228px;
+  }
+}
+
+@media (max-width: 760px) {
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid,
+  .phrase-drill-grid {
+    width: min(100%, 520px);
+    grid-template-columns: 1fr;
+  }
+
+  .word-card,
+  .choice-card,
+  .student-card,
+  .phrase-drill-card {
+    min-height: 150px;
+  }
+
+  .phrase-drill-card.revealed {
+    min-height: 220px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title,
+  .slide[data-title="Phrases"] .slide-subtitle {
+    max-width: 100%;
+  }
+
+  .match-report {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin: 0 0 10px;
+  }
+
+  .match-board {
+    grid-template-columns: 1fr;
+  }
+
+  .line-stage {
+    min-height: 42px;
+  }
+}
+
+/* Opening screen layout: fit the real browser viewport without cropping the hero image. */
+.slide[data-title="Opening"] {
+  align-content: center;
+  padding-top: clamp(26px, 3.3vw, 42px);
+  padding-bottom: clamp(24px, 4vh, 48px);
+  padding-left: clamp(12px, 1.6vw, 24px);
+  padding-right: clamp(12px, 1.6vw, 24px);
+}
+
+.slide[data-title="Opening"] .hero-grid {
+  width: 100%;
+  max-width: none;
+  grid-template-columns: minmax(430px, 0.95fr) minmax(480px, 1.05fr);
+  align-items: stretch;
+}
+
+.slide[data-title="Opening"] .hero-copy {
+  gap: clamp(12px, 1.6vh, 16px);
+}
+
+.slide[data-title="Opening"] .hero-copy h1 {
+  font-size: clamp(1.9rem, 2.45vw, 2.55rem);
+}
+
+.slide[data-title="Opening"] .hero-copy p {
+  max-width: 62ch;
+}
+
+.slide[data-title="Opening"] .class-note {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.slide[data-title="Opening"] .note-card {
+  min-height: auto;
+  padding: 12px 14px;
+}
+
+.slide[data-title="Opening"] .note-card strong {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.slide[data-title="Opening"] .note-card span {
+  font-size: 0.78rem;
+  line-height: 1.38;
+}
+
+.slide[data-title="Opening"] .cover-boosters {
+  width: 100%;
+  gap: 10px;
+}
+
+.slide[data-title="Opening"] .booster-card,
+.slide[data-title="Opening"] .cover-mini-scene {
+  min-height: 112px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.slide[data-title="Opening"] .booster-chip {
+  min-height: 30px;
+  padding: 5px 9px;
+  font-size: 0.7rem;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene {
+  padding-left: 82px;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene::before {
+  width: 50px;
+  height: 64px;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene span {
+  font-size: 0.76rem;
+}
+
+.slide[data-title="Opening"] .visual-stage {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  align-self: stretch;
+}
+
+.slide[data-title="Opening"] .visual-stage.image-ready {
+  background: #eaf7fb;
+}
+
+.slide[data-title="Opening"] .visual-stage .asset-image {
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
+}
+
+@media (max-width: 1050px) {
+  .slide[data-title="Opening"] {
+    align-content: start;
+    padding-left: clamp(10px, 1.6vw, 18px);
+    padding-right: clamp(10px, 1.6vw, 18px);
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: stretch;
+  }
+
+  .slide[data-title="Opening"] .hero-copy {
+    gap: 10px;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 1051px) {
+  .slide[data-title="Opening"] {
+    padding-top: clamp(22px, 3.3vh, 34px);
+    padding-bottom: 20px;
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: min(100%, 1120px);
+    gap: 24px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy {
+    gap: 10px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy h1 {
+    font-size: clamp(1.85rem, 2.15vw, 2.28rem);
+  }
+
+  .slide[data-title="Opening"] .hero-copy p {
+    font-size: 0.9rem;
+    line-height: 1.42;
+  }
+
+  .slide[data-title="Opening"] .note-card {
+    padding: 9px 11px;
+  }
+
+  .slide[data-title="Opening"] .note-card span {
+    font-size: 0.68rem;
+    line-height: 1.28;
+  }
+
+  .slide[data-title="Opening"] .booster-card,
+  .slide[data-title="Opening"] .cover-mini-scene {
+    min-height: 96px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .slide[data-title="Opening"] .booster-card strong,
+  .slide[data-title="Opening"] .cover-mini-scene strong {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .slide[data-title="Opening"] .booster-chip {
+    min-height: 26px;
+    padding: 4px 8px;
+    font-size: 0.66rem;
+  }
+
+  .slide[data-title="Opening"] .cover-mini-scene span {
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+}
+
+@media (max-width: 760px) {
+  .slide[data-title="Opening"] {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy h1 {
+    font-size: 1.55rem;
+    line-height: 1.12;
+  }
+
+  .slide[data-title="Opening"] .hero-copy p {
+    font-size: 0.84rem;
+    line-height: 1.42;
+  }
+
+  .slide[data-title="Opening"] .class-note {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .slide[data-title="Opening"] .note-card {
+    padding: 10px;
+  }
+
+  .slide[data-title="Opening"] .note-card strong {
+    font-size: 0.78rem;
+  }
+
+  .slide[data-title="Opening"] .note-card span {
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+
+  .slide[data-title="Opening"] .cover-boosters {
+    grid-template-columns: 1fr;
+  }
+
+  .slide[data-title="Opening"] .booster-card,
+  .slide[data-title="Opening"] .cover-mini-scene {
+    min-height: auto;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    height: clamp(210px, 56vw, 300px);
+  }
+
+  .bottom-nav {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px 12px 10px;
+  }
+
+  .bottom-nav > .text-button {
+    grid-column: 1;
+  }
+
+  .bottom-nav .slide-tabs {
+    grid-column: 2;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 3px;
+  }
+
+  .bottom-nav .toolbar {
+    grid-column: 3;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .footer-status {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .slide[data-title="Opening"] .cover-mini-scene {
+    padding-left: 74px;
+  }
+
+  .slide[data-title="Opening"] .cover-mini-scene::before {
+    left: 14px;
+  }
+
+  .slide[data-title="Opening"] .cover-mini-scene span {
+    font-size: 0.7rem;
+  }
+
+  .bottom-nav .text-button {
+    height: 42px;
+    padding: 0 12px;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Framed tool sizing: wider framed areas and content-sized cards. */
+.slide {
+  --frame-max-width: 1280px;
+}
+
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: min(100%, var(--frame-max-width));
+}
+
+.word-grid {
+  width: min(100%, 1240px);
+}
+
+.pattern-grid,
+.choice-grid,
+.student-grid,
+.class-note {
+  width: min(100%, 1180px);
+}
+
+.lesson-map,
+.match-board,
+.article-grid,
+.two-panel {
+  width: min(100%, 1260px);
+}
+
+.word-card,
+.timeline-item,
+.note-card,
+.choice-card,
+.pattern-card,
+.student-card,
+.question-card,
+.teacher-note {
+  height: auto;
+  min-height: max-content;
+  overflow: visible;
+}
+
+.word-card {
+  min-height: clamp(210px, 22vh, 250px);
+}
+
+.word-card.revealed {
+  min-height: max-content;
+}
+
+@media (max-width: 1050px) {
+  .slide {
+    width: 100%;
+    padding-left: clamp(16px, 2.2vw, 24px);
+    padding-right: clamp(16px, 2.2vw, 24px);
+  }
+
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .match-board,
+  .phrase-drill-grid,
+  .pattern-grid,
+  .article-grid,
+  .choice-grid,
+  .sentence-builder,
+  .student-grid,
+  .two-panel,
+  .question-card,
+  .teacher-note {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .slide {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid,
+  .phrase-drill-grid {
+    width: 100%;
+  }
+
+  .word-card,
+  .choice-card,
+  .student-card,
+  .note-card,
+  .timeline-item,
+  .pattern-card {
+    min-height: max-content;
+  }
+}
+
+.slide[data-title="Original"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Original"] .article-grid {
+  width: 100%;
+  max-width: none;
+}
+
+.slide[data-title="Original"] .article-box,
+.slide[data-title="Original"] .panel {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide[data-title="Original"] .article-box {
+  max-height: min(56.5vh, 620px);
+}
+
+.slide[data-title="Original"] .panel {
+  min-height: min(56.5vh, 620px);
+}
+
+@media (min-width: 1051px) {
+  .slide[data-title="Original"] .article-box {
+    max-height: min(68vh, 620px);
+  }
+
+  .slide[data-title="Original"] .panel {
+    min-height: min(68vh, 620px);
+  }
+}
+
+.slide[data-title="Build"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Build"] .sentence-builder {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.slide[data-title="Build"] .tile-bank {
+  gap: clamp(3px, 0.4vw, 6px);
+  justify-content: center;
+}
+
+.slide[data-title="Build"] .word-tile {
+  min-height: 38px;
+  padding: 7px clamp(6px, 0.72vw, 9px);
+  font-size: clamp(0.72rem, 0.62rem + 0.25vw, 0.9rem);
+}
+
+.slide[data-title="Random"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Random"] .question-card {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  min-height: clamp(430px, 58vh, 520px);
+  grid-template-rows: auto minmax(116px, auto) minmax(62px, auto) auto;
+}
+
+.slide[data-title="Random"] #randomQuestion {
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide[data-title="Random"] #questionHint {
+  min-height: 3.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide[data-title="Random"] .toolbar {
+  justify-content: center;
+}
+
+/* Wide layout rules: keep major content frames full-width within the active slide. */
+.slide-title,
+.slide-subtitle,
+.hero-grid,
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.slide[data-title="Opening"] .hero-grid {
+  width: 100%;
+  max-width: none;
+}
+
+.slide[data-title="Opening"] .hero-copy {
+  min-width: 0;
+}
+
+.slide[data-title="Opening"] .visual-stage {
+  width: 100%;
+  align-self: stretch;
+}
+
+@media (min-width: 761px) {
+  .slide[data-title="Opening"] .hero-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: stretch;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .slide[data-title="Opening"] .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    height: clamp(210px, 56vw, 300px);
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2567,12 +3895,12 @@ button {
         <div class="hero-copy">
           <span class="eyebrow">Review Mission · 复习任务</span>
           <h1>The Monkey: Words, Phrases and Story Power</h1>
-          <p>这节课不是重新讲文章，而是把已经学过的内容“唤醒”：我们要说出词义、找到原文、拼出句子、解释短语，并用自己的话复述石猴跳进瀑布前的故事。</p>
+          <p>这节课不是重新讲文章，而是把已经学过的内容“唤醒”：我们要沿着 rock → monkey → Heaven → stream → waterfall → brave leap 的线索，说出词义、找到证据，并用 6 句话复述石猴出世和跳瀑布的故事。</p>
           <div class="class-note">
-            <div class="note-card"><strong>目标 1</strong><span>核心词汇能看英说中、看中说英，并能放回原文。</span></div>
-            <div class="note-card"><strong>目标 2</strong><span>重点短语能理解语境：split open, find out, Me neither 等。</span></div>
-            <div class="note-card"><strong>目标 3</strong><span>能用过去式和简单连接词完成 6 句口头复述。</span></div>
-            <div class="note-card"><strong>目标 4</strong><span>能把关键词、短语和关键句连成一个完整故事。</span></div>
+            <div class="note-card"><strong>目标 1</strong><span>看到核心词汇，能说中文、读音标，并说出它在故事里的画面。</span></div>
+            <div class="note-card"><strong>目标 2</strong><span>看到重点短语，能解释意思，并用一个简单新句迁移。</span></div>
+            <div class="note-card"><strong>目标 3</strong><span>遇到问题先回原文找证据，再用完整句回答。</span></div>
+            <div class="note-card"><strong>目标 4</strong><span>最后能用 6 句英文讲清楚石猴从出生到跳进瀑布的主线。</span></div>
           </div>
           <div class="cover-boosters" aria-label="课堂复习互动提示">
             <div class="booster-card">
@@ -2586,13 +3914,13 @@ button {
             </div>
             <div class="cover-mini-scene">
               <strong>Story Clue</strong>
-              <span>rock → monkey → stream → waterfall → cave → king</span>
-              <span>先看线索，再用英语说出故事顺序。</span>
+              <span>rock → monkey → Heaven → life → stream → waterfall → brave leap</span>
+              <span>先看线索，再用 then / so / because 说出故事顺序。</span>
             </div>
           </div>
         </div>
         <div class="visual-stage" id="heroVisual">
-          <img class="asset-image" src="monkey-review-hero.png" alt="石猴出世与瀑布挑战课堂插图">
+          <img class="asset-image" src="chapter-1-hero.png" alt="石猴在花果山瀑布前准备纵身一跃，远处裂开的神石发出金光照向天庭。">
           <div class="visual-fallback" aria-hidden="true">
             <div class="cloud-palace"></div>
             <div class="waterfall"></div>
@@ -2608,15 +3936,15 @@ button {
     <section class="slide" data-title="Route">
       <span class="eyebrow">60-Minute Route · 课堂路线</span>
       <h2 class="slide-title">一节复习课，五轮互动</h2>
-      <p class="slide-subtitle">每一轮都要开口挑战：先回忆，再验证，再输出。不会也没关系，回到原文，用证据说话。</p>
+      <p class="slide-subtitle">每一轮只做一件事：先开口猜，再点击验证，最后用完整句输出。</p>
       <div class="lesson-map">
-        <div class="timeline-item"><strong>0-8'</strong><span>故事热身：5 个关键词串起文章。</span></div>
-        <div class="timeline-item"><strong>8-22'</strong><span>词汇翻牌：名词、动词、形容词分组复习。</span></div>
-        <div class="timeline-item"><strong>22-35'</strong><span>短语配对：把英文短语和中文意思连起来。</span></div>
-        <div class="timeline-item"><strong>35-48'</strong><span>原文定位：看到问题，回文章中找证据。</span></div>
-        <div class="timeline-item"><strong>48-60'</strong><span>句子拼装 + 口头复述，完成最终输出。</span></div>
+        <div class="timeline-item"><strong>0-8'</strong><span>故事热身：用 8 个关键词说出主线。</span></div>
+        <div class="timeline-item"><strong>8-22'</strong><span>词汇翻牌：读音、说义、找原句。</span></div>
+        <div class="timeline-item"><strong>22-35'</strong><span>短语配对：先说理由，再连线验证。</span></div>
+        <div class="timeline-item"><strong>35-48'</strong><span>原文定位：每个答案都要有证据。</span></div>
+        <div class="timeline-item"><strong>48-60'</strong><span>句子拼装 + 6 句复述，完成输出。</span></div>
       </div>
-      <div class="teacher-note">积分玩法：答对一个词、短语或句子，就给自己加 1 分；遇到不会的内容，先找原文位置，再用上下文猜一猜。</div>
+      <div class="teacher-note">积分玩法：答对一个词、短语或句子，加 1 分；能说出原文证据，再加 1 分。</div>
     </section>
 
     <section class="slide" data-title="Story">
@@ -2739,7 +4067,7 @@ button {
           <div class="pattern-detail">
             <p><strong>原文：</strong>Let's play in the stream. / Why don't we follow the stream?</p>
             <p><strong>新句：</strong>Let's review the phrases. / Why don't we read it again?</p>
-            <p><strong>挑战：</strong>用英文给同学提一个复习建议。</p>
+            <p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用英文给同学提一个复习建议。<span class="pattern-answer">参考答案：Let's review the story words. / Why don't we read the sentence again?</span></p>
           </div>
         </button>
         <button class="pattern-card" data-pattern-reveal>
@@ -2750,7 +4078,7 @@ button {
           <div class="pattern-detail">
             <p><strong>原文：</strong>Whoever can jump through and come back alive will be our king.</p>
             <p><strong>理解：</strong>Whoever = anyone who，表示“谁能……谁就……”。</p>
-            <p><strong>挑战：</strong>用中文解释这个句子，再读英文一遍。</p>
+            <p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用中文解释这个句子，再读英文一遍。<span class="pattern-answer">参考答案：谁能跳进瀑布并活着回来，谁就会成为我们的王。</span></p>
           </div>
         </button>
         <button class="pattern-card" data-pattern-reveal>
@@ -2762,7 +4090,7 @@ button {
           <div class="pattern-detail">
             <p><strong>原文：</strong>I'm not going to try. Me neither.</p>
             <p><strong>理解：</strong>Me neither = I won't / I don't either，用来同意否定句。</p>
-            <p><strong>挑战：</strong>先说一个否定句，再用 Me neither 回答。</p>
+            <p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>先说一个否定句，再用 Me neither 回答。<span class="pattern-answer">参考答案：I am not going to jump. Me neither.</span></p>
           </div>
         </button>
       </div>
@@ -2929,6 +4257,15 @@ button {
   </div>
 </div>
 
+<div class="modal" id="matchCompleteModal" role="dialog" aria-modal="true" aria-labelledby="matchCompleteTitle">
+  <div class="modal-card match-complete-card">
+    <h3 id="matchCompleteTitle">短语配对完成</h3>
+    <p class="match-complete-summary" id="matchCompleteSummary"></p>
+    <div class="match-complete-review" id="matchCompleteReview"></div>
+    <div class="modal-actions"><button class="text-button primary" id="closeMatchComplete">继续复习</button></div>
+  </div>
+</div>
+
 <script>
 (function () {
   if (location.protocol === "file:" && !sessionStorage.getItem("teachingEnglishLoggedIn")) {
@@ -2939,6 +4276,8 @@ button {
   var slides = Array.from(document.querySelectorAll(".slide"));
   var slideTabs = document.getElementById("slideTabs");
   var footerStatus = document.getElementById("footerStatus");
+  var prevSlideButton = document.getElementById("prevSlide");
+  var nextSlideButton = document.getElementById("nextSlide");
   var progress = document.getElementById("progress");
   var progressMonkey = document.getElementById("progressMonkey");
   var currentSlide = 0;
@@ -3405,6 +4744,15 @@ button {
     return '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">' + paths[name] + '</svg>';
   }
 
+  function syncResponsiveShell() {
+    var root = document.documentElement;
+    var topbar = document.querySelector(".topbar");
+    var bottomNav = document.querySelector(".bottom-nav");
+    root.style.setProperty("--topbar-height", (topbar ? topbar.offsetHeight : 78) + "px");
+    root.style.setProperty("--bottom-nav-height", (bottomNav ? bottomNav.offsetHeight : 70) + "px");
+  }
+
+
   function updateSlide() {
     slides.forEach(function (slide, index) {
       slide.classList.remove("active", "previous");
@@ -3421,6 +4769,9 @@ button {
     progress.style.width = progressPercent + "%";
     progressMonkey.style.left = "min(" + progressPercent + "%, calc(100% - 25px))";
     footerStatus.textContent = (currentSlide + 1) + " / " + slides.length + " · " + slides[currentSlide].dataset.title;
+    prevSlideButton.hidden = currentSlide === 0;
+    nextSlideButton.hidden = currentSlide === slides.length - 1;
+    syncResponsiveShell();
   }
 
   function goToSlide(index) {
@@ -3560,10 +4911,43 @@ button {
   }
 
   function initPatternCards() {
+    function hidePatternChallenge(challenge) {
+      challenge.classList.remove("revealed");
+      challenge.setAttribute("aria-expanded", "false");
+    }
+
     document.querySelectorAll("[data-pattern-reveal]").forEach(function (card) {
       card.type = "button";
       card.addEventListener("click", function () {
         card.classList.toggle("revealed");
+      });
+    });
+
+    document.querySelectorAll("[data-pattern-challenge]").forEach(function (challenge) {
+      challenge.setAttribute("aria-expanded", "false");
+      challenge.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var isRevealed = challenge.classList.toggle("revealed");
+        challenge.setAttribute("aria-expanded", isRevealed ? "true" : "false");
+      });
+      challenge.addEventListener("mouseleave", function () {
+        hidePatternChallenge(challenge);
+      });
+      challenge.addEventListener("pointerleave", function () {
+        hidePatternChallenge(challenge);
+      });
+    });
+
+    document.addEventListener("mousemove", function (event) {
+      document.querySelectorAll("[data-pattern-challenge].revealed").forEach(function (challenge) {
+        var rect = challenge.getBoundingClientRect();
+        var isInside =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+        if (!isInside) hidePatternChallenge(challenge);
       });
     });
   }
@@ -3733,7 +5117,7 @@ button {
   function initSimpleExamples() {
     document.querySelectorAll(".word-card").forEach(function (card) {
       if (card.querySelector(".simple-example")) return;
-      var word = card.querySelector(".word");
+      var word = getWordCardTermNode(card);
       var example = card.querySelector(".example");
       if (!word || !example) return;
       var text = simpleExamples[word.textContent.trim()];
@@ -3745,11 +5129,38 @@ button {
     });
   }
 
+  function chooseEnglishVoice() {
+    if (!('speechSynthesis' in window) || !window.speechSynthesis.getVoices) return null;
+    var voices = window.speechSynthesis.getVoices() || [];
+    var englishVoices = voices.filter(function (voice) {
+      return voice.lang && /^en[-_]/i.test(voice.lang);
+    });
+    if (!englishVoices.length) return null;
+    var qualityWords = /(natural|neural|enhanced|premium|online|aria|jenny|guy|samantha|daniel|karen|moira|tessa|google|microsoft)/i;
+    var preferred = englishVoices.find(function (voice) {
+      return qualityWords.test(voice.name || '');
+    });
+    if (preferred) return preferred;
+    preferred = englishVoices.find(function (voice) { return /^en[-_]US/i.test(voice.lang); }) ||
+      englishVoices.find(function (voice) { return /^en[-_]GB/i.test(voice.lang); });
+    return preferred || englishVoices[0];
+  }
+
+  if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = function () { chooseEnglishVoice(); };
+  }
+
   function speakText(text) {
-    if (!text || !("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) return;
+    if (!text || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
     window.speechSynthesis.cancel();
     var utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
+    var voice = chooseEnglishVoice();
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang || 'en-US';
+    } else {
+      utterance.lang = 'en-US';
+    }
     utterance.rate = 0.84;
     utterance.pitch = 1;
     window.speechSynthesis.speak(utterance);
@@ -3809,10 +5220,18 @@ button {
     var matchCorrectBox = document.getElementById("matchCorrect");
     var matchAccuracyBox = document.getElementById("matchAccuracy");
     var matchReviewBox = document.getElementById("matchReview");
+    var matchCompleteModal = document.getElementById("matchCompleteModal");
+    var matchCompleteSummary = document.getElementById("matchCompleteSummary");
+    var matchCompleteReview = document.getElementById("matchCompleteReview");
+    var closeMatchComplete = document.getElementById("closeMatchComplete");
+    var matchCompletionShown = false;
 
-    function updateMatchReport(isFinished) {
-      var accuracy = matchAttempts ? Math.round(completedMatches / matchAttempts * 100) : null;
-      var weakPhrases = phrases
+    function getMatchAccuracy() {
+      return matchAttempts ? Math.round(completedMatches / matchAttempts * 100) : null;
+    }
+
+    function getWeakPhrases() {
+      return phrases
         .map(function (phrase, index) {
           return {
             english: phrase.english,
@@ -3822,6 +5241,51 @@ button {
         })
         .filter(function (phrase) { return phrase.mistakes > 0; })
         .sort(function (a, b) { return b.mistakes - a.mistakes; });
+    }
+
+    function closeMatchCompleteModal() {
+      if (matchCompleteModal) matchCompleteModal.classList.remove("open");
+    }
+
+    function showMatchCompleteModal() {
+      if (!matchCompleteModal || !matchCompleteSummary || !matchCompleteReview || matchCompletionShown) return;
+      matchCompletionShown = true;
+      var accuracy = getMatchAccuracy();
+      var weakPhrases = getWeakPhrases();
+      matchCompleteSummary.textContent = "恭喜完成 " + phrases.length + " 组短语配对！正确率：" + (accuracy === null ? "--" : accuracy + "%") + "。";
+      matchCompleteReview.innerHTML = "";
+
+      var title = document.createElement("div");
+      title.className = "match-complete-review-title";
+      title.textContent = weakPhrases.length ? "需要复习的短语：" : "需要复习：暂无。";
+      matchCompleteReview.appendChild(title);
+
+      if (weakPhrases.length) {
+        var list = document.createElement("div");
+        list.className = "match-complete-list";
+        weakPhrases.forEach(function (phrase) {
+          var chip = document.createElement("div");
+          chip.className = "match-complete-chip";
+          chip.textContent = phrase.english + "（" + phrase.chinese + "）错 " + phrase.mistakes + " 次";
+          list.appendChild(chip);
+        });
+        matchCompleteReview.appendChild(list);
+      } else {
+        var note = document.createElement("p");
+        note.textContent = "可以任选 3 个短语造句，再进入下一页。";
+        matchCompleteReview.appendChild(note);
+      }
+
+      matchCompleteModal.classList.add("open");
+    }
+
+    if (closeMatchComplete) {
+      closeMatchComplete.addEventListener("click", closeMatchCompleteModal);
+    }
+
+    function updateMatchReport(isFinished) {
+      var accuracy = getMatchAccuracy();
+      var weakPhrases = getWeakPhrases();
 
       matchCorrectBox.textContent = completedMatches + " / " + matchAttempts;
       matchAttemptsBox.textContent = String(matchAttempts);
@@ -3898,6 +5362,7 @@ button {
       var english = createMatchCard(phrase.english, index, "english");
       english.addEventListener("click", function () {
         if (english.classList.contains("matched")) return;
+        speakText(phrase.english);
         document.querySelectorAll("#englishPhrases .match-card").forEach(function (item) {
           item.classList.remove("selected");
         });
@@ -3938,6 +5403,7 @@ button {
           updateMatchReport(completedMatches === phrases.length);
           if (completedMatches === phrases.length) {
             matchResult.textContent = "全部完成。看正确率，再重点复习下面标出的短语。";
+            showMatchCompleteModal();
           }
         });
         chineseBox.appendChild(chinese);
@@ -4199,7 +5665,8 @@ button {
     "with": "和；与……一起",
     "worked": "起作用；工作"
   });
-
+  window.addEventListener("resize", syncResponsiveShell);
+  window.addEventListener("orientationchange", syncResponsiveShell);
   var articleWordParts = {
     "from the beginning of time": "phr. 短语",
     "split open": "phr. 动词短语",
@@ -4551,6 +6018,29 @@ button {
     });
   }
 
+
+  function ensurePhraseSectionsRendered() {
+    var englishBox = document.getElementById("englishPhrases");
+    var chineseBox = document.getElementById("chineseMeanings");
+    var drillBoxes = Array.from(document.querySelectorAll(".phrase-drill-grid"));
+    var matchNeedsRender = englishBox && chineseBox && (englishBox.children.length !== phrases.length || chineseBox.children.length !== phrases.length);
+    if (matchNeedsRender) {
+      englishBox.innerHTML = "";
+      chineseBox.innerHTML = "";
+      matchedConnections = [];
+      completedMatches = 0;
+      selectedPhrase = null;
+      initPhraseMatch();
+    }
+    var drillNeedsRender = drillBoxes.some(function (grid) {
+      var expected = Number(grid.dataset.count || phrases.length);
+      return grid.children.length !== expected;
+    });
+    if (drillNeedsRender) {
+      drillBoxes.forEach(function (grid) { grid.innerHTML = ""; });
+      initPhraseDrill();
+    }
+  }
   document.getElementById("prevSlide").addEventListener("click", function () { goToSlide(currentSlide - 1); });
   document.getElementById("nextSlide").addEventListener("click", function () { goToSlide(currentSlide + 1); });
   document.getElementById("increaseStudent").addEventListener("click", function () { studentScore += 1; updateScores(); });
@@ -4583,6 +6073,8 @@ button {
       goToSlide(slides.length - 1);
     }
   });
+  window.addEventListener("resize", syncResponsiveShell);
+  window.addEventListener("orientationchange", syncResponsiveShell);
 
   initTabs();
   initSimpleExamples();
@@ -4593,6 +6085,7 @@ button {
   initExitChallenges();
   initPhraseMatch();
   initPhraseDrill();
+  ensurePhraseSectionsRendered();
   initAudioControls();
   initExampleNotes();
   initNavigationLinks();
@@ -4600,6 +6093,7 @@ button {
   initArticleInteractions();
   renderChoice();
   renderSentence();
+  syncResponsiveShell();
   updateSlide();
   updateScores();
   updateTimer();

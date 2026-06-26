@@ -202,23 +202,23 @@ button {
 }
 
 .progress {
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: var(--topbar-height, 78px);
   height: 5px;
   width: 0;
   background: linear-gradient(90deg, var(--coral), var(--sun), var(--leaf));
-  z-index: 25;
+  z-index: 65;
   transition: width 0.28s ease;
 }
 
 .progress-monkey {
-  position: absolute;
-  top: 14px;
+  position: fixed;
+  top: calc(var(--topbar-height, 78px) + 9px);
   left: 0;
   width: 50px;
   height: 50px;
-  z-index: 26;
+  z-index: 66;
   background: transparent;
   filter: drop-shadow(0 5px 9px rgba(23, 32, 51, 0.18));
   transform: translateX(-50%);
@@ -2075,6 +2075,47 @@ button {
   margin-top: 18px;
 }
 
+.match-complete-card {
+  width: min(760px, 94vw);
+}
+
+.match-complete-summary {
+  margin: 0;
+  padding: 18px;
+  border: 1px solid rgba(27, 45, 74, 0.12);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font-weight: 800;
+}
+
+.match-complete-review {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.match-complete-review-title {
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.match-complete-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.match-complete-chip {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(27, 45, 74, 0.12);
+  background: #fff8e8;
+  color: #40506a;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
 .image-missing {
   display: none;
 }
@@ -2158,7 +2199,7 @@ button {
 
   .slide {
     align-content: start;
-    padding-top: 70px;
+    padding-top: clamp(36px, 5vh, 50px);
     padding-bottom: 28px;
     gap: 14px;
   }
@@ -2553,6 +2594,1105 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Public web responsive overrides */
+:root {
+  --page-gutter: clamp(16px, 3vw, 40px);
+  --topbar-height: 78px;
+  --bottom-nav-height: 70px;
+  --content-max-width: 1380px;
+}
+
+html {
+  font-size: clamp(13px, 0.45vw + 11px, 17px);
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app {
+  min-height: 100dvh;
+  height: auto;
+}
+
+.topbar {
+  min-height: 78px;
+  height: auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  padding: 14px clamp(16px, 2vw, 24px);
+  position: sticky;
+  top: 0;
+}
+
+.brand-title strong {
+  font-size: clamp(0.95rem, 0.8rem + 0.35vw, 1.1rem);
+}
+
+.brand-title span {
+  font-size: clamp(0.62rem, 0.58rem + 0.15vw, 0.72rem);
+}
+
+.score-card {
+  min-width: 104px;
+}
+
+.score-card strong {
+  font-size: 1rem;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.slide-shell {
+  min-height: calc(100dvh - var(--topbar-height, 78px) - var(--bottom-nav-height, 70px));
+  overflow: visible;
+  padding: 4px 0 18px;
+}
+
+.slide {
+  position: relative;
+  inset: auto;
+  display: none;
+  width: min(100%, var(--content-max-width));
+  margin: 0 auto;
+  padding: clamp(34px, 3.6vw, 50px) var(--page-gutter) clamp(22px, 3vw, 38px);
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  align-content: start;
+}
+
+.slide.active {
+  display: grid;
+  z-index: 1;
+}
+
+.slide.previous {
+  display: none;
+}
+
+.slide-title {
+  max-width: 980px;
+  font-size: clamp(1.55rem, 1.2rem + 1.15vw, 2.2rem);
+}
+
+.slide-subtitle,
+.hero-copy p,
+.teacher-note,
+.panel-head p,
+.panel p {
+  font-size: clamp(0.86rem, 0.8rem + 0.2vw, 1rem);
+  line-height: 1.55;
+}
+
+.hero-copy h1 {
+  font-size: clamp(1.75rem, 1.35rem + 1.45vw, 2.35rem);
+}
+
+.visual-stage {
+  min-height: clamp(260px, 34vw, 420px);
+}
+
+.bottom-nav {
+  min-height: 70px;
+  height: auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 10px clamp(16px, 2vw, 24px) 14px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 70;
+  box-sizing: border-box;
+}
+
+.slide-tabs {
+  flex-wrap: wrap;
+}
+
+.hero-grid,
+.article-grid,
+.two-panel {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.word-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.class-note,
+.lesson-map,
+.student-grid,
+.choice-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.phrase-drill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.word-card,
+.timeline-item,
+.student-card,
+.question-card,
+.phrase-drill-card,
+.note-card {
+  min-height: auto;
+}
+
+.word-card {
+  padding: 16px;
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem);
+}
+
+.article-box {
+  max-height: min(58vh, 680px);
+}
+
+.match-board {
+  min-height: auto;
+}
+
+@media (max-width: 1050px) {
+  html {
+    font-size: 15px;
+  }
+
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .scoreboard {
+    display: none;
+  }
+
+  .slide {
+    padding: 34px clamp(20px, 3vw, 28px) 34px;
+  }
+
+  .hero-grid,
+  .article-grid,
+  .two-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-stage {
+    min-height: 300px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .slide-shell {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+    position: static;
+  }
+
+  .brand {
+    align-items: flex-start;
+  }
+
+  .brand-title strong {
+    font-size: 0.98rem;
+  }
+
+  .toolbar {
+    justify-content: flex-start;
+  }
+
+  .slide-shell {
+    min-height: auto;
+  }
+
+  .slide {
+    width: 100%;
+    padding: 26px 16px 24px;
+  }
+
+  .progress-monkey {
+    top: 10px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .bottom-nav {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 10px 16px 14px;
+  }
+
+  .slide-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .phrase-drill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .toolbar .text-button,
+  .toolbar .icon-button {
+    min-width: 0;
+  }
+
+  .slide-title,
+  .hero-copy h1 {
+    font-size: 1.45rem;
+  }
+
+  .word-grid,
+  .class-note,
+  .lesson-map,
+  .student-grid,
+  .choice-grid,
+  .phrase-drill-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Final balance patch: globally even, centered projection layout */
+.slide {
+  gap: clamp(14px, 1.7vh, 22px);
+  justify-items: stretch;
+}
+
+.slide-title {
+  width: min(100%, 1080px);
+  font-size: clamp(1.75rem, 2.45vw, 2.45rem);
+}
+
+.slide-subtitle {
+  width: min(100%, 980px);
+  font-size: clamp(0.9rem, 1.18vw, 1.04rem);
+}
+
+.hero-grid,
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: min(100%, 1120px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-grid,
+.article-grid,
+.two-panel {
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+.class-note,
+.lesson-map,
+.word-grid,
+.pattern-grid,
+.choice-grid,
+.student-grid,
+.phrase-drill-grid {
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(14px, 1.55vw, 20px);
+}
+
+.class-note {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lesson-map {
+  width: min(100%, 1120px);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.word-grid {
+  width: min(100%, 1080px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pattern-grid,
+.choice-grid {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.student-grid {
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.phrase-drill-grid {
+  width: min(100%, 980px);
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+
+.word-card,
+.timeline-item,
+.note-card,
+.choice-card,
+.pattern-card,
+.student-card,
+.phrase-drill-card {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.word-card {
+  min-height: clamp(188px, 20vh, 220px);
+  padding: clamp(15px, 1.45vw, 20px);
+}
+
+.timeline-item {
+  min-height: clamp(150px, 18vh, 188px);
+  padding: clamp(16px, 1.6vw, 22px);
+}
+
+.note-card {
+  min-height: clamp(106px, 13vh, 128px);
+}
+
+.pattern-card {
+  min-height: clamp(330px, 40vh, 380px);
+}
+
+.choice-card {
+  min-height: clamp(178px, 22vh, 210px);
+}
+
+.student-card {
+  min-height: clamp(148px, 18vh, 180px);
+}
+
+.word-card .word,
+.word-card .story-keyword,
+.word-card .past-word {
+  font-size: clamp(1.15rem, 1.45vw, 1.5rem);
+  line-height: 1.15;
+}
+
+.word-card .example,
+.word-card .simple-example,
+.word-card .hint {
+  line-height: 1.34;
+}
+
+.question-card,
+.teacher-note {
+  width: min(100%, 980px);
+}
+
+.sentence-builder {
+  width: min(100%, 980px);
+}
+
+.slide[data-title="Phrases"] {
+  align-content: start;
+  padding-top: clamp(28px, 4.5vh, 48px);
+}
+
+.slide[data-title="Phrases"] .slide-title,
+.slide[data-title="Phrases"] .slide-subtitle {
+  max-width: min(760px, calc(100% - 340px));
+  margin-left: 0;
+}
+
+.match-report {
+  top: clamp(44px, 7vh, 76px);
+  right: clamp(24px, 5vw, 68px);
+  width: min(300px, 31vw);
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+}
+
+.match-review {
+  grid-column: 1 / -1;
+  max-height: 124px;
+  overflow: auto;
+}
+
+.match-review-title {
+  margin-bottom: 5px;
+}
+
+.match-review-list {
+  display: grid;
+  gap: 5px;
+}
+
+.match-review-chip {
+  padding: 5px 8px;
+  line-height: 1.25;
+}
+
+.match-board {
+  min-height: 0;
+  grid-template-columns: minmax(230px, 1fr) minmax(72px, 0.18fr) minmax(230px, 1fr);
+  align-items: stretch;
+  margin-top: 4px;
+}
+
+.match-card,
+.match-card-inner,
+.match-card-face {
+  min-height: 46px;
+}
+
+.match-card-face {
+  font-size: clamp(0.74rem, 0.9vw, 0.9rem);
+  line-height: 1.22;
+}
+
+.slide[data-title="Phrase Lab 1"],
+.slide[data-title="Phrase Lab 2"] {
+  align-content: start;
+}
+
+.phrase-drill-card {
+  min-height: clamp(158px, 19vh, 188px);
+  overflow: visible;
+}
+
+.phrase-drill-card.revealed {
+  min-height: clamp(236px, 29vh, 276px);
+}
+
+.phrase-drill-face {
+  align-content: center;
+  justify-items: start;
+  gap: 8px;
+  padding: clamp(14px, 1.45vw, 20px);
+  text-align: left;
+}
+
+.phrase-drill-front {
+  background: linear-gradient(145deg, #ffffff, #f8fbff);
+}
+
+.phrase-title-row {
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.phrase-drill-card strong {
+  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  line-height: 1.22;
+}
+
+.phrase-drill-card p {
+  font-size: clamp(0.72rem, 0.9vw, 0.86rem);
+  line-height: 1.38;
+}
+
+.phrase-drill-back .meaning {
+  margin: 0;
+  font-size: clamp(0.86rem, 1vw, 1rem);
+}
+
+.phrase-drill-back .example-note {
+  max-width: 100%;
+}
+
+.teacher-note {
+  line-height: 1.45;
+}
+
+@media (max-width: 1050px) {
+  .class-note,
+  .word-grid,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 760px);
+  }
+
+  .lesson-map {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 840px);
+  }
+
+  .phrase-drill-grid {
+    width: min(100%, 820px);
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+
+  .pattern-card {
+    min-height: 300px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .slide-shell {
+    min-height: 920px;
+  }
+
+  .word-card {
+    min-height: 176px;
+  }
+
+  .timeline-item {
+    min-height: 138px;
+  }
+
+  .choice-card,
+  .student-card {
+    min-height: 142px;
+  }
+
+  .pattern-card {
+    min-height: 286px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title,
+  .slide[data-title="Phrases"] .slide-subtitle {
+    max-width: min(620px, calc(100% - 310px));
+  }
+
+  .slide[data-title="Phrases"] .match-report {
+    top: 58px;
+    width: min(285px, 33vw);
+  }
+
+  .phrase-drill-card {
+    min-height: 154px;
+  }
+
+  .phrase-drill-card.revealed {
+    min-height: 228px;
+  }
+}
+
+@media (max-width: 760px) {
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid,
+  .phrase-drill-grid {
+    width: min(100%, 520px);
+    grid-template-columns: 1fr;
+  }
+
+  .word-card,
+  .choice-card,
+  .student-card,
+  .phrase-drill-card {
+    min-height: 150px;
+  }
+
+  .phrase-drill-card.revealed {
+    min-height: 220px;
+  }
+
+  .slide[data-title="Phrases"] .slide-title,
+  .slide[data-title="Phrases"] .slide-subtitle {
+    max-width: 100%;
+  }
+
+  .match-report {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin: 0 0 10px;
+  }
+
+  .match-board {
+    grid-template-columns: 1fr;
+  }
+
+  .line-stage {
+    min-height: 42px;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Framed tool sizing: wider framed areas and content-sized cards. */
+.slide {
+  --frame-max-width: 1280px;
+}
+
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: min(100%, var(--frame-max-width));
+}
+
+.word-grid {
+  width: min(100%, 1240px);
+}
+
+.pattern-grid,
+.choice-grid,
+.student-grid,
+.class-note {
+  width: min(100%, 1180px);
+}
+
+.lesson-map,
+.match-board,
+.article-grid,
+.two-panel {
+  width: min(100%, 1260px);
+}
+
+.word-card,
+.timeline-item,
+.note-card,
+.choice-card,
+.pattern-card,
+.student-card,
+.question-card,
+.teacher-note {
+  height: auto;
+  min-height: max-content;
+  overflow: visible;
+}
+
+.word-card {
+  min-height: clamp(210px, 22vh, 250px);
+}
+
+.word-card.revealed {
+  min-height: max-content;
+}
+
+@media (max-width: 1050px) {
+  .slide {
+    width: 100%;
+    padding-left: clamp(16px, 2.2vw, 24px);
+    padding-right: clamp(16px, 2.2vw, 24px);
+  }
+
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .match-board,
+  .phrase-drill-grid,
+  .pattern-grid,
+  .article-grid,
+  .choice-grid,
+  .sentence-builder,
+  .student-grid,
+  .two-panel,
+  .question-card,
+  .teacher-note {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .slide {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .class-note,
+  .lesson-map,
+  .word-grid,
+  .pattern-grid,
+  .choice-grid,
+  .student-grid,
+  .phrase-drill-grid {
+    width: 100%;
+  }
+
+  .word-card,
+  .choice-card,
+  .student-card,
+  .note-card,
+  .timeline-item,
+  .pattern-card {
+    min-height: max-content;
+  }
+}
+
+.slide[data-title="Original"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Original"] .article-grid {
+  width: 100%;
+  max-width: none;
+}
+
+.slide[data-title="Original"] .article-box,
+.slide[data-title="Original"] .panel {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide[data-title="Original"] .article-box {
+  max-height: min(56.5vh, 620px);
+}
+
+.slide[data-title="Original"] .panel {
+  min-height: min(56.5vh, 620px);
+}
+
+@media (min-width: 1051px) {
+  .slide[data-title="Original"] .article-box {
+    max-height: min(68vh, 620px);
+  }
+
+  .slide[data-title="Original"] .panel {
+    min-height: min(68vh, 620px);
+  }
+}
+
+.slide[data-title="Build"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Build"] .sentence-builder {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.slide[data-title="Build"] .tile-bank {
+  gap: clamp(3px, 0.4vw, 6px);
+  justify-content: center;
+}
+
+.slide[data-title="Build"] .word-tile {
+  min-height: 38px;
+  padding: 7px clamp(6px, 0.72vw, 9px);
+  font-size: clamp(0.72rem, 0.62rem + 0.25vw, 0.9rem);
+}
+
+.slide[data-title="Random"] {
+  padding-left: clamp(6px, 1vw, 12px);
+  padding-right: clamp(6px, 1vw, 12px);
+}
+
+.slide[data-title="Random"] .question-card {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  min-height: clamp(430px, 58vh, 520px);
+  grid-template-rows: auto minmax(116px, auto) minmax(62px, auto) auto;
+}
+
+.slide[data-title="Random"] #randomQuestion {
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide[data-title="Random"] #questionHint {
+  min-height: 3.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide[data-title="Random"] .toolbar {
+  justify-content: center;
+}
+
+/* Wide layout rules: keep major content frames full-width within the active slide. */
+.slide-title,
+.slide-subtitle,
+.hero-grid,
+.class-note,
+.lesson-map,
+.word-grid,
+.match-board,
+.phrase-drill-grid,
+.pattern-grid,
+.article-grid,
+.choice-grid,
+.sentence-builder,
+.student-grid,
+.two-panel,
+.question-card,
+.teacher-note {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.slide[data-title="Opening"] .hero-grid {
+  width: 100%;
+  max-width: none;
+}
+
+.slide[data-title="Opening"] .hero-copy {
+  gap: clamp(12px, 1.6vh, 16px);
+}
+
+.slide[data-title="Opening"] .hero-copy h1 {
+  font-size: clamp(1.9rem, 2.45vw, 2.55rem);
+}
+
+.slide[data-title="Opening"] .hero-copy p {
+  max-width: 62ch;
+}
+
+.slide[data-title="Opening"] .class-note {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.slide[data-title="Opening"] .note-card {
+  min-height: auto;
+  padding: 12px 14px;
+}
+
+.slide[data-title="Opening"] .note-card strong {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.slide[data-title="Opening"] .note-card span {
+  font-size: 0.78rem;
+  line-height: 1.38;
+}
+
+.slide[data-title="Opening"] .cover-boosters {
+  width: 100%;
+  gap: 10px;
+}
+
+.slide[data-title="Opening"] .booster-card,
+.slide[data-title="Opening"] .cover-mini-scene {
+  min-height: 112px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.slide[data-title="Opening"] .booster-chip {
+  min-height: 30px;
+  padding: 5px 9px;
+  font-size: 0.7rem;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene {
+  padding-left: 82px;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene::before {
+  width: 50px;
+  height: 64px;
+}
+
+.slide[data-title="Opening"] .cover-mini-scene span {
+  font-size: 0.76rem;
+}
+
+.slide[data-title="Opening"] .visual-stage {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  align-self: stretch;
+}
+
+.slide[data-title="Opening"] .visual-stage.image-ready {
+  background: #eaf7fb;
+}
+
+.slide[data-title="Opening"] .visual-stage .asset-image {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
+}
+
+@media (max-width: 1050px) {
+  .slide[data-title="Opening"] {
+    align-content: start;
+    padding-left: clamp(10px, 1.6vw, 18px);
+    padding-right: clamp(10px, 1.6vw, 18px);
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: stretch;
+  }
+
+  .slide[data-title="Opening"] .hero-copy {
+    gap: 10px;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 1051px) {
+  .slide[data-title="Opening"] {
+    padding-top: clamp(22px, 3.3vh, 34px);
+    padding-bottom: 20px;
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: min(100%, 1120px);
+    gap: 24px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy {
+    gap: 10px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy h1 {
+    font-size: clamp(1.85rem, 2.15vw, 2.28rem);
+  }
+
+  .slide[data-title="Opening"] .hero-copy p {
+    font-size: 0.9rem;
+    line-height: 1.42;
+  }
+
+  .slide[data-title="Opening"] .note-card {
+    padding: 9px 11px;
+  }
+
+  .slide[data-title="Opening"] .note-card span {
+    font-size: 0.68rem;
+    line-height: 1.28;
+  }
+
+  .slide[data-title="Opening"] .booster-card,
+  .slide[data-title="Opening"] .cover-mini-scene {
+    min-height: 96px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .slide[data-title="Opening"] .booster-card strong,
+  .slide[data-title="Opening"] .cover-mini-scene strong {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .slide[data-title="Opening"] .booster-chip {
+    min-height: 26px;
+    padding: 4px 8px;
+    font-size: 0.66rem;
+  }
+
+  .slide[data-title="Opening"] .cover-mini-scene span {
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+}
+
+@media (max-width: 760px) {
+  .slide[data-title="Opening"] {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+
+  .slide[data-title="Opening"] .hero-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .slide[data-title="Opening"] .hero-copy h1 {
+    font-size: 1.55rem;
+    line-height: 1.12;
+  }
+
+  .slide[data-title="Opening"] .hero-copy p {
+    font-size: 0.84rem;
+    line-height: 1.42;
+  }
+
+  .slide[data-title="Opening"] .class-note {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .slide[data-title="Opening"] .note-card {
+    padding: 10px;
+  }
+
+  .slide[data-title="Opening"] .note-card strong {
+    font-size: 0.78rem;
+  }
+
+  .slide[data-title="Opening"] .note-card span {
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+
+  .slide[data-title="Opening"] .cover-boosters {
+    grid-template-columns: 1fr;
+  }
+
+  .slide[data-title="Opening"] .booster-card,
+  .slide[data-title="Opening"] .cover-mini-scene {
+    min-height: auto;
+  }
+
+  .slide[data-title="Opening"] .visual-stage {
+    height: clamp(210px, 56vw, 300px);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2589,8 +3729,8 @@ button {
     <section class="slide" data-title="Story"><span class="eyebrow">Story Warm-Up · 文章回忆</span><h2 class="slide-title">用 8 个词，把龙宫寻兵器的故事串起来</h2><p class="slide-subtitle">先看英文关键词回忆情节，再点击卡片确认中文、音标和原句。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">Eastern Sea</span><span class="meaning">东海；悟空去海底找更重的兵器</span><span class="hint">点击翻牌</span><span class="example">A dragon king lives at the bottom of the Eastern Sea.</span></button><button class="word-card" data-reveal><span class="part">magic</span><span class="story-keyword">breathe underwater</span><span class="meaning">在水下呼吸；悟空念咒后潜入海中</span><span class="hint">点击翻牌</span><span class="example">He said a quick spell so he could breathe underwater.</span></button><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">Dragon Palace</span><span class="meaning">龙宫；悟空在海底见到了龙王和龙后</span><span class="hint">点击翻牌</span><span class="example">Soon he arrived at a large palace.</span></button><button class="word-card" data-reveal><span class="part">weapon</span><span class="story-keyword">huge sword</span><span class="meaning">大剑；龟兵拖来的第一件兵器</span><span class="hint">点击翻牌</span><span class="example">He soon came back, slowly dragging a huge sword.</span></button><button class="word-card" data-reveal><span class="part">weapon</span><span class="story-keyword">enormous spear</span><span class="meaning">巨大的矛；第二件兵器还是不够重</span><span class="hint">点击翻牌</span><span class="example">Several turtles and octopuses dragged an enormous spear into the room.</span></button><button class="word-card" data-reveal><span class="part">treasure</span><span class="story-keyword">magical iron bar</span><span class="meaning">神奇的铁棒；龙后提议让悟空去看宝物</span><span class="hint">点击翻牌</span><span class="example">What about the magical iron bar in the treasure?</span></button><button class="word-card" data-reveal><span class="part">place</span><span class="story-keyword">treasure room</span><span class="meaning">宝库；大家一起去看最重的宝贝</span><span class="hint">点击翻牌</span><span class="example">The group went to the treasure.</span></button><button class="word-card" data-reveal><span class="part">challenge</span><span class="story-keyword">pick it up</span><span class="meaning">把它举起来；龙王最后给悟空的挑战</span><span class="hint">点击翻牌</span><span class="example">If you can pick it up, you can have it.</span></button></div></section>
     <section class="slide" data-title="Nouns"><span class="eyebrow">Vocabulary Round 1 · 名词</span><h2 class="slide-title">先看人物、地点和兵器词，再说出故事画面</h2><p class="slide-subtitle">点击卡片后，说中文，再用一句话说出它在故事里出现在哪里。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">n.</span><span class="word">weapon</span><span class="meaning">兵器；武器</span><span class="hint">点击翻牌</span><span class="example">Maybe he has a weapon you can use.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">palace</span><span class="meaning">宫殿；龙宫</span><span class="hint">点击翻牌</span><span class="example">Soon he arrived at a large palace.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">sword</span><span class="meaning">剑</span><span class="hint">点击翻牌</span><span class="example">The turtle soldier dragged a huge sword into the room.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">spear</span><span class="meaning">矛</span><span class="hint">点击翻牌</span><span class="example">Wukong lifted the spear and began stabbing at the air.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">treasure</span><span class="meaning">宝物；宝库里的宝贝</span><span class="hint">点击翻牌</span><span class="example">It is a treasure from Heaven.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">pillar</span><span class="meaning">柱子；这里指巨大铁柱</span><span class="hint">点击翻牌</span><span class="example">An enormous iron pillar stood in the center of the room.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">Dragon King</span><span class="meaning">龙王</span><span class="hint">点击翻牌</span><span class="example">The Dragon King looked over when Wukong walked in.</span></button><button class="word-card" data-reveal><span class="part">n.</span><span class="word">Dragon Queen</span><span class="meaning">龙后</span><span class="hint">点击翻牌</span><span class="example">The Dragon Queen whispered to her husband.</span></button></div></section>
     <section class="slide" data-title="Verbs"><span class="eyebrow">Vocabulary Round 2 · 动词</span><h2 class="slide-title">动作词要说出“谁做了什么”</h2><p class="slide-subtitle">先读动词，再说过去式，最后用原句讲清楚动作发生在什么场景里。</p><div class="word-grid"><button class="word-card" data-reveal><span class="part">v.</span><span class="word">breathe</span><span class="meaning">呼吸</span><span class="hint">点击翻牌</span><span class="example">He said a quick spell so he could breathe underwater.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">dive</span><span class="meaning">跳水；潜入</span><span class="hint">点击翻牌</span><span class="example">Then he dived into the stream.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">drag</span><span class="meaning">拖</span><span class="hint">点击翻牌</span><span class="example">The turtle soldier dragged a huge sword into the room.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">wave</span><span class="meaning">挥动</span><span class="hint">点击翻牌</span><span class="example">He waved the sword through the air, pretending to fight.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">stomp</span><span class="meaning">跺脚</span><span class="hint">点击翻牌</span><span class="example">Wukong stomped his foot.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">sigh</span><span class="meaning">叹气</span><span class="hint">点击翻牌</span><span class="example">The Dragon King sighed.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">lift</span><span class="meaning">举起</span><span class="hint">点击翻牌</span><span class="example">Wukong lifted the spear and began stabbing at the air.</span></button><button class="word-card" data-reveal><span class="part">v.</span><span class="word">whisper</span><span class="meaning">低声说</span><span class="hint">点击翻牌</span><span class="example">The Dragon Queen whispered to her husband.</span></button></div></section>
-    <section class="slide" data-title="Phrases"><span class="eyebrow">Phrase Match · 短语配对</span><h2 class="slide-title">连线翻卡：英语短语 → 中文意思</h2><p class="slide-subtitle">先说理由，再点左边英文和右边中文。配对成功会连线并翻卡。</p><div class="match-report" id="matchReport" aria-live="polite"><div class="match-stat"><span>正确/配对</span><strong id="matchCorrect">0 / 0</strong></div><div class="match-stat"><span>配对次数</span><strong id="matchAttempts">0</strong></div><div class="match-stat"><span>正确率</span><strong id="matchAccuracy">--</strong></div><div class="match-review ready" id="matchReview">复习：暂时无。</div></div><div class="match-board" id="matchBoard"><div class="match-column"><h3>English Phrases</h3><div class="match-stack" id="englishPhrases"></div></div><div class="line-stage" id="lineStage"><svg class="match-lines" id="matchLines" aria-hidden="true"></svg></div><div class="match-column"><h3>Chinese Meanings</h3><div class="match-stack" id="chineseMeanings"></div></div></div><div class="result-line" id="matchResult">目标：完成 8 组配对。</div></section>
-    <section class="slide" data-title="Phrase Lab 1"><span class="eyebrow">Phrase Lab · 短语用法</span><h2 class="slide-title">短语用法 1：先读懂，再能说</h2><p class="slide-subtitle">每张卡先读短语和中文，再翻开看原文句、新句和开口任务。</p><div class="phrase-drill-grid" id="phraseDrillGridA" data-start="0" data-count="4"></div><div class="teacher-note">挑战方式：任选 2 张卡，用自己的话解释短语；再选 1 张卡，把新句换成自己的句子。</div></section>
+    <section class="slide" data-title="Phrases"><span class="eyebrow">Phrase Match · 短语配对</span><h2 class="slide-title">连线翻卡：英文短语 ↔ 中文意思</h2><p class="slide-subtitle">先说理由，再点左边英文和右边中文。配对成功会连线并翻卡。</p><div class="match-report" id="matchReport" aria-live="polite"><div class="match-stat"><span>正确/配对</span><strong id="matchCorrect">0 / 0</strong></div><div class="match-stat"><span>配对次数</span><strong id="matchAttempts">0</strong></div><div class="match-stat"><span>正确率</span><strong id="matchAccuracy">--</strong></div><div class="match-review ready" id="matchReview">复习：暂时无。</div></div><div class="match-board" id="matchBoard"><div class="match-column"><h3>English Phrases</h3><div class="match-stack" id="englishPhrases"></div></div><div class="line-stage" id="lineStage"><svg class="match-lines" id="matchLines" aria-hidden="true"></svg></div><div class="match-column"><h3>Chinese Meanings</h3><div class="match-stack" id="chineseMeanings"></div></div></div><div class="result-line" id="matchResult">目标：完成 8 组配对。</div></section>
+    <section class="slide" data-title="Phrase Lab 1"><span class="eyebrow">Phrase Lab · 短语用法</span><h2 class="slide-title">短语用法 1：从“认识”到“会用”</h2><p class="slide-subtitle">每张卡先读短语和中文，再翻开看原文句、新句和开口任务。</p><div class="phrase-drill-grid" id="phraseDrillGridA" data-start="0" data-count="4"></div><div class="teacher-note">挑战方式：任选 2 张卡，用自己的话解释短语；再选 1 张卡，把新句换成自己的句子。</div></section>
     <section class="slide" data-title="Phrase Lab 2"><span class="eyebrow">Phrase Lab · 短语用法</span><h2 class="slide-title">短语用法 2：说理由，造新句</h2><p class="slide-subtitle">继续翻卡。重点看短语在原文里的作用，再迁移到自己的表达里。</p><div class="phrase-drill-grid" id="phraseDrillGridB" data-start="4" data-count="4"></div><div class="teacher-note">挑战方式：任选 3 张卡，说出“谁在什么时候为什么用了这个短语”。</div></section>
     <section class="slide" data-title="Patterns"><span class="eyebrow">Key Sentences · 关键句型</span><h2 class="slide-title">三种句型，帮你把这一章讲清楚</h2><p class="slide-subtitle">先读句型，再点卡片看原文例句、新句和开口挑战。</p><div class="pattern-grid"><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 1</span><h3>表达需要和原因</h3><div class="pattern-form">I need ... because ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>I need a heavy weapon because I'm as strong as a god.</p><p><strong>新句：</strong>I need a map because this place is new to me.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型说一说悟空为什么去东海。<span class="pattern-answer">参考答案：I need a heavier weapon because I am very powerful.</span></p></div></button><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 2</span><h3>条件句：如果你能……，你就能……</h3><div class="pattern-form">If you can ..., you can ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>If you can pick it up, you can have it.</p><p><strong>新句：</strong>If you can finish first, you can rest first.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型给同学一个课堂挑战。<span class="pattern-answer">参考答案：If you can find the answer, you can get one point.</span></p></div></button><button class="pattern-card" data-pattern-reveal><span class="pattern-label">Pattern 3</span><h3>比较重量</h3><div class="pattern-form">This ... is too ...</div><span class="pattern-hint">点击查看例句和挑战</span><div class="pattern-detail"><p><strong>原文：</strong>This spear is too light.</p><p><strong>新句：</strong>This box is too heavy for me.</p><p class="pattern-challenge" data-pattern-challenge><strong>挑战：</strong>用这个句型评价龙王先拿来的两件兵器。<span class="pattern-answer">参考答案：This sword is too light, and this spear is too light too.</span></p></div></button></div><div class="teacher-note">目标：会认句型、能读原文例句，并能用其中一个句型说出自己的句子。</div></section>
     <section class="slide" data-title="Original"><span class="eyebrow">Find Evidence · 原文定位</span><h2 class="slide-title">答案不靠猜，回原文找证据</h2><div class="article-grid"><article class="article-box" id="articleBox"><p id="para-idea">“What's wrong with our swords and spears?” asked the gibbon. Wukong said they were fine for normal monkeys and apes, but he was very powerful and needed a much heavier weapon. The gibbon suggested that a dragon king at the bottom of the Eastern Sea might have one.</p><p id="para-arrive">Wukong said a quick spell so he could breathe underwater. Then he dived into the stream, swam to the ocean, and went deeper and deeper. Soon he arrived at a large palace where the Dragon King and the Dragon Queen were having tea.</p><p id="para-ask">Wukong told them he was king of the Fruit and Flower Mountain. He did not want tea. He wanted a heavy weapon because he was as strong as a god. The Dragon King asked a turtle soldier to find one for Sun Wukong.</p><p id="para-sword">The turtle soldier dragged in a huge sword and fell down, out of breath. Wukong picked it up with no trouble at all, waved it through the air, and said the sword was too light. The Dragon Queen whispered that the monkey was rude, but Wukong still wanted something better.</p><p id="para-spear">A few minutes later, several turtles and octopuses dragged an enormous spear into the room. Wukong lifted it and stabbed at the air, but he shook his head again. The spear was still too light. Wukong stomped his foot and said he was not leaving until he got what he wanted.</p><p id="para-bar">The Dragon Queen reminded her husband about the magical iron bar in the treasure. The Dragon King sighed and led Wukong to the treasure room. A huge iron pillar stood in the center, shining with golden light. “If you can pick it up,” said the Dragon King, “you can have it.”</p></article><div class="panel"><div class="panel-head"><h3>Story Questions</h3><p>点一个问题，去原文找证据</p></div><div class="finder-list"><button class="finder-button" data-target="para-idea"><strong>悟空为什么想去找龙王？</strong><span>heavier weapon</span></button><button class="finder-button" data-target="para-arrive"><strong>悟空是怎样到海底宫殿的？</strong><span>spell · underwater</span></button><button class="finder-button" data-target="para-ask"><strong>悟空一见龙王就提出了什么要求？</strong><span>heavy weapon</span></button><button class="finder-button" data-target="para-sword"><strong>为什么龟兵会累得倒下？</strong><span>huge sword · out of breath</span></button><button class="finder-button" data-target="para-spear"><strong>悟空为什么还不肯走？</strong><span>too light · not leaving until</span></button><button class="finder-button" data-target="para-bar"><strong>最后龙王提出了什么条件？</strong><span>pick it up</span></button></div></div></div></section>
@@ -2629,6 +3769,14 @@ button {
   </div>
 </div>
 
+<div class="modal" id="matchCompleteModal" role="dialog" aria-modal="true" aria-labelledby="matchCompleteTitle">
+  <div class="modal-card match-complete-card">
+    <h3 id="matchCompleteTitle">短语配对完成</h3>
+    <p class="match-complete-summary" id="matchCompleteSummary"></p>
+    <div class="match-complete-review" id="matchCompleteReview"></div>
+    <div class="modal-actions"><button class="text-button primary" id="closeMatchComplete">继续复习</button></div>
+  </div>
+
 <script>
 (function () {
   if (location.protocol === "file:" && !sessionStorage.getItem("teachingEnglishLoggedIn")) {
@@ -2641,6 +3789,8 @@ button {
   var footerStatus = document.getElementById("footerStatus");
   var progress = document.getElementById("progress");
   var progressMonkey = document.getElementById("progressMonkey");
+  var prevSlideButton = document.getElementById("prevSlide");
+  var nextSlideButton = document.getElementById("nextSlide");
   var currentSlide = 0;
   var studentScore = 0;
   var teacherScore = 0;
@@ -3774,6 +4924,12 @@ button {
     "pick": "v. 动词"
 };
 
+  function getArticlePartOfSpeech(key) {
+    if (articleWordParts[key]) return articleWordParts[key];
+    if (key.indexOf(" ") !== -1) return "phr. 短语";
+    return "word 基础词";
+  }
+
   var articleTranslations = {
     "para-idea": "长臂猿问：“我们的剑和矛有什么问题吗？”悟空说，对普通猴子和猿来说当然够用了，可他的力量非常大，需要更重的兵器。于是长臂猿建议他去东海海底找龙王试一试。",
     "para-arrive": "悟空先念了个咒语，让自己可以在水下呼吸。接着他跳进小溪，一路游向大海，越游越深，很快就到了龙王和龙后正在喝茶的大宫殿。",
@@ -3944,6 +5100,88 @@ button {
     });
   }
 
+  function syncResponsiveShell() {
+    var root = document.documentElement;
+    var topbar = document.querySelector(".topbar");
+    var bottomNav = document.querySelector(".bottom-nav");
+    root.style.setProperty("--topbar-height", (topbar ? topbar.offsetHeight : 78) + "px");
+    root.style.setProperty("--bottom-nav-height", (bottomNav ? bottomNav.offsetHeight : 70) + "px");
+  }
+
+  function updateSlide() {
+    slides.forEach(function (slide, index) {
+      slide.classList.remove("active", "previous");
+      if (index === currentSlide) {
+        slide.classList.add("active");
+      } else if (index < currentSlide) {
+        slide.classList.add("previous");
+      }
+    });
+    Array.from(slideTabs.children).forEach(function (dot, index) {
+      dot.classList.toggle("active", index === currentSlide);
+    });
+    var progressPercent = (currentSlide + 1) / slides.length * 100;
+    progress.style.width = progressPercent + "%";
+    progressMonkey.style.left = "min(" + progressPercent + "%, calc(100% - 25px))";
+    footerStatus.textContent = (currentSlide + 1) + " / " + slides.length + " · " + slides[currentSlide].dataset.title;
+    prevSlideButton.hidden = currentSlide === 0;
+    nextSlideButton.hidden = currentSlide === slides.length - 1;
+    syncResponsiveShell();
+  }
+
+  function goToSlide(index) {
+    currentSlide = Math.max(0, Math.min(slides.length - 1, index));
+    updateSlide();
+  }
+
+  function updateScores() {
+    document.getElementById("studentScore").textContent = studentScore;
+    document.getElementById("teacherScore").textContent = teacherScore;
+  }
+
+  function formatTime(totalSeconds) {
+    var minutes = Math.floor(totalSeconds / 60);
+    var seconds = totalSeconds % 60;
+    return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+  }
+
+  function updateTimer() {
+    document.getElementById("timer").textContent = formatTime(timerSeconds);
+  }
+
+  function toggleTimer() {
+    var button = document.getElementById("startTimer");
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+      button.textContent = "继续";
+      return;
+    }
+    button.textContent = "暂停";
+    timerHandle = setInterval(function () {
+      timerSeconds = Math.max(0, timerSeconds - 1);
+      updateTimer();
+      if (timerSeconds === 0) {
+        clearInterval(timerHandle);
+        timerHandle = null;
+        button.textContent = "结束";
+      }
+    }, 1000);
+  }
+
+  function initTabs() {
+    slides.forEach(function (_, index) {
+      var dot = document.createElement("button");
+      dot.className = "dot";
+      dot.type = "button";
+      dot.title = "跳到第 " + (index + 1) + " 页";
+      dot.addEventListener("click", function () {
+        goToSlide(index);
+      });
+      slideTabs.appendChild(dot);
+    });
+  }
+
   function renderChoiceOptionExamples(option) {
     var examples = choiceOptionExamples[option] || [];
     var term = choiceOptionTerms[option] || "";
@@ -4054,6 +5292,848 @@ button {
     };
   }
 
+  /* Synced final-version interaction helpers from Chapter 1 template. */
+
+  function initRevealCards() {
+    function updateCardPhonics(card) {
+      var word = card.querySelector(".word[data-original-word]");
+      if (!word) return;
+      var data = phonicsData[word.dataset.originalWord];
+      if (!data) return;
+
+      if (!card.classList.contains("revealed")) {
+        word.textContent = word.dataset.originalWord;
+        return;
+      }
+
+      word.textContent = "";
+      data.parts.forEach(function (part) {
+        var syllable = document.createElement("span");
+        syllable.className = "syllable";
+        syllable.textContent = part;
+        word.appendChild(syllable);
+      });
+    }
+
+    function toggleRevealCard(card) {
+      card.classList.toggle("revealed");
+      updateCardPhonics(card);
+    }
+
+    document.querySelectorAll("[data-reveal]").forEach(function (card) {
+      card.type = "button";
+      card.setAttribute("data-click-ready", "true");
+      updateCardPhonics(card);
+    });
+
+    var slideShell = document.getElementById("slideShell");
+    if (!slideShell || slideShell.dataset.revealReady) return;
+    slideShell.dataset.revealReady = "true";
+
+    slideShell.addEventListener("click", function (event) {
+      var card = event.target.closest("[data-reveal]");
+      if (!card || !slideShell.contains(card)) return;
+      event.preventDefault();
+      toggleRevealCard(card);
+    });
+
+    slideShell.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      var card = event.target.closest("[data-reveal]");
+      if (!card) return;
+      event.preventDefault();
+      toggleRevealCard(card);
+    });
+  }
+
+
+  function initRetellCards() {
+    function hideRetellCard(card) {
+      card.classList.remove("revealed");
+    }
+
+    document.querySelectorAll("[data-retell-reveal]").forEach(function (card) {
+      card.type = "button";
+      card.addEventListener("click", function () {
+        card.classList.add("revealed");
+      });
+      card.addEventListener("mouseleave", function () {
+        hideRetellCard(card);
+      });
+      card.addEventListener("pointerleave", function () {
+        hideRetellCard(card);
+      });
+    });
+
+    document.addEventListener("mousemove", function (event) {
+      document.querySelectorAll("[data-retell-reveal].revealed").forEach(function (card) {
+        var rect = card.getBoundingClientRect();
+        var isInside =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+        if (!isInside) hideRetellCard(card);
+      });
+    });
+  }
+
+
+  function initPatternCards() {
+    document.querySelectorAll("[data-pattern-reveal]").forEach(function (card) {
+      card.type = "button";
+      card.addEventListener("click", function () {
+        card.classList.toggle("revealed");
+      });
+    });
+  }
+
+
+  function initExitChallenges() {
+    function hideExitAnswer(chip) {
+      chip.classList.remove("revealed");
+      chip.setAttribute("aria-expanded", "false");
+    }
+
+    function showExitAnswer(chip) {
+      document.querySelectorAll("[data-exit-answer]").forEach(function (item) {
+        if (item !== chip) hideExitAnswer(item);
+      });
+      chip.classList.add("revealed");
+      chip.setAttribute("aria-expanded", "true");
+    }
+
+    document.querySelectorAll("[data-exit-answer]").forEach(function (chip) {
+      chip.type = "button";
+      chip.setAttribute("aria-expanded", "false");
+      chip.addEventListener("mouseleave", function () {
+        hideExitAnswer(chip);
+      });
+      chip.addEventListener("pointerleave", function () {
+        hideExitAnswer(chip);
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      var chip = event.target.closest("[data-exit-answer]");
+      if (!chip) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (chip.classList.contains("revealed")) {
+        hideExitAnswer(chip);
+      } else {
+        showExitAnswer(chip);
+      }
+    });
+
+    document.addEventListener("mousemove", function (event) {
+      document.querySelectorAll("[data-exit-answer].revealed").forEach(function (chip) {
+        var rect = chip.getBoundingClientRect();
+        var isInside =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+        if (!isInside) hideExitAnswer(chip);
+      });
+    });
+  }
+
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+
+  function getExampleTerms(key) {
+    var terms = exampleTermForms[key] || [key];
+    return terms.filter(function (term) { return term && String(term).trim(); });
+  }
+
+
+  function highlightExampleText(text, terms) {
+    var cleanTerms = terms
+      .filter(function (term) { return term && String(term).trim(); })
+      .sort(function (a, b) { return b.length - a.length; });
+    if (!cleanTerms.length) return escapeHtml(text);
+    var pattern = cleanTerms.map(escapeRegExp).join("|");
+    var matcher = new RegExp("(" + pattern + ")", "gi");
+    return String(text).split(matcher).map(function (part) {
+      if (!part) return "";
+      var isKey = cleanTerms.some(function (term) {
+        return part.toLowerCase() === String(term).toLowerCase();
+      });
+      return isKey
+        ? '<span class="example-key">' + escapeHtml(part) + '</span>'
+        : escapeHtml(part);
+    }).join("");
+  }
+
+
+  function buildExampleNote(text, terms, explanation) {
+    return '<span class="example-note" aria-label="例句解释">' +
+      '<span class="example-text">' + highlightExampleText(text, terms) + '</span>' +
+      '<span class="example-pop">' + highlightExampleText(explanation, terms) + '</span>' +
+    '</span>';
+  }
+
+
+  function describeExampleSentence(text) {
+    var cleanText = String(text).trim();
+    var explanation = exampleExplanations[cleanText] || "结合上下文理解这个例句的完整意思。";
+    return "例句解释：" + explanation;
+  }
+
+
+  function applyExampleNoteToElement(element, terms, explanation) {
+    if (!element || element.dataset.exampleNoteReady) return;
+    var text = element.textContent.trim();
+    if (!text) return;
+    element.dataset.exampleNoteReady = "true";
+    element.innerHTML = buildExampleNote(text, terms, explanation);
+  }
+
+
+  function getWordCardTermNode(card) {
+    return card.querySelector(".word, .story-keyword, .past-word");
+  }
+
+  function initWordExampleNotes() {
+    document.querySelectorAll(".word-card").forEach(function (card) {
+      var wordNode = getWordCardTermNode(card);
+      var meaningNode = card.querySelector(".meaning");
+      if (!wordNode || !meaningNode) return;
+      var word = wordNode.textContent.trim();
+      var meaning = meaningNode.textContent.trim();
+      var terms = getExampleTerms(word).concat(/^[a-z]+$/i.test(meaning) ? getExampleTerms(meaning) : []);
+      card.querySelectorAll(".example, .simple-example").forEach(function (example) {
+        var explanation = describeExampleSentence(example.textContent);
+        applyExampleNoteToElement(example, terms, explanation);
+      });
+    });
+  }
+
+
+  function renderPhraseExampleParagraph(label, text, phrase) {
+    var terms = getExampleTerms(phrase.english);
+    var explanation = describeExampleSentence(text);
+    return '<p class="phrase-example"><strong>' + escapeHtml(label) + '：</strong>' +
+      buildExampleNote(text, terms, explanation) + '</p>';
+  }
+
+
+  function initPatternExampleNotes() {
+    document.querySelectorAll(".pattern-card").forEach(function (card) {
+      var forms = Array.from(card.querySelectorAll(".pattern-form")).map(function (item) {
+        return item.textContent.trim();
+      });
+      var terms = forms.reduce(function (allTerms, form) {
+        return allTerms.concat(getExampleTerms(form));
+      }, []);
+      card.querySelectorAll(".pattern-detail p").forEach(function (paragraph) {
+        if (paragraph.dataset.exampleNoteReady) return;
+        var strong = paragraph.querySelector("strong");
+        if (!strong) return;
+        var label = strong.textContent.trim();
+        if (label.indexOf("原文") === -1 && label.indexOf("新句") === -1) return;
+        var text = paragraph.textContent.replace(strong.textContent, "").trim();
+        if (!text) return;
+        var explanation = describeExampleSentence(text);
+        paragraph.dataset.exampleNoteReady = "true";
+        paragraph.innerHTML = '<strong>' + escapeHtml(label) + '</strong>' + buildExampleNote(text, terms, explanation);
+      });
+    });
+  }
+
+
+  function initExampleNotes() {
+    initWordExampleNotes();
+    initPatternExampleNotes();
+  }
+
+
+  function initSimpleExamples() {
+    document.querySelectorAll(".word-card").forEach(function (card) {
+      if (card.querySelector(".simple-example")) return;
+      var word = getWordCardTermNode(card);
+      var example = card.querySelector(".example");
+      if (!word || !example) return;
+      var text = simpleExamples[word.textContent.trim()];
+      if (!text) return;
+      var simple = document.createElement("span");
+      simple.className = "simple-example";
+      simple.textContent = text;
+      example.insertAdjacentElement("afterend", simple);
+    });
+  }
+
+
+  function chooseEnglishVoice() {
+    if (!('speechSynthesis' in window) || !window.speechSynthesis.getVoices) return null;
+    var voices = window.speechSynthesis.getVoices() || [];
+    var englishVoices = voices.filter(function (voice) {
+      return voice.lang && /^en[-_]/i.test(voice.lang);
+    });
+    if (!englishVoices.length) return null;
+    var qualityWords = /(natural|neural|enhanced|premium|online|aria|jenny|guy|samantha|daniel|karen|moira|tessa|google|microsoft)/i;
+    var preferred = englishVoices.find(function (voice) {
+      return qualityWords.test(voice.name || '');
+    });
+    if (preferred) return preferred;
+    preferred = englishVoices.find(function (voice) { return /^en[-_]US/i.test(voice.lang); }) ||
+      englishVoices.find(function (voice) { return /^en[-_]GB/i.test(voice.lang); });
+    return preferred || englishVoices[0];
+  }
+
+  if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = function () { chooseEnglishVoice(); };
+  }
+
+  function speakText(text) {
+    if (!text || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+    window.speechSynthesis.cancel();
+    var utterance = new SpeechSynthesisUtterance(text);
+    var voice = chooseEnglishVoice();
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang || 'en-US';
+    } else {
+      utterance.lang = 'en-US';
+    }
+    utterance.rate = 0.84;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function createAudioControl(text) {
+    return '<span class="audio-control" role="button" tabindex="0" data-speak="' +
+      escapeHtml(text) + '" aria-label="Play pronunciation">🔊</span>';
+  }
+
+
+  function initAudioControls() {
+    if (document.documentElement.dataset.audioReady) return;
+    document.documentElement.dataset.audioReady = "true";
+
+    document.addEventListener("click", function (event) {
+      var control = event.target.closest(".audio-control");
+      if (!control) return;
+      event.preventDefault();
+      event.stopPropagation();
+      speakText(control.dataset.speak);
+    }, true);
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      var control = event.target.closest(".audio-control");
+      if (!control) return;
+      event.preventDefault();
+      event.stopPropagation();
+      speakText(control.dataset.speak);
+    }, true);
+  }
+
+
+  function initWordPhonics() {
+    document.querySelectorAll(".word-card").forEach(function (card) {
+      var word = getWordCardTermNode(card);
+      if (!word || word.dataset.phonicsReady) return;
+      var rawWord = word.textContent.trim();
+      var data = phonicsData[rawWord];
+      if (!data) return;
+      word.dataset.originalWord = rawWord;
+      word.dataset.phonicsReady = "true";
+      word.textContent = rawWord;
+      var phonics = document.createElement("span");
+      phonics.className = "phonics";
+      phonics.innerHTML = createAudioControl(rawWord) + '<span class="phonics-text">' + escapeHtml(data.ipa) + '</span>';
+      word.insertAdjacentElement("afterend", phonics);
+    });
+  }
+
+
+  function initPhraseMatch() {
+    var englishBox = document.getElementById("englishPhrases");
+    var chineseBox = document.getElementById("chineseMeanings");
+    var matchLines = document.getElementById("matchLines");
+    var lineStage = document.getElementById("lineStage");
+    var matchResult = document.getElementById("matchResult");
+    var matchAttemptsBox = document.getElementById("matchAttempts");
+    var matchCorrectBox = document.getElementById("matchCorrect");
+    var matchAccuracyBox = document.getElementById("matchAccuracy");
+    var matchReviewBox = document.getElementById("matchReview");
+    var matchCompleteModal = document.getElementById("matchCompleteModal");
+    var matchCompleteSummary = document.getElementById("matchCompleteSummary");
+    var matchCompleteReview = document.getElementById("matchCompleteReview");
+    var closeMatchComplete = document.getElementById("closeMatchComplete");
+    var matchCompletionShown = false;
+
+    function getMatchAccuracy() {
+      return matchAttempts ? Math.round(completedMatches / matchAttempts * 100) : null;
+    }
+
+    function getWeakPhrases() {
+      return phrases
+        .map(function (phrase, index) {
+          return {
+            english: phrase.english,
+            chinese: phrase.chinese,
+            mistakes: phraseMistakes[index] || 0
+          };
+        })
+        .filter(function (phrase) { return phrase.mistakes > 0; })
+        .sort(function (a, b) { return b.mistakes - a.mistakes; });
+    }
+
+    function closeMatchCompleteModal() {
+      if (matchCompleteModal) matchCompleteModal.classList.remove("open");
+    }
+
+    function showMatchCompleteModal() {
+      if (!matchCompleteModal || !matchCompleteSummary || !matchCompleteReview || matchCompletionShown) return;
+      matchCompletionShown = true;
+      var accuracy = getMatchAccuracy();
+      var weakPhrases = getWeakPhrases();
+      matchCompleteSummary.textContent = "恭喜完成 " + phrases.length + " 组短语配对！正确率：" + (accuracy === null ? "--" : accuracy + "%") + "。";
+      matchCompleteReview.innerHTML = "";
+
+      var title = document.createElement("div");
+      title.className = "match-complete-review-title";
+      title.textContent = weakPhrases.length ? "需要复习的短语：" : "需要复习：暂无。";
+      matchCompleteReview.appendChild(title);
+
+      if (weakPhrases.length) {
+        var list = document.createElement("div");
+        list.className = "match-complete-list";
+        weakPhrases.forEach(function (phrase) {
+          var chip = document.createElement("div");
+          chip.className = "match-complete-chip";
+          chip.textContent = phrase.english + "（" + phrase.chinese + "）错 " + phrase.mistakes + " 次";
+          list.appendChild(chip);
+        });
+        matchCompleteReview.appendChild(list);
+      } else {
+        var note = document.createElement("p");
+        note.textContent = "可以任选 3 个短语造句，再进入下一页。";
+        matchCompleteReview.appendChild(note);
+      }
+
+      matchCompleteModal.classList.add("open");
+    }
+
+    if (closeMatchComplete) {
+      closeMatchComplete.addEventListener("click", closeMatchCompleteModal);
+    }
+
+    function updateMatchReport(isFinished) {
+      var accuracy = getMatchAccuracy();
+      var weakPhrases = getWeakPhrases();
+
+      matchCorrectBox.textContent = completedMatches + " / " + matchAttempts;
+      matchAttemptsBox.textContent = String(matchAttempts);
+      matchAccuracyBox.textContent = accuracy === null ? "--" : accuracy + "%";
+
+      if (!weakPhrases.length) {
+        matchReviewBox.classList.add("ready");
+        matchReviewBox.innerHTML = "";
+        matchReviewBox.textContent = isFinished
+          ? "复习：全对，可任选 3 个造句。"
+          : "复习：暂无。";
+        return;
+      }
+
+      matchReviewBox.classList.remove("ready");
+      matchReviewBox.innerHTML = "";
+      var title = document.createElement("div");
+      title.className = "match-review-title";
+      title.textContent = isFinished ? "复习词：" : "先记：";
+      var list = document.createElement("div");
+      list.className = "match-review-list";
+      weakPhrases.forEach(function (phrase) {
+        var chip = document.createElement("div");
+        chip.className = "match-review-chip";
+        var phraseText = document.createElement("strong");
+        phraseText.textContent = phrase.english + "（" + phrase.chinese + "）";
+        var countText = document.createElement("span");
+        countText.textContent = "错 " + phrase.mistakes + " 次";
+        chip.appendChild(phraseText);
+        chip.appendChild(countText);
+        list.appendChild(chip);
+      });
+      matchReviewBox.appendChild(title);
+      matchReviewBox.appendChild(list);
+    }
+
+
+    function createMatchCard(text, index, side) {
+      var card = document.createElement("button");
+      card.className = "match-card";
+      card.dataset.index = String(index);
+      card.dataset.side = side;
+      card.innerHTML =
+        '<span class="match-card-inner">' +
+          '<span class="match-card-face">' + text + '</span>' +
+          '<span class="match-card-face match-card-back">✓ ' + text + '</span>' +
+        '</span>';
+      return card;
+    }
+
+    function drawConnections() {
+      if (!matchLines || !lineStage) return;
+      var stageRect = lineStage.getBoundingClientRect();
+      matchLines.innerHTML = "";
+      matchedConnections.forEach(function (connection) {
+        var englishRect = connection.english.getBoundingClientRect();
+        var chineseRect = connection.chinese.getBoundingClientRect();
+        var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", "0");
+        line.setAttribute("y1", String(englishRect.top + englishRect.height / 2 - stageRect.top));
+        line.setAttribute("x2", String(stageRect.width));
+        line.setAttribute("y2", String(chineseRect.top + chineseRect.height / 2 - stageRect.top));
+        matchLines.appendChild(line);
+      });
+    }
+
+    function clearWrong(english, chinese) {
+      setTimeout(function () {
+        english.classList.remove("wrong");
+        chinese.classList.remove("wrong");
+      }, 520);
+    }
+
+    phrases.forEach(function (phrase, index) {
+      var english = createMatchCard(phrase.english, index, "english");
+      english.addEventListener("click", function () {
+        if (english.classList.contains("matched")) return;
+        document.querySelectorAll("#englishPhrases .match-card").forEach(function (item) {
+          item.classList.remove("selected");
+        });
+        english.classList.add("selected");
+        selectedPhrase = english;
+        updateMatchReport(false);
+      });
+      englishBox.appendChild(english);
+    });
+
+    phrases
+      .map(function (phrase, index) { return [phrase.chinese, index]; })
+      .sort(function () { return Math.random() - 0.5; })
+      .forEach(function (pair) {
+        var chinese = createMatchCard(pair[0], pair[1], "chinese");
+        chinese.addEventListener("click", function () {
+          if (!selectedPhrase || chinese.classList.contains("matched")) return;
+          var isCorrect = selectedPhrase.dataset.index === chinese.dataset.index;
+          var currentEnglish = selectedPhrase;
+          var currentIndex = Number(currentEnglish.dataset.index);
+          matchAttempts += 1;
+          selectedPhrase.classList.remove("selected");
+          selectedPhrase.classList.add(isCorrect ? "matched" : "wrong");
+          chinese.classList.add(isCorrect ? "matched" : "wrong");
+          if (isCorrect) {
+            completedMatches += 1;
+            studentScore += 1;
+            matchedConnections.push({ english: currentEnglish, chinese: chinese });
+            drawConnections();
+            updateScores();
+            matchResult.textContent = "配对正确！现在读一遍英文短语。";
+          } else {
+            phraseMistakes[currentIndex] = (phraseMistakes[currentIndex] || 0) + 1;
+            matchResult.textContent = "先回原文想一想，再重新配。";
+            clearWrong(currentEnglish, chinese);
+          }
+          selectedPhrase = null;
+          updateMatchReport(completedMatches === phrases.length);
+          if (completedMatches === phrases.length) {
+            matchResult.textContent = "全部完成。看正确率，再重点复习下面标出的短语。";
+            showMatchCompleteModal();
+          }
+        });
+        chineseBox.appendChild(chinese);
+      });
+    window.addEventListener("resize", drawConnections);
+    updateMatchReport(false);
+  }
+
+
+  function initPhraseDrill() {
+    function hidePhraseChallenge(challenge) {
+      challenge.classList.remove("revealed");
+    }
+
+    document.querySelectorAll(".phrase-drill-grid").forEach(function (grid) {
+      var start = Number(grid.dataset.start || 0);
+      var count = Number(grid.dataset.count || phrases.length);
+      phrases.slice(start, start + count).forEach(function (phrase) {
+        var card = document.createElement("button");
+        card.className = "phrase-drill-card";
+        card.type = "button";
+        card.innerHTML =
+            '<span class="phrase-drill-inner">' +
+            '<span class="phrase-drill-face phrase-drill-front">' +
+              '<span class="label">Phrase</span>' +
+              '<span class="phrase-title-row">' +
+                createAudioControl(phrase.english) +
+                '<strong>' + escapeHtml(phrase.english) + '</strong>' +
+              '</span>' +
+              '<p>点击翻开：看例句和挑战</p>' +
+            '</span>' +
+            '<span class="phrase-drill-face phrase-drill-back">' +
+              '<span class="label">Use It</span>' +
+              '<span class="meaning">' + phrase.chinese + '</span>' +
+              renderPhraseExampleParagraph("原文", phrase.original, phrase) +
+              renderPhraseExampleParagraph("新句", phrase.simple, phrase) +
+              '<p class="phrase-challenge" data-phrase-challenge><strong>挑战：</strong>' + phrase.task +
+                '<span class="phrase-challenge-answer">参考答案：' + phrase.answer + '</span>' +
+              '</p>' +
+            '</span>' +
+          '</span>';
+        grid.appendChild(card);
+      });
+      grid.addEventListener("click", function (event) {
+        var challenge = event.target.closest("[data-phrase-challenge]");
+        if (challenge && grid.contains(challenge)) {
+          event.preventDefault();
+          event.stopPropagation();
+          challenge.classList.toggle("revealed");
+          return;
+        }
+        var card = event.target.closest(".phrase-drill-card");
+        if (!card || !grid.contains(card)) return;
+        card.classList.toggle("revealed");
+      });
+      grid.querySelectorAll("[data-phrase-challenge]").forEach(function (challenge) {
+        challenge.addEventListener("mouseleave", function () {
+          hidePhraseChallenge(challenge);
+        });
+        challenge.addEventListener("pointerleave", function () {
+          hidePhraseChallenge(challenge);
+        });
+      });
+    });
+
+    document.addEventListener("mousemove", function (event) {
+      document.querySelectorAll("[data-phrase-challenge].revealed").forEach(function (challenge) {
+        var rect = challenge.getBoundingClientRect();
+        var isInside =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+        if (!isInside) hidePhraseChallenge(challenge);
+      });
+    });
+  }
+
+  var articleWordMeanings = {
+    "from the beginning of time": "从一开始；很久很久以前",
+    "mountain": "山",
+    "heaven": "天庭；天堂",
+    "earth": "大地；地球",
+    "magic": "魔力",
+    "split open": "裂开",
+    "inside": "在里面",
+    "monkey": "猴子",
+    "stretched": "伸展；伸懒腰",
+    "suddenly": "突然",
+    "powerful": "强大的",
+    "light": "光",
+    "shot": "射出；冲出",
+    "cloud palace": "云宫",
+    "jade emperor": "玉帝",
+    "ruler": "统治者",
+    "captain": "天将；队长",
+    "captains": "天将；队长们",
+    "find out": "查明；弄清楚",
+    "caused": "造成；引起",
+    "southern": "南方的",
+    "gate": "门",
+    "below": "在下面",
+    "passed": "过去；流逝",
+    "learned": "学会",
+    "climb": "爬；攀登",
+    "drank": "喝",
+    "streams": "小溪；溪流",
+    "stream": "小溪；溪流",
+    "grasses": "草",
+    "leaves": "树叶",
+    "gathered": "采集；收集",
+    "fruit": "水果",
+    "explored": "探索",
+    "caves": "洞穴",
+    "mountaintops": "山顶",
+    "apes": "猿；类人猿",
+    "cliff": "悬崖",
+    "shade": "阴凉处",
+    "rolled": "翻滚",
+    "bounced": "跳动；弹起",
+    "rocks": "岩石",
+    "source": "源头；来源",
+    "alongside": "沿着；在旁边",
+    "swung": "摆动；荡",
+    "higher and higher": "越来越高",
+    "enormous": "巨大的",
+    "waterfall": "瀑布",
+    "mist": "水雾",
+    "crashed down": "猛冲下来",
+    "roaring like thunder": "像雷一样轰鸣",
+    "thunder": "雷声",
+    "whoever": "无论谁；谁能……",
+    "alive": "活着的",
+    "king": "国王",
+    "gibbon": "长臂猿",
+    "brave": "勇敢的",
+    "me neither": "我也不",
+    "afraid": "害怕的",
+    "anything": "任何事情",
+    "took a deep breath": "深吸一口气",
+    "leaped": "跳跃；纵身一跳"
+  };
+
+  Object.assign(articleWordMeanings, {
+    "a": "一个；一块；一只",
+    "air": "空气",
+    "all": "全部；所有",
+    "an": "一个",
+    "and": "和；并且",
+    "anyone": "任何人",
+    "as": "随着；当……时",
+    "at": "在",
+    "ate": "吃（eat 的过去式）",
+    "back": "回来；返回",
+    "be": "是；成为",
+    "became": "变成；成为（become 的过去式）",
+    "beginning": "开始",
+    "breath": "呼吸；一口气",
+    "called": "喊；叫",
+    "can": "能够；可以",
+    "cloud": "云",
+    "come": "来；回来",
+    "crashed": "猛冲；撞击",
+    "day": "一天；日子",
+    "deep": "深的；深深地",
+    "do": "做",
+    "don": "don't 的一部分，表示“不”",
+    "down": "向下",
+    "emperor": "皇帝；玉帝",
+    "enough": "足够的",
+    "eyes": "眼睛",
+    "filled": "充满",
+    "find": "找到；发现",
+    "follow": "沿着；跟随",
+    "for": "为了；持续",
+    "friends": "朋友",
+    "from": "从；来自",
+    "had": "有；已经（have 的过去式）",
+    "he": "他",
+    "heads": "头",
+    "high": "高的；高高地",
+    "higher": "更高",
+    "his": "他的",
+    "hot": "热的",
+    "i": "我",
+    "in": "在……里面",
+    "into": "进入",
+    "is": "是",
+    "it": "它；这",
+    "its": "它的",
+    "jade": "玉；玉石",
+    "jump": "跳",
+    "let": "让；用于提出建议",
+    "like": "像；像……一样",
+    "ll": "will 的缩写部分，表示“将要”",
+    "looked": "看",
+    "m": "am 的缩写部分，表示“是”",
+    "me": "我",
+    "moment": "片刻；一会儿",
+    "monkeys": "猴子们",
+    "moon": "月亮",
+    "morning": "早晨",
+    "neither": "也不",
+    "night": "夜晚",
+    "not": "不",
+    "of": "……的",
+    "on": "在……上",
+    "one": "一个；一位",
+    "open": "打开；裂开",
+    "other": "其他的",
+    "our": "我们的",
+    "out": "向外；出来",
+    "over": "越过；在……上方",
+    "palace": "宫殿",
+    "play": "玩",
+    "playing": "正在玩",
+    "ran": "跑（run 的过去式）",
+    "reached": "到达；够到",
+    "roaring": "轰鸣；咆哮",
+    "rock": "岩石；石头",
+    "rocks": "岩石；石头",
+    "run": "跑",
+    "s": "is 或 let's 的缩写部分",
+    "said": "说",
+    "sat": "坐；坐落（sit 的过去式）",
+    "saw": "看见（see 的过去式）",
+    "shook": "摇动（shake 的过去式）",
+    "short": "矮的；短的",
+    "slept": "睡觉（sleep 的过去式）",
+    "split": "裂开；分开",
+    "stood": "站起来（stand 的过去式）",
+    "sun": "太阳",
+    "t": "don't 的一部分，表示“不”",
+    "that": "那；那个",
+    "the": "这个；那个；这些；那些",
+    "their": "他们的；它们的",
+    "they": "他们；它们",
+    "through": "穿过",
+    "time": "时间",
+    "to": "到；向；用于动词前",
+    "took": "拿；做；吸（take 的过去式）",
+    "top": "顶部；顶端",
+    "tree": "树",
+    "try": "尝试",
+    "turned": "转向；转身",
+    "under": "在……下面",
+    "until": "直到",
+    "up": "向上；起来",
+    "very": "非常",
+    "voice": "声音",
+    "walk": "走路",
+    "was": "是（be 的过去式）",
+    "water": "水",
+    "we": "我们",
+    "went": "去；走（go 的过去式）",
+    "were": "是（be 的过去式，复数）",
+    "what": "什么",
+    "why": "为什么",
+    "will": "将要；会",
+    "with": "和；与……一起",
+    "worked": "起作用；工作"
+  });
+  window.addEventListener("resize", syncResponsiveShell);
+  window.addEventListener("orientationchange", syncResponsiveShell);
+  var articleWordParts = {
+    "from the beginning of time": "phr. 短语",
+    "split open": "phr. 动词短语",
+    "find out": "phr. 动词短语",
+    "cloud palace": "n. 名词短语",
+    "jade emperor": "n. 名词短语",
+    "higher and higher": "adv. 副词短语",
+    "crashed down": "phr. 动词短语",
+    "roaring like thunder": "phr. 描写短语",
+    "me neither": "phr. 固定表达",
+    "took a deep breath": "phr. 动词短语"
+  };
+
+
   function initHeroImageState() {
     var visual = document.getElementById("heroVisual");
     var image = visual.querySelector("img");
@@ -4086,6 +6166,29 @@ button {
     });
   }
 
+
+  function ensurePhraseSectionsRendered() {
+    var englishBox = document.getElementById("englishPhrases");
+    var chineseBox = document.getElementById("chineseMeanings");
+    var drillBoxes = Array.from(document.querySelectorAll(".phrase-drill-grid"));
+    var matchNeedsRender = englishBox && chineseBox && (englishBox.children.length !== phrases.length || chineseBox.children.length !== phrases.length);
+    if (matchNeedsRender) {
+      englishBox.innerHTML = "";
+      chineseBox.innerHTML = "";
+      matchedConnections = [];
+      completedMatches = 0;
+      selectedPhrase = null;
+      initPhraseMatch();
+    }
+    var drillNeedsRender = drillBoxes.some(function (grid) {
+      var expected = Number(grid.dataset.count || phrases.length);
+      return grid.children.length !== expected;
+    });
+    if (drillNeedsRender) {
+      drillBoxes.forEach(function (grid) { grid.innerHTML = ""; });
+      initPhraseDrill();
+    }
+  }
   document.getElementById("prevSlide").addEventListener("click", function () { goToSlide(currentSlide - 1); });
   document.getElementById("nextSlide").addEventListener("click", function () { goToSlide(currentSlide + 1); });
   document.getElementById("increaseStudent").addEventListener("click", function () { studentScore += 1; updateScores(); });
@@ -4118,6 +6221,8 @@ button {
       goToSlide(slides.length - 1);
     }
   });
+  window.addEventListener("resize", syncResponsiveShell);
+  window.addEventListener("orientationchange", syncResponsiveShell);
 
   initTabs();
   initSimpleExamples();
@@ -4128,6 +6233,7 @@ button {
   initExitChallenges();
   initPhraseMatch();
   initPhraseDrill();
+  ensurePhraseSectionsRendered();
   initAudioControls();
   initExampleNotes();
   initNavigationLinks();
@@ -4135,6 +6241,7 @@ button {
   initArticleInteractions();
   renderChoice();
   renderSentence();
+  syncResponsiveShell();
   updateSlide();
   updateScores();
   updateTimer();

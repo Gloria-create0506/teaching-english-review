@@ -1,0 +1,2545 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zootopia Dialogue Lesson: Body Parts & Party</title>
+  <style>
+    :root {
+      --ink: #152136;
+      --muted: #5d6c83;
+      --blue: #2f8fdb;
+      --green: #36a86f;
+      --yellow: #f4bd44;
+      --coral: #f17468;
+      --purple: #7b75d7;
+      --paper: #fff7e8;
+      --card: rgba(255,255,255,.96);
+      --line: rgba(21,33,54,.14);
+      --shadow: 0 18px 46px rgba(22,38,68,.15);
+      --top: 76px;
+      --bottom: 76px;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(244,189,68,.28), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(47,143,219,.20), transparent 30%),
+        linear-gradient(135deg, #fff7e8 0%, #eaf7ff 50%, #f0fff4 100%);
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: var(--top);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px clamp(14px, 3vw, 34px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,247,232,.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .title-block { min-width: 0; }
+    .title-block strong {
+      display: block;
+      font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+      line-height: 1.15;
+    }
+    .title-block span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .92rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-tools {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .scoreboard {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.76);
+    }
+
+    .team {
+      min-width: 82px;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #fff;
+      font-size: .9rem;
+      font-weight: 900;
+    }
+    .team-a { border: 2px solid rgba(47,143,219,.35); }
+    .team-b { border: 2px solid rgba(241,116,104,.35); }
+
+    .pill, .nav-btn, .small-btn, .big-btn {
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(21,33,54,.14);
+    }
+    .pill {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px;
+    }
+    .pill.light, .small-btn.light, .big-btn.light {
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .progress-track {
+      position: sticky;
+      top: var(--top);
+      z-index: 19;
+      height: 12px;
+      background: rgba(255,255,255,.78);
+      border-bottom: 1px solid rgba(21,33,54,.08);
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: 0 999px 999px 0;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--yellow));
+      transition: width .22s ease;
+    }
+
+    .deck {
+      width: min(1240px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 calc(var(--bottom) + 34px);
+    }
+    .slide {
+      display: none;
+      min-height: calc(100vh - var(--top) - var(--bottom) - 46px);
+      align-content: start;
+      gap: 18px;
+    }
+    .slide.active { display: grid; }
+
+    .heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .heading h1, .heading h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3.1rem);
+      line-height: 1.12;
+    }
+    .heading p {
+      margin: 8px 0 0;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.17rem);
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    .tag {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: #0d5f8f;
+      background: #e3f4ff;
+      font-weight: 900;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+    .pad { padding: clamp(17px, 2.7vw, 28px); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, .92fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .hero-card {
+      overflow: hidden;
+      display: grid;
+      background: #fff;
+    }
+    .hero-card img,
+    .asset-frame img {
+      width: 100%;
+      height: min(66vh, 640px);
+      display: block;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .asset-frame {
+      width: 100%;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      border-radius: inherit;
+      background: #fff;
+    }
+
+    .asset-frame.asset-missing img {
+      display: none;
+    }
+
+    .asset-frame img {
+      height: 100%;
+      min-height: inherit;
+      border-radius: inherit;
+    }
+
+    .asset-placeholder {
+      width: 100%;
+      min-height: inherit;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      border: 2px dashed rgba(47,143,219,.34);
+      border-radius: inherit;
+      color: var(--muted);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(244,189,68,.16), transparent 26%),
+        #fff;
+      text-align: center;
+      font-weight: 900;
+      line-height: 1.55;
+      white-space: pre-line;
+    }
+
+    .lesson-path {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .lesson-path li {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(47,143,219,.16);
+      background: #f5fbff;
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+    .lesson-path b {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .stage-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, .82fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .character-stage {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      display: grid;
+      align-content: end;
+      justify-items: center;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.86)),
+        radial-gradient(circle at 22% 18%, rgba(244,189,68,.28), transparent 30%),
+        radial-gradient(circle at 82% 18%, rgba(47,143,219,.22), transparent 32%),
+        #fff;
+    }
+    .party-line {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 96px;
+      background:
+        linear-gradient(135deg, transparent 0 18px, rgba(241,116,104,.42) 18px 24px, transparent 24px 42px),
+        linear-gradient(45deg, transparent 0 18px, rgba(244,189,68,.45) 18px 24px, transparent 24px 42px);
+      opacity: .45;
+    }
+    .character-row {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+    .character {
+      min-height: 330px;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(21,33,54,.12);
+      transform-origin: bottom center;
+      transition: filter .2s ease, transform .2s ease;
+    }
+    .character.active {
+      filter: drop-shadow(0 14px 24px rgba(47,143,219,.24));
+    }
+    .character-img {
+      width: 100%;
+      min-height: 250px;
+      border-radius: 16px;
+      border: 1px solid rgba(21,33,54,.1);
+      background: #fff;
+      overflow: hidden;
+    }
+    .character-img .asset-frame,
+    .character-img .asset-frame img {
+      min-height: 250px;
+      height: 100%;
+      border-radius: 16px;
+    }
+    .character-img img {
+      width: 100%;
+      height: 100%;
+      min-height: 250px;
+      display: block;
+      object-fit: cover;
+    }
+    .judy .character-img img { object-position: 30% 32%; }
+    .nick .character-img img { object-position: 70% 36%; }
+    .character-name {
+      display: grid;
+      place-items: center;
+      min-height: 40px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 900;
+    }
+    .judy .character-name { background: var(--blue); }
+    .nick .character-name { background: var(--green); }
+
+    .character.wave { animation: wave .72s ease both; }
+    .character.clap { animation: clap .52s ease both; }
+    .character.stamp { animation: stamp .46s ease both; }
+    .character.stretch { animation: stretch .7s ease both; }
+    .character.raise { animation: raise .62s ease both; }
+    .character.celebrate { animation: celebrate .9s ease both; }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      25% { transform: rotate(-4deg) translateY(-5px); }
+      50% { transform: rotate(4deg) translateY(-9px); }
+      75% { transform: rotate(-3deg) translateY(-5px); }
+    }
+    @keyframes clap {
+      0%, 100% { transform: scale(1); }
+      30%, 70% { transform: scale(.94) rotate(-2deg); }
+      50% { transform: scale(1.06) rotate(2deg); }
+    }
+    @keyframes stamp {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-10px) rotate(-1deg); }
+      50% { transform: translateY(8px) rotate(1deg); }
+      75% { transform: translateY(-4px); }
+    }
+    @keyframes stretch {
+      0%, 100% { transform: scale(1); }
+      45% { transform: scale(1.08, 1.14) translateY(-12px); }
+    }
+    @keyframes raise {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      45% { transform: translateY(-18px) rotate(-2deg); }
+    }
+    @keyframes celebrate {
+      0%, 100% { transform: translateY(0) scale(1); }
+      25% { transform: translateY(-14px) scale(1.03) rotate(-2deg); }
+      50% { transform: translateY(0) scale(1.02) rotate(2deg); }
+      75% { transform: translateY(-10px) scale(1.04); }
+    }
+
+    .dialogue-panel {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .dialogue-card {
+      display: grid;
+      gap: 12px;
+      padding: clamp(18px, 3vw, 30px);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.94);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .bubble {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(21,33,54,.11);
+    }
+    .speaker {
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 900;
+    }
+    .speaker.judy { background: var(--blue); }
+    .speaker.nick { background: var(--green); }
+    .speaker.class { background: var(--purple); }
+    .bubble p {
+      margin: 0;
+      font-size: clamp(1.08rem, 2.2vw, 1.45rem);
+      line-height: 1.38;
+      font-weight: 900;
+    }
+    .bubble small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .target-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #f5fbff;
+      border: 1px solid rgba(47,143,219,.16);
+      color: var(--muted);
+      font-weight: 900;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid rgba(21,33,54,.12);
+      font-weight: 900;
+    }
+
+    .student-task {
+      display: grid;
+      gap: 12px;
+      padding: clamp(18px, 3vw, 30px);
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .task-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .task-title h3 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    }
+    .blank-line {
+      min-height: 70px;
+      display: grid;
+      align-items: center;
+      padding: 14px 16px;
+      border: 2px dashed rgba(47,143,219,.36);
+      border-radius: 16px;
+      color: var(--ink);
+      background: #f8fcff;
+      font-size: clamp(1.18rem, 2.6vw, 1.65rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+    .choice-grid, .challenge-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .choice, .option {
+      min-height: 60px;
+      padding: 12px 14px;
+      border: 2px solid rgba(21,33,54,.12);
+      border-radius: 15px;
+      color: var(--ink);
+      background: #fff;
+      text-align: left;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+    .choice.selected, .option.selected {
+      border-color: var(--blue);
+      background: #e9f6ff;
+    }
+    .choice.correct, .option.correct {
+      border-color: rgba(54,168,111,.65);
+      background: #e8fff1;
+    }
+    .choice.wrong, .option.wrong {
+      border-color: rgba(241,116,104,.72);
+      background: #fff0ef;
+    }
+
+    .tile-bank, .sentence-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sentence-box {
+      min-height: 82px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 16px;
+      border: 2px dashed rgba(47,143,219,.36);
+      background: #f8fcff;
+    }
+    .tile {
+      min-height: 48px;
+      padding: 0 15px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(21,33,54,.10);
+    }
+    .tile.used { opacity: .35; }
+
+    .answer-reveal {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #e8fff1;
+      border: 1px solid rgba(54,168,111,.32);
+      color: #0b5d38;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+    .answer-reveal.show { display: block; }
+    .feedback {
+      min-height: 44px;
+      display: grid;
+      align-items: center;
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .big-btn {
+      min-height: 56px;
+      padding: 0 22px;
+      background: var(--green);
+      font-size: 1.06rem;
+    }
+    .big-btn.blue { background: var(--blue); }
+    .big-btn.coral { background: var(--coral); }
+    .big-btn.purple { background: var(--purple); }
+    .small-btn {
+      min-height: 38px;
+      padding: 0 13px;
+      background: var(--blue);
+      box-shadow: none;
+    }
+
+    .command-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .command-card {
+      min-height: 170px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      padding: 16px;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      text-align: center;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 12px 26px rgba(21,33,54,.10);
+      font-weight: 900;
+    }
+    .command-card:hover, .command-card.active {
+      border-color: rgba(47,143,219,.52);
+      background: #f2fbff;
+    }
+    .command-card strong {
+      font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+      line-height: 1.18;
+    }
+    .command-card span { color: var(--muted); }
+
+    .body-explorer {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(310px, .72fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .exploded-stage {
+      position: relative;
+      min-height: 610px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 12px;
+      padding: clamp(14px, 2vw, 22px);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(244,189,68,.24), transparent 28%),
+        radial-gradient(circle at 82% 16%, rgba(47,143,219,.20), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.96));
+    }
+
+    .mode-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 4;
+    }
+
+    .mode-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-button {
+      min-height: 40px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      font-weight: 900;
+    }
+
+    .mode-button.active {
+      color: #fff;
+      border-color: transparent;
+      background: var(--blue);
+      box-shadow: 0 10px 22px rgba(47,143,219,.22);
+    }
+
+    .version-switcher {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .version-button {
+      min-height: 38px;
+      padding: 0 13px;
+      border: 1px solid rgba(47,143,219,.22);
+      border-radius: 999px;
+      color: #0d5f8f;
+      background: #eef8ff;
+      font-weight: 900;
+    }
+
+    .version-button.active {
+      color: #fff;
+      border-color: transparent;
+      background: var(--green);
+      box-shadow: 0 10px 22px rgba(54,168,111,.18);
+    }
+
+    .word-progress {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
+      border-radius: 999px;
+      color: #0b5d38;
+      background: #e8fff1;
+      border: 1px solid rgba(54,168,111,.26);
+      font-weight: 900;
+    }
+
+    .exploded-figures {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 620px;
+      padding: 12px 8px 0;
+    }
+
+    .body-character {
+      position: relative;
+      width: min(560px, 100%);
+      aspect-ratio: 3 / 4;
+      overflow: visible;
+      border-radius: 24px;
+      transform-origin: bottom center;
+      transition: transform .22s ease, filter .22s ease;
+    }
+
+    .body-character::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 0;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(21,33,54,.10);
+      filter: blur(3px);
+    }
+
+    .body-character img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 24px;
+      border: 1px solid rgba(21,33,54,.10);
+      background: #fff;
+      box-shadow: 0 18px 38px rgba(21,33,54,.13);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .body-character .asset-frame {
+      position: absolute;
+      inset: 0;
+      min-height: 100%;
+      border-radius: 24px;
+      background: transparent;
+    }
+
+    .body-character .asset-frame img {
+      min-height: 100%;
+    }
+
+    .body-character .asset-placeholder {
+      position: absolute;
+      inset: 0;
+      min-height: 100%;
+      font-size: .95rem;
+    }
+
+    .body-character.duo-body img { object-position: center center; }
+
+    .body-character.body-bounce { animation: bodyBounce .55s ease both; }
+    .body-character.body-wave { animation: bodyWave .68s ease both; }
+
+    @keyframes bodyBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      35% { transform: translateY(-13px) scale(1.03); }
+      65% { transform: translateY(3px) scale(.99); }
+    }
+
+    @keyframes bodyWave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg) translateY(-7px); }
+      55% { transform: rotate(3deg) translateY(-10px); }
+      80% { transform: rotate(-2deg) translateY(-4px); }
+    }
+
+    .body-hotspot {
+      position: absolute;
+      z-index: 5;
+      width: clamp(18px, 2.3vw, 28px);
+      height: clamp(18px, 2.3vw, 28px);
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0 18%, var(--yellow) 20% 52%, var(--coral) 56% 100%);
+      box-shadow:
+        0 0 0 5px rgba(244,189,68,.22),
+        0 0 24px rgba(241,116,104,.54);
+      transform: translate(-50%, -50%);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .body-hotspot:hover,
+    .body-hotspot:focus {
+      transform: translate(-50%, -50%) scale(1.28);
+      box-shadow:
+        0 0 0 8px rgba(47,143,219,.18),
+        0 0 30px rgba(47,143,219,.54);
+      animation: hotspotBreath 1s ease-in-out infinite;
+      outline: none;
+    }
+
+    @keyframes hotspotBreath {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.18); }
+    }
+
+    .body-hotspot.learned {
+      background: radial-gradient(circle, #fff 0 18%, #7fe4a5 20% 58%, var(--green) 60% 100%);
+      box-shadow:
+        0 0 0 5px rgba(54,168,111,.20),
+        0 0 24px rgba(54,168,111,.48);
+    }
+
+    .body-hotspot.active {
+      transform: translate(-50%, -50%) scale(1.34);
+      background: radial-gradient(circle, #fff 0 16%, #ffe179 18% 54%, #ff7c76 58% 100%);
+      box-shadow:
+        0 0 0 9px rgba(241,116,104,.18),
+        0 0 34px rgba(241,116,104,.62);
+    }
+
+    .exploded-label {
+      position: absolute;
+      z-index: 4;
+      min-width: 100px;
+      max-width: 136px;
+      padding: 9px 12px;
+      border: 2px solid rgba(21,33,54,.12);
+      border-radius: 16px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 12px 26px rgba(21,33,54,.14);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(var(--fly-x, 0), var(--fly-y, 0)) scale(.72) rotate(-2deg);
+      transform-origin: center;
+      transition: opacity .32s ease, transform .42s cubic-bezier(.2, .8, .2, 1), filter .24s ease;
+    }
+
+    .exploded-label span {
+      display: block;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .exploded-label strong {
+      display: block;
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      line-height: 1.05;
+    }
+
+    .exploded-label.learned {
+      opacity: .46;
+      transform: translate(0, 0) scale(.92);
+    }
+
+    .exploded-label.active {
+      opacity: 1;
+      z-index: 6;
+      filter: saturate(1.12);
+      transform: translate(0, 0) scale(1.12) rotate(0deg);
+      border-color: rgba(47,143,219,.35);
+      box-shadow: 0 18px 34px rgba(47,143,219,.20);
+    }
+
+    .connector-line {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .connector-line line {
+      opacity: 0;
+      stroke: rgba(21,33,54,.32);
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-dasharray: 7 7;
+      transition: opacity .28s ease, stroke .2s ease, stroke-width .2s ease;
+    }
+
+    .connector-line line.learned { opacity: .28; }
+    .connector-line line.active {
+      opacity: 1;
+      stroke: var(--blue);
+      stroke-width: 3.2;
+    }
+
+    .word-card {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      min-height: 100%;
+      padding: clamp(18px, 3vw, 30px);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.96);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .word-card .eyebrow {
+      width: fit-content;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: #0d5f8f;
+      background: #e3f4ff;
+      font-weight: 900;
+    }
+
+    .word-card h3 {
+      margin: 0;
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
+      line-height: .95;
+    }
+
+    .word-card dl {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+    }
+
+    .word-card dt {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+
+    .word-card dd {
+      margin: 2px 0 0;
+      font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .body-prompt {
+      min-height: 52px;
+      display: grid;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--line);
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+
+    .pair-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .pair-card {
+      min-height: 220px;
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 12px 26px rgba(21,33,54,.10);
+    }
+    .pair-card strong { font-size: 1.25rem; }
+    .pair-card p { margin: 0; color: var(--muted); font-weight: 900; line-height: 1.5; }
+
+    .challenge-shell {
+      display: grid;
+      grid-template-columns: minmax(290px, .72fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .challenge-status {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+      text-align: center;
+    }
+    .timer {
+      width: 130px;
+      height: 130px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      font-size: 2.7rem;
+      font-weight: 900;
+      box-shadow: 0 16px 32px rgba(47,143,219,.22);
+    }
+    .challenge-status h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(10,16,28,.62);
+    }
+    .modal.open { display: grid; }
+    .modal-card {
+      width: min(560px, 100%);
+      display: grid;
+      gap: 14px;
+      padding: clamp(22px, 4vw, 36px);
+      border-radius: 24px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(10,16,28,.28);
+    }
+    .modal-card h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+    }
+    .modal-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1.5;
+    }
+
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(10,16,28,.82);
+    }
+    .image-modal.open { display: grid; }
+    .image-box {
+      width: min(1120px, 100%);
+      max-height: 92vh;
+      display: grid;
+      gap: 10px;
+    }
+    .image-box img {
+      width: 100%;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: 16px;
+      background: #fff;
+    }
+    .image-box button { justify-self: end; }
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 22;
+      min-height: var(--bottom);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,247,232,.95);
+      backdrop-filter: blur(14px);
+    }
+    .nav-btn {
+      min-width: 112px;
+      min-height: 46px;
+      padding: 0 18px;
+    }
+    .nav-btn:disabled { opacity: .36; cursor: default; }
+    .slide-no {
+      min-width: 96px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    @media (max-width: 980px) {
+      :root { --top: 92px; }
+      .grid-2, .stage-layout, .challenge-shell, .body-explorer { grid-template-columns: 1fr; }
+      .grid-3, .command-board, .pair-grid { grid-template-columns: 1fr; }
+      .hero-card img { height: auto; max-height: 74vh; }
+      .character-stage { min-height: 470px; }
+      .choice-grid, .challenge-options { grid-template-columns: 1fr; }
+      .exploded-stage { min-height: auto; }
+      .exploded-figures { min-height: 500px; }
+    }
+    @media (max-width: 680px) {
+      :root { --top: 130px; --bottom: 84px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .top-tools { width: 100%; justify-content: flex-start; }
+      .scoreboard { width: 100%; justify-content: space-between; }
+      .team { flex: 1; }
+      .character-row { grid-template-columns: 1fr; }
+      .character { min-height: 240px; }
+      .character-img, .character-img img { min-height: 180px; }
+      .bubble { grid-template-columns: 1fr; }
+      .nav-btn { min-width: 86px; }
+      .exploded-figures { min-height: auto; }
+      .body-character {
+        max-width: 360px;
+        width: 100%;
+        justify-self: center;
+      }
+      .exploded-label {
+        min-width: 96px;
+        max-width: 132px;
+        padding: 7px 9px;
+        font-size: .9rem;
+      }
+      .exploded-label strong { font-size: .98rem; }
+      .mode-switcher { align-items: stretch; }
+      .mode-buttons { width: 100%; }
+      .mode-button { flex: 1 1 100%; }
+      .version-button { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title-block">
+      <strong>Module 4 Unit 1: Zootopia Dialogue Lesson</strong>
+      <span>小学三年级新授课：在 Judy 和 Nick 的对话中学习身体部位与动作表达</span>
+    </div>
+    <div class="top-tools">
+      <div class="scoreboard" aria-label="team scoreboard">
+        <span class="team team-a">Team A <b id="scoreA">0</b></span>
+        <span class="team team-b">Team B <b id="scoreB">0</b></span>
+      </div>
+      <a class="pill light" href="chapters.html">返回目录</a>
+      <button class="pill" type="button" id="resetLesson">重置课堂</button>
+    </div>
+  </header>
+  <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress"></div></div>
+
+  <main class="deck">
+    <section class="slide active" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">1 Story Intro · 对话导入</span>
+          <h1>Judy and Nick's Party Mission</h1>
+          <p>学生不是先背单词，而是先进入故事：Judy 和 Nick 邀请大家参加 Zootopia Party，必须听懂身体部位和动作口令才能进场。</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="hero-card panel">
+          <div class="asset-frame" data-asset="hero" data-alt="Zootopia party mission entrance scene"></div>
+        </div>
+        <div class="panel pad">
+          <h2>今天的课堂任务</h2>
+          <ul class="lesson-path">
+            <li><b>1</b><span>听 Judy 和 Nick 的对话，猜他们要做什么。</span></li>
+            <li><b>2</b><span>先用爆炸图点击 Judy 和 Nick 的身体部位，建立词义。</span></li>
+            <li><b>3</b><span>在对话里学习 head, shoulders, arms, hands, feet, toes 等部位。</span></li>
+            <li><b>4</b><span>小朋友先自己补全对话，答对后再显示答案。</span></li>
+            <li><b>5</b><span>最后完成三关 Final Challenge，成为 Party Star。</span></li>
+          </ul>
+          <div class="row-actions">
+            <button class="big-btn blue" type="button" data-speak="Hello, class. Judy and Nick have a party mission for you.">教师开场</button>
+            <button class="big-btn light" type="button" data-speak="Are you ready? Let's go to the Zootopia party!">学生热身</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">2 Body Explorer · 爆炸图学习</span>
+          <h2>Meet Judy and Nick: Click the Body Parts</h2>
+          <p>点击 Judy 和 Nick 身体上的发光圆点，单词会像爆炸图标注一样飞出来。先探索，再听音找部位，最后复习回忆。</p>
+        </div>
+      </div>
+      <div class="body-explorer" id="bodyExplorer">
+        <div class="exploded-stage panel">
+          <div class="mode-switcher">
+            <div class="mode-buttons" role="group" aria-label="body explorer modes">
+              <button class="mode-button active" type="button" data-body-mode="explore">Explore</button>
+              <button class="mode-button" type="button" data-body-mode="listen">Listen and Find</button>
+              <button class="mode-button" type="button" data-body-mode="review">Review</button>
+            </div>
+            <span class="word-progress" id="bodyProgress">0 / 8 words found</span>
+          </div>
+          <div class="version-switcher" role="group" aria-label="body explorer picture version">
+            <button class="version-button active" type="button" data-body-version="labeled">White Label</button>
+            <button class="version-button" type="button" data-body-version="forest">Forest Scene</button>
+          </div>
+          <div class="body-prompt" id="bodyPrompt">Explore: click a glowing dot on Judy or Nick.</div>
+          <div class="exploded-figures" id="bodyExplorerStage" aria-label="Judy and Nick body parts explorer"></div>
+        </div>
+        <aside class="word-card" id="bodyWordCard">
+          <span class="eyebrow">Word Card</span>
+          <h3>Ready?</h3>
+          <dl>
+            <div><dt>中文</dt><dd>点击一个身体部位开始学习。</dd></div>
+            <div><dt>Phrase</dt><dd>Listen and click.</dd></div>
+            <div><dt>Sentence</dt><dd>Let's learn with Judy and Nick.</dd></div>
+          </dl>
+          <div class="row-actions">
+            <button class="big-btn blue" type="button" id="bodyListenBtn">Listen</button>
+            <button class="big-btn light" type="button" id="bodyActBtn">Act it out</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">3 Dialogue 1 · 对话中学上半身</span>
+          <h2>Judy gives Nick the first mission</h2>
+          <p>先听完整对话，再点每一句跟读。目标词藏在对话里：head, shoulders, arms, hands。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy active" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueUpperBody" data-alt="Judy points to head and shoulders"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueUpperBody" data-alt="Nick raises arms and hands"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="dialogue-panel" id="dialogueOne"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">4 Student Turn 1 · 先作答再出答案</span>
+          <h2>Help Nick answer Judy</h2>
+          <p>学生先选择 Nick 应该说的话。只有答对后，完整答案和祝贺才会出现。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueUpperBody" data-alt="Judy points to head and shoulders"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick active" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueUpperBody" data-alt="Nick raises arms and hands"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="student-task" id="studentTurnOne"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">5 Dialogue 2 · 对话中学下半身和身体</span>
+          <h2>Move together with the song</h2>
+          <p>第二段对话加入 feet, toes, knees, body，并把词放进动作里：stamp, bend, stretch, look at。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy active" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueLowerBody" data-alt="Judy and Nick stamp feet and stretch body"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick active" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueLowerBody" data-alt="Judy and Nick stamp feet and stretch body"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="dialogue-panel" id="dialogueTwo"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">6 Student Turn 2 · 点击词块完成对话</span>
+          <h2>Build Judy's sentence</h2>
+          <p>学生点击词块拼出 Judy 的台词，答对后显示完整对话并加分。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy active" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueLowerBody" data-alt="Judy and Nick stamp feet and stretch body"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="dialogueLowerBody" data-alt="Judy and Nick stamp feet and stretch body"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="student-task" id="studentTurnTwo"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">7 Move With Characters · 角色动起来</span>
+          <h2>Click, listen, move</h2>
+          <p>点击动作口令，Judy 或 Nick 的角色卡片会做对应动画，学生跟着完成动作。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy active" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="judyStanding" data-alt="Judy standing full body for action practice"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick active" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="nickStanding" data-alt="Nick standing full body for action practice"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="student-task">
+          <div class="task-title">
+            <h3>Action Commands</h3>
+            <button class="small-btn light" type="button" id="randomCommand">随机口令</button>
+          </div>
+          <div class="command-board" id="commandBoard"></div>
+          <div class="feedback" id="moveFeedback">点击一个口令，角色会动起来。学生完成动作后给小组加分。</div>
+          <div class="row-actions">
+            <button class="big-btn blue" type="button" data-team="a">Team A +1</button>
+            <button class="big-btn coral" type="button" data-team="b">Team B +1</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">8 Pair Talk · 两人对话</span>
+          <h2>Make a mini dialogue</h2>
+          <p>学生两人一组先自己说，点击 Check 后才显示参考答案。这里从控制性练习过渡到口语输出。</p>
+        </div>
+      </div>
+      <div class="pair-grid" id="pairTalk"></div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">9 Party Mission · 完整小对话</span>
+          <h2>Get the party ticket</h2>
+          <p>学生先完成 4 句派对对话，再点击检查。答对后显示 Party Star 祝贺。</p>
+        </div>
+      </div>
+      <div class="stage-layout">
+        <div class="character-stage panel" data-stage>
+          <div class="party-line"></div>
+          <div class="character-row">
+            <div class="character judy active" data-character="judy">
+              <div class="character-img"><div class="asset-frame" data-asset="partyMission" data-alt="Zootopia party mission entrance scene"></div></div>
+              <div class="character-name">Judy</div>
+            </div>
+            <div class="character nick active" data-character="nick">
+              <div class="character-img"><div class="asset-frame" data-asset="partyMission" data-alt="Zootopia party mission entrance scene"></div></div>
+              <div class="character-name">Nick</div>
+            </div>
+          </div>
+        </div>
+        <div class="student-task" id="partyMission"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide>
+      <div class="heading">
+        <div>
+          <span class="tag">10 Final Challenge · 三关挑战</span>
+          <h2>Become a Party Star</h2>
+          <p>最后阶段包含听力选择、补全对话、动作判断。每关先作答，答对才进入下一关。</p>
+        </div>
+      </div>
+      <div class="challenge-shell">
+        <div class="challenge-status panel pad">
+          <div class="timer" id="challengeTimer">30</div>
+          <h3 id="challengeTitle">Round 1: Listen</h3>
+          <p id="challengeProgress">1 / 3</p>
+          <div class="row-actions" style="justify-content:center">
+            <button class="big-btn blue" type="button" id="startChallenge">Start</button>
+            <button class="big-btn light" type="button" id="listenChallenge">Listen</button>
+          </div>
+        </div>
+        <div class="student-task" id="challengePanel"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="slide navigation">
+    <button class="nav-btn" type="button" id="prev">Previous</button>
+    <span class="slide-no" id="slideNo">1 / 10</span>
+    <button class="nav-btn" type="button" id="next">Next</button>
+  </nav>
+
+  <div class="modal" id="celebrationModal" aria-hidden="true">
+    <div class="modal-card">
+      <h2 id="celebrationTitle">Great job!</h2>
+      <p id="celebrationText">You did it.</p>
+      <div class="row-actions" style="justify-content:center">
+        <button class="big-btn blue" type="button" id="closeCelebration">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-modal" id="imageModal" aria-hidden="true">
+    <div class="image-box">
+      <button class="pill" type="button" id="closeImage">关闭</button>
+      <img id="modalImage" src="" alt="放大的课堂卡片">
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      if (location.protocol === "file:" && !sessionStorage.getItem("teachingEnglishLoggedIn")) {
+        location.replace("login.html");
+        return;
+      }
+
+      var slides = Array.from(document.querySelectorAll("[data-slide]"));
+      var currentSlide = 0;
+      var scores = { a: 0, b: 0 };
+      var selectedChoice = {};
+      var tileState = {};
+      var challengeIndex = 0;
+      var challengeSeconds = 30;
+      var challengeTimer = null;
+      var bodyExplorerMode = "explore";
+      var bodyExplorerVersion = "labeled";
+      var bodyExplorerTarget = null;
+      var activeBodyPart = null;
+      var learnedBodyParts = new Set();
+
+      var imageAssets = {
+        hero: "module-4-hero-party-mission.png",
+        bodyExplorerDuo: "module-4-body-explorer-judy-nick-full.png",
+        bodyExplorerLabeled: "module-4-body-explorer-judy-nick-full.png",
+        bodyExplorerForest: "module-4-body-explorer-judy-nick-forest.png",
+        judyStanding: "module-4-judy-standing.png",
+        nickStanding: "module-4-nick-standing.png",
+        dialogueUpperBody: "module-4-dialogue-upper-body.png",
+        dialogueLowerBody: "module-4-dialogue-lower-body.png",
+        partyMission: "module-4-party-mission.png"
+      };
+
+      var assetRequirements = {
+        hero: "请放入图片：module-4-hero-party-mission.png\n要求：Judy 和 Nick 站在派对入口，横版教学封面，有派对氛围。",
+        bodyExplorerDuo: "请放入图片：module-4-body-explorer-judy-nick-full.png\n要求：Judy 和 Nick 全身站立，身体部位清晰，适合点击热点。",
+        bodyExplorerLabeled: "请放入图片：module-4-body-explorer-judy-nick-full.png\n要求：白底标注版，Judy 和 Nick 全身站立，适合精确点击身体部位。",
+        bodyExplorerForest: "请放入图片：module-4-body-explorer-judy-nick-forest.png\n要求：森林场景版，Judy 和 Nick 全身站立，身体部位清晰。",
+        judyStanding: "请放入图片：module-4-judy-standing.png\n要求：Judy 独立全身站立图，背景干净，适合课堂动作动画。",
+        nickStanding: "请放入图片：module-4-nick-standing.png\n要求：Nick 独立全身站立图，背景干净，适合课堂动作动画。",
+        dialogueUpperBody: "请放入图片：module-4-dialogue-upper-body.png\n要求：Judy 指向 head / shoulders，Nick 举起 arms / hands。",
+        dialogueLowerBody: "请放入图片：module-4-dialogue-lower-body.png\n要求：Judy 或 Nick 做 stamp feet / bend knees / stretch body。",
+        partyMission: "请放入图片：module-4-party-mission.png\n要求：Judy 和 Nick 完成派对任务，画面服务于小对话输出。"
+      };
+
+      // Coordinates are calibrated per Body Explorer image version.
+      // If either main image changes, recalibrate top / left / labelTop / labelLeft
+      // in bodyExplorerPositions for that image version.
+      var bodyPartsData = [
+        {
+          id: "head",
+          word: "head",
+          cn: "头",
+          phrase: "touch your head",
+          sentence: "Touch your head.",
+          character: "judy",
+          top: 56,
+          left: 62,
+          labelTop: 42,
+          labelLeft: 73,
+          flyX: "0px",
+          flyY: "48px",
+          action: "wave"
+        },
+        {
+          id: "shoulders",
+          word: "shoulders",
+          cn: "肩膀",
+          phrase: "touch your shoulders",
+          sentence: "Touch your shoulders.",
+          character: "judy",
+          top: 65,
+          left: 61,
+          labelTop: 57,
+          labelLeft: 75,
+          flyX: "82px",
+          flyY: "36px",
+          action: "wave"
+        },
+        {
+          id: "arms",
+          word: "arms",
+          cn: "手臂",
+          phrase: "raise your arms",
+          sentence: "Raise your arms.",
+          character: "judy",
+          top: 58,
+          left: 42,
+          labelTop: 53,
+          labelLeft: 12,
+          flyX: "72px",
+          flyY: "14px",
+          action: "raise"
+        },
+        {
+          id: "hands",
+          word: "hands",
+          cn: "手",
+          phrase: "clap your hands",
+          sentence: "Clap your hands.",
+          character: "nick",
+          top: 89,
+          left: 75,
+          labelTop: 82,
+          labelLeft: 78,
+          flyX: "-60px",
+          flyY: "12px",
+          action: "clap"
+        },
+        {
+          id: "knees",
+          word: "knees",
+          cn: "膝盖",
+          phrase: "bend your knees",
+          sentence: "Bend your knees.",
+          character: "nick",
+          top: 90,
+          left: 69,
+          labelTop: 84,
+          labelLeft: 14,
+          flyX: "84px",
+          flyY: "-42px",
+          action: "stamp"
+        },
+        {
+          id: "feet",
+          word: "feet",
+          cn: "脚",
+          phrase: "stamp your feet",
+          sentence: "Stamp your feet.",
+          character: "judy",
+          top: 97,
+          left: 64,
+          labelTop: 91,
+          labelLeft: 16,
+          flyX: "74px",
+          flyY: "-32px",
+          action: "stamp"
+        },
+        {
+          id: "toes",
+          word: "toes",
+          cn: "脚趾",
+          phrase: "touch your toes",
+          sentence: "Touch your toes.",
+          character: "judy",
+          top: 98,
+          left: 58,
+          labelTop: 90,
+          labelLeft: 72,
+          flyX: "-72px",
+          flyY: "-34px",
+          action: "stretch"
+        },
+        {
+          id: "body",
+          word: "body",
+          cn: "身体",
+          phrase: "stretch your body",
+          sentence: "Stretch your body.",
+          character: "judy",
+          top: 74,
+          left: 62,
+          labelTop: 69,
+          labelLeft: 10,
+          flyX: "-72px",
+          flyY: "0px",
+          action: "stretch"
+        }
+      ];
+
+      var bodyExplorerPositions = {
+        labeled: {
+          head: { character: "judy", top: 25, left: 32, labelTop: 16, labelLeft: 6, flyX: "40px", flyY: "30px" },
+          shoulders: { character: "judy", top: 34, left: 32, labelTop: 29, labelLeft: 4, flyX: "52px", flyY: "18px" },
+          arms: { character: "judy", top: 43, left: 31, labelTop: 38, labelLeft: 5, flyX: "50px", flyY: "12px" },
+          hands: { character: "judy", top: 52, left: 32, labelTop: 48, labelLeft: 5, flyX: "46px", flyY: "12px" },
+          body: { character: "judy", top: 62, left: 31, labelTop: 58, labelLeft: 5, flyX: "52px", flyY: "0px" },
+          knees: { character: "judy", top: 72, left: 32, labelTop: 68, labelLeft: 6, flyX: "52px", flyY: "-22px" },
+          feet: { character: "judy", top: 82, left: 30, labelTop: 78, labelLeft: 6, flyX: "52px", flyY: "-26px" },
+          toes: { character: "judy", top: 91, left: 26, labelTop: 86, labelLeft: 6, flyX: "58px", flyY: "-30px" }
+        },
+        forest: {
+          head: { character: "judy", top: 56, left: 62, labelTop: 42, labelLeft: 73, flyX: "0px", flyY: "48px" },
+          shoulders: { character: "judy", top: 65, left: 61, labelTop: 57, labelLeft: 75, flyX: "82px", flyY: "36px" },
+          arms: { character: "judy", top: 58, left: 42, labelTop: 53, labelLeft: 12, flyX: "72px", flyY: "14px" },
+          hands: { character: "nick", top: 89, left: 75, labelTop: 82, labelLeft: 78, flyX: "-60px", flyY: "12px" },
+          knees: { character: "nick", top: 90, left: 69, labelTop: 84, labelLeft: 14, flyX: "84px", flyY: "-42px" },
+          feet: { character: "judy", top: 97, left: 64, labelTop: 91, labelLeft: 16, flyX: "74px", flyY: "-32px" },
+          toes: { character: "judy", top: 98, left: 58, labelTop: 90, labelLeft: 72, flyX: "-72px", flyY: "-34px" },
+          body: { character: "judy", top: 74, left: 62, labelTop: 69, labelLeft: 10, flyX: "-72px", flyY: "0px" }
+        }
+      };
+
+      var dialogueScenes = [
+        {
+          id: "dialogueOne",
+          title: "Dialogue 1",
+          targets: ["head", "shoulders", "arms", "hands"],
+          lines: [
+            { speaker: "Judy", text: "Touch your head, Nick.", cn: "摸摸你的头。", character: "judy", action: "wave" },
+            { speaker: "Nick", text: "My head? Of course!", cn: "我的头？当然可以！", character: "nick", action: "wave" },
+            { speaker: "Judy", text: "Raise your arms and hands.", cn: "举起你的手臂和手。", character: "judy", action: "raise" },
+            { speaker: "Nick", text: "It's easy!", cn: "这很容易！", character: "nick", action: "raise" }
+          ],
+          task: {
+            type: "choice",
+            prompt: "Judy: Raise your arms and hands. Nick: ________",
+            options: ["It's easy!", "I go to the zoo.", "My feet and toes.", "Let's take a photograph."],
+            answer: "It's easy!",
+            hint: "Look at Nick. He can do it.",
+            reveal: "Judy: Raise your arms and hands. Nick: It's easy!",
+            congrats: "Great! Nick can raise his arms and hands."
+          }
+        },
+        {
+          id: "dialogueTwo",
+          title: "Dialogue 2",
+          targets: ["feet", "toes", "knees", "body", "stamp", "stretch"],
+          lines: [
+            { speaker: "Judy", text: "Look at my feet and toes.", cn: "看我的脚和脚趾。", character: "judy", action: "stamp" },
+            { speaker: "Nick", text: "Let's bend our knees.", cn: "让我们弯曲膝盖。", character: "nick", action: "stamp" },
+            { speaker: "Judy", text: "Stamp your feet to the song!", cn: "跟着歌曲跺脚！", character: "judy", action: "stamp" },
+            { speaker: "Nick", text: "I stretch my body every morning.", cn: "我每天早上伸展身体。", character: "nick", action: "stretch" }
+          ],
+          task: {
+            type: "build",
+            prompt: "Build Judy's line:",
+            words: ["Stamp", "your", "feet", "to", "the", "song!"],
+            answer: "Stamp your feet to the song!",
+            hint: "Start with the action word: Stamp.",
+            reveal: "Judy: Stamp your feet to the song!",
+            congrats: "Wonderful! Judy's music command is ready."
+          }
+        }
+      ];
+
+      var actionCommands = [
+        { speaker: "Judy", text: "Touch your head.", cn: "摸摸你的头。", character: "judy", action: "wave" },
+        { speaker: "Nick", text: "Raise your arms.", cn: "举起你的手臂。", character: "nick", action: "raise" },
+        { speaker: "Judy", text: "Clap your hands.", cn: "拍拍你的手。", character: "judy", action: "clap" },
+        { speaker: "Nick", text: "Stamp your feet.", cn: "跺跺你的脚。", character: "nick", action: "stamp" },
+        { speaker: "Judy", text: "Bend your knees.", cn: "弯曲你的膝盖。", character: "judy", action: "stamp" },
+        { speaker: "Nick", text: "Stretch your body.", cn: "伸展你的身体。", character: "nick", action: "stretch" }
+      ];
+
+      var pairTasks = [
+        {
+          role: "Pair 1: Judy and Nick",
+          prompt: "A: Touch your ______. B: My head? Of course!",
+          options: ["head", "cinema", "June"],
+          answer: "head",
+          reveal: "A: Touch your head. B: My head? Of course!"
+        },
+        {
+          role: "Pair 2: Party Friends",
+          prompt: "A: Clap your ______. B: It's funny!",
+          options: ["hands", "zoo", "parent"],
+          answer: "hands",
+          reveal: "A: Clap your hands. B: It's funny!"
+        },
+        {
+          role: "Pair 3: Classmates",
+          prompt: "A: Let's go to the ______. B: Great!",
+          options: ["party", "toes", "knees"],
+          answer: "party",
+          reveal: "A: Let's go to the party. B: Great!"
+        }
+      ];
+
+      var partyMission = {
+        words: ["Let's", "go", "to", "the", "party!", "Clap", "your", "hands.", "Great!"],
+        answer: "Let's go to the party! Clap your hands. Great!",
+        reveal: "Judy: Let's go to the party! Nick: Clap your hands. Class: Great!",
+        hint: "First invite friends, then give one action command."
+      };
+
+      var challengeRounds = [
+        {
+          title: "Round 1: Listen",
+          type: "choice",
+          prompt: "Listen and choose the meaning.",
+          text: "Judy says, touch your shoulders.",
+          options: ["摸摸你的肩膀。", "举起你的手臂。", "跺跺你的脚。"],
+          answer: "摸摸你的肩膀。",
+          hint: "Shoulders means 肩膀。",
+          action: "wave",
+          character: "judy"
+        },
+        {
+          title: "Round 2: Build the dialogue",
+          type: "build",
+          prompt: "Build Nick's answer.",
+          words: ["Of", "course!", "It's", "easy!"],
+          answer: "Of course! It's easy!",
+          text: "Of course! It's easy!",
+          hint: "Nick starts with: Of course!",
+          action: "raise",
+          character: "nick"
+        },
+        {
+          title: "Round 3: Act it out",
+          type: "choice",
+          prompt: "Which action matches: Stamp your feet?",
+          text: "Stamp your feet.",
+          options: ["跺脚", "拍手", "伸展身体"],
+          answer: "跺脚",
+          hint: "Feet are for stamping.",
+          action: "stamp",
+          character: "nick"
+        }
+      ];
+
+      function updateSlide() {
+        slides.forEach(function (slide, index) {
+          slide.classList.toggle("active", index === currentSlide);
+        });
+        document.getElementById("prev").disabled = currentSlide === 0;
+        document.getElementById("next").disabled = currentSlide === slides.length - 1;
+        document.getElementById("slideNo").textContent = (currentSlide + 1) + " / " + slides.length;
+        document.getElementById("progress").style.width = (((currentSlide + 1) / slides.length) * 100) + "%";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      document.getElementById("prev").addEventListener("click", function () {
+        currentSlide = Math.max(0, currentSlide - 1);
+        updateSlide();
+      });
+      document.getElementById("next").addEventListener("click", function () {
+        currentSlide = Math.min(slides.length - 1, currentSlide + 1);
+        updateSlide();
+      });
+
+      function updateScores() {
+        document.getElementById("scoreA").textContent = scores.a;
+        document.getElementById("scoreB").textContent = scores.b;
+      }
+
+      function addPoint(team) {
+        scores[team] += 1;
+        updateScores();
+      }
+
+      function createAssetPlaceholder(assetKey) {
+        var placeholder = document.createElement("div");
+        placeholder.className = "asset-placeholder";
+        placeholder.textContent = assetRequirements[assetKey] || ("请放入图片：" + (imageAssets[assetKey] || assetKey));
+        return placeholder;
+      }
+
+      function renderAssetFrame(frame) {
+        var assetKey = frame.dataset.asset;
+        var assetPath = imageAssets[assetKey];
+        var altText = frame.dataset.alt || assetKey || "teaching image";
+        frame.innerHTML = "";
+        frame.classList.remove("asset-missing");
+
+        if (!assetPath) {
+          frame.classList.add("asset-missing");
+          frame.appendChild(createAssetPlaceholder(assetKey));
+          return;
+        }
+
+        var img = new Image();
+        img.alt = altText;
+        img.decoding = "async";
+        img.loading = "lazy";
+        img.onerror = function () {
+          frame.innerHTML = "";
+          frame.classList.add("asset-missing");
+          frame.appendChild(createAssetPlaceholder(assetKey));
+        };
+        img.src = assetPath;
+        frame.appendChild(img);
+      }
+
+      function renderAssetFrames(root) {
+        (root || document).querySelectorAll("[data-asset]").forEach(function (frame) {
+          renderAssetFrame(frame);
+        });
+      }
+
+      function getBodyParts() {
+        var positions = bodyExplorerPositions[bodyExplorerVersion] || bodyExplorerPositions.labeled;
+        return bodyPartsData.map(function (part) {
+          return Object.assign({}, part, positions[part.id] || {});
+        });
+      }
+
+      function findBodyPart(id) {
+        var parts = getBodyParts();
+        return parts.find(function (part) { return part.id === id; }) || parts[0];
+      }
+
+      function updateBodyProgress() {
+        var progress = document.getElementById("bodyProgress");
+        if (progress) progress.textContent = learnedBodyParts.size + " / " + bodyPartsData.length + " words found";
+      }
+
+      function animateBodyCharacter(character, action) {
+        var node = document.querySelector('.body-character[data-body-character="' + character + '"]');
+        if (!node) node = document.querySelector('.body-character[data-body-character="duo"]');
+        if (!node) return;
+        node.classList.remove("body-bounce", "body-wave");
+        void node.offsetWidth;
+        node.classList.add(action === "wave" || action === "raise" ? "body-wave" : "body-bounce");
+      }
+
+      function updateBodyWordCard(part) {
+        var card = document.getElementById("bodyWordCard");
+        if (!card) return;
+        card.innerHTML =
+          '<span class="eyebrow">Word Card</span>' +
+          '<h3>Word: ' + part.word + '</h3>' +
+          '<dl>' +
+            '<div><dt>中文</dt><dd>' + part.cn + '</dd></div>' +
+            '<div><dt>Phrase</dt><dd>' + part.phrase + '</dd></div>' +
+            '<div><dt>Sentence</dt><dd>' + part.sentence + '</dd></div>' +
+          '</dl>' +
+          '<div class="row-actions">' +
+            '<button class="big-btn blue" type="button" id="bodyListenBtn">Listen</button>' +
+            '<button class="big-btn light" type="button" id="bodyActBtn">Act it out</button>' +
+          '</div>';
+        document.getElementById("bodyListenBtn").addEventListener("click", function () {
+          speak(part.word + ". " + part.phrase + ". " + part.sentence);
+          animateBodyCharacter(part.character, part.action);
+        });
+        document.getElementById("bodyActBtn").addEventListener("click", function () {
+          speak(part.sentence);
+          animateBodyCharacter(part.character, part.action);
+          document.getElementById("bodyPrompt").textContent = "Act it out: " + part.sentence + " 全班一起做动作。";
+        });
+      }
+
+      function updateExplodedLabels() {
+        getBodyParts().forEach(function (part) {
+          var hotspot = document.querySelector('.body-hotspot[data-part="' + part.id + '"]');
+          var label = document.querySelector('.exploded-label[data-part="' + part.id + '"]');
+          var line = document.querySelector('.connector-line line[data-part="' + part.id + '"]');
+          var isLearned = learnedBodyParts.has(part.id);
+          var isActive = activeBodyPart === part.id;
+          if (hotspot) {
+            hotspot.classList.toggle("learned", isLearned);
+            hotspot.classList.toggle("active", isActive);
+            hotspot.setAttribute("aria-label", part.word + ", " + part.cn);
+          }
+          if (label) {
+            label.classList.toggle("learned", isLearned);
+            label.classList.toggle("active", isActive);
+            label.innerHTML = bodyExplorerMode === "review" && !isActive
+              ? '<strong>' + part.cn + '</strong><span>Can you remember?</span>'
+              : '<strong>' + part.word + '</strong><span>' + part.cn + '</span>';
+          }
+          if (line) {
+            line.classList.toggle("learned", isLearned);
+            line.classList.toggle("active", isActive);
+          }
+        });
+        updateBodyProgress();
+      }
+
+      function chooseBodyTarget() {
+        var pool = getBodyParts().slice();
+        if (bodyExplorerTarget && pool.length > 1) {
+          pool = pool.filter(function (part) { return part.id !== bodyExplorerTarget.id; });
+        }
+        bodyExplorerTarget = pool[Math.floor(Math.random() * pool.length)];
+        if (bodyExplorerMode === "listen") {
+          document.getElementById("bodyPrompt").textContent = "Listen and Find: " + bodyExplorerTarget.sentence;
+          speak(bodyExplorerTarget.sentence);
+        } else if (bodyExplorerMode === "review") {
+          document.getElementById("bodyPrompt").textContent = "Review: 找到中文 “" + bodyExplorerTarget.cn + "”。";
+          speak(bodyExplorerTarget.sentence);
+        }
+      }
+
+      function selectBodyPart(part, fromAnswer) {
+        activeBodyPart = part.id;
+        learnedBodyParts.add(part.id);
+        console.log("[Body Explorer]", part.word, {
+          top: part.top,
+          left: part.left,
+          labelTop: part.labelTop,
+          labelLeft: part.labelLeft
+        });
+        updateBodyWordCard(part);
+        updateExplodedLabels();
+        speak(part.word + ". " + part.phrase + ". " + part.sentence);
+        animateBodyCharacter(part.character, part.action);
+
+        if (bodyExplorerMode === "explore") {
+          document.getElementById("bodyPrompt").textContent = "Explore: " + part.word + " means " + part.cn + ". Try: " + part.sentence;
+          return;
+        }
+
+        var correct = bodyExplorerTarget && bodyExplorerTarget.id === part.id;
+        if (correct) {
+          addPoint("a");
+          document.getElementById("bodyPrompt").textContent = "Correct! " + part.sentence + " Team A +1. Next question is coming.";
+          if (fromAnswer) showCelebration("Correct!", part.word + " found. " + part.sentence);
+          setTimeout(chooseBodyTarget, 900);
+        } else {
+          var targetText = bodyExplorerMode === "review" ? bodyExplorerTarget.cn : bodyExplorerTarget.sentence;
+          document.getElementById("bodyPrompt").textContent = "Try again. Listen/read carefully: " + targetText;
+        }
+      }
+
+      function setBodyMode(mode) {
+        bodyExplorerMode = mode;
+        document.querySelectorAll("[data-body-mode]").forEach(function (button) {
+          button.classList.toggle("active", button.dataset.bodyMode === mode);
+        });
+        if (mode === "explore") {
+          bodyExplorerTarget = null;
+          document.getElementById("bodyPrompt").textContent = "Explore: click a glowing dot on Judy or Nick.";
+        } else {
+          chooseBodyTarget();
+        }
+        updateExplodedLabels();
+      }
+
+      function setBodyExplorerVersion(version) {
+        bodyExplorerVersion = version === "forest" ? "forest" : "labeled";
+        document.querySelectorAll("[data-body-version]").forEach(function (button) {
+          button.classList.toggle("active", button.dataset.bodyVersion === bodyExplorerVersion);
+        });
+        bodyExplorerTarget = null;
+        activeBodyPart = activeBodyPart || "head";
+        renderBodyExplorer();
+        if (bodyExplorerMode === "explore") {
+          document.getElementById("bodyPrompt").textContent =
+            bodyExplorerVersion === "forest"
+              ? "Forest Scene: click a glowing dot on Judy or Nick."
+              : "White Label: click a glowing dot on the labeled body parts.";
+        } else {
+          chooseBodyTarget();
+        }
+      }
+
+      function renderBodyExplorer() {
+        var stage = document.getElementById("bodyExplorerStage");
+        if (!stage) return;
+        stage.innerHTML = "";
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "body-character duo-body";
+        wrapper.dataset.bodyCharacter = "duo";
+        var assetKey = bodyExplorerVersion === "forest" ? "bodyExplorerForest" : "bodyExplorerLabeled";
+        wrapper.innerHTML =
+          '<div class="asset-frame" data-asset="' + assetKey + '" data-alt="Judy and Nick standing full body for body parts explorer"></div>' +
+          '<svg class="connector-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>';
+        var svg = wrapper.querySelector("svg");
+
+        getBodyParts().forEach(function (part) {
+          var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", part.left);
+          line.setAttribute("y1", part.top);
+          line.setAttribute("x2", Math.min(96, part.labelLeft + 15));
+          line.setAttribute("y2", Math.min(96, part.labelTop + 6));
+          line.dataset.part = part.id;
+          svg.appendChild(line);
+
+          var label = document.createElement("div");
+          label.className = "exploded-label";
+          label.dataset.part = part.id;
+          label.style.top = part.labelTop + "%";
+          label.style.left = part.labelLeft + "%";
+          label.style.setProperty("--fly-x", part.flyX);
+          label.style.setProperty("--fly-y", part.flyY);
+          wrapper.appendChild(label);
+
+          var hotspot = document.createElement("button");
+          hotspot.className = "body-hotspot";
+          hotspot.type = "button";
+          hotspot.dataset.part = part.id;
+          hotspot.style.top = part.top + "%";
+          hotspot.style.left = part.left + "%";
+          hotspot.addEventListener("click", function () {
+            selectBodyPart(part, true);
+          });
+          wrapper.appendChild(hotspot);
+        });
+
+        stage.appendChild(wrapper);
+        renderAssetFrames(wrapper);
+
+        document.querySelectorAll("[data-body-mode]").forEach(function (button) {
+          button.onclick = function () {
+            setBodyMode(button.dataset.bodyMode);
+          };
+        });
+
+        document.querySelectorAll("[data-body-version]").forEach(function (button) {
+          button.onclick = function () {
+            setBodyExplorerVersion(button.dataset.bodyVersion);
+          };
+          button.classList.toggle("active", button.dataset.bodyVersion === bodyExplorerVersion);
+        });
+
+        var first = getBodyParts()[0];
+        activeBodyPart = activeBodyPart || first.id;
+        updateBodyWordCard(findBodyPart(activeBodyPart));
+        updateExplodedLabels();
+      }
+
+      document.querySelectorAll("[data-team]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          addPoint(button.dataset.team);
+          showCelebration("Point added!", "Good job. Keep moving and speaking.");
+          animateCharacter("both", "celebrate");
+        });
+      });
+
+      function pickVoice() {
+        var voices = speechSynthesis.getVoices();
+        return voices.find(function (voice) {
+          return /Natural|Neural|Enhanced|English/i.test(voice.name) && /^en/i.test(voice.lang);
+        }) || voices.find(function (voice) { return /^en-US/i.test(voice.lang); }) ||
+          voices.find(function (voice) { return /^en/i.test(voice.lang); }) || null;
+      }
+
+      function speak(text) {
+        if (!("speechSynthesis" in window) || !text) return;
+        speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        utterance.rate = .86;
+        utterance.pitch = 1.04;
+        var voice = pickVoice();
+        if (voice) utterance.voice = voice;
+        speechSynthesis.speak(utterance);
+      }
+      if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = pickVoice;
+
+      document.querySelectorAll("[data-speak]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          speak(button.dataset.speak);
+          animateCharacter("both", "wave");
+        });
+      });
+
+      function animateCharacter(character, action) {
+        var selector = character === "both" ? ".character" : ".character." + character;
+        document.querySelectorAll(selector).forEach(function (node) {
+          node.classList.remove("wave", "clap", "stamp", "stretch", "raise", "celebrate", "active");
+          void node.offsetWidth;
+          node.classList.add(action, "active");
+        });
+      }
+
+      function showCelebration(title, text) {
+        document.getElementById("celebrationTitle").textContent = title;
+        document.getElementById("celebrationText").textContent = text;
+        var modal = document.getElementById("celebrationModal");
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        speak(title);
+      }
+
+      document.getElementById("closeCelebration").addEventListener("click", function () {
+        var modal = document.getElementById("celebrationModal");
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      });
+
+      function speakerClass(name) {
+        return name.toLowerCase() === "judy" ? "judy" : name.toLowerCase() === "nick" ? "nick" : "class";
+      }
+
+      function renderDialogue(scene, containerId) {
+        var container = document.getElementById(containerId);
+        container.innerHTML = "";
+        var card = document.createElement("div");
+        card.className = "dialogue-card";
+        scene.lines.forEach(function (line) {
+          var bubble = document.createElement("button");
+          bubble.className = "bubble";
+          bubble.type = "button";
+          bubble.innerHTML = '<span class="speaker ' + speakerClass(line.speaker) + '">' + line.speaker + '</span>' +
+            '<span><p>' + line.text + '</p><small>' + line.cn + '</small></span>';
+          bubble.addEventListener("click", function () {
+            speak(line.text);
+            animateCharacter(line.character, line.action);
+          });
+          card.appendChild(bubble);
+        });
+        var strip = document.createElement("div");
+        strip.className = "target-strip";
+        strip.innerHTML = "<strong>Target:</strong> " + scene.targets.map(function (word) {
+          return '<span class="chip">' + word + '</span>';
+        }).join("");
+        card.appendChild(strip);
+        var actions = document.createElement("div");
+        actions.className = "row-actions";
+        actions.innerHTML = '<button class="big-btn blue" type="button">Listen to all</button>' +
+          '<button class="big-btn light" type="button">Move together</button>';
+        actions.children[0].addEventListener("click", function () {
+          var all = scene.lines.map(function (line) { return line.text; }).join(" ");
+          speak(all);
+          animateCharacter("both", "wave");
+        });
+        actions.children[1].addEventListener("click", function () {
+          animateCharacter("both", "celebrate");
+          speak("Let's move together!");
+        });
+        card.appendChild(actions);
+        container.appendChild(card);
+      }
+
+      function renderChoiceTask(scene, containerId, taskId, pointTeam) {
+        var task = scene.task;
+        var container = document.getElementById(containerId);
+        selectedChoice[taskId] = "";
+        container.innerHTML = '<div class="task-title"><h3>' + task.prompt + '</h3><button class="small-btn light" type="button" data-task-listen>Listen</button></div>' +
+          '<div class="blank-line" data-blank>Choose Nick\'s answer.</div>' +
+          '<div class="choice-grid" data-choices></div>' +
+          '<div class="row-actions"><button class="big-btn blue" type="button" data-check>Check</button><button class="big-btn light" type="button" data-reset>Try another time</button></div>' +
+          '<div class="feedback" data-feedback>请先选择一个答案。</div>' +
+          '<div class="answer-reveal" data-reveal>' + task.reveal + '</div>';
+        var choices = container.querySelector("[data-choices]");
+        task.options.forEach(function (option) {
+          var button = document.createElement("button");
+          button.className = "choice";
+          button.type = "button";
+          button.textContent = option;
+          button.addEventListener("click", function () {
+            selectedChoice[taskId] = option;
+            container.querySelector("[data-blank]").textContent = option;
+            choices.querySelectorAll(".choice").forEach(function (choice) { choice.classList.remove("selected", "correct", "wrong"); });
+            button.classList.add("selected");
+          });
+          choices.appendChild(button);
+        });
+        container.querySelector("[data-task-listen]").addEventListener("click", function () {
+          speak(task.prompt.replace("________", "blank"));
+          animateCharacter("nick", "wave");
+        });
+        container.querySelector("[data-check]").addEventListener("click", function () {
+          var ok = selectedChoice[taskId] === task.answer;
+          var feedback = container.querySelector("[data-feedback]");
+          choices.querySelectorAll(".choice").forEach(function (choice) {
+            choice.classList.toggle("correct", choice.textContent === task.answer && ok);
+            choice.classList.toggle("wrong", choice.textContent === selectedChoice[taskId] && !ok);
+          });
+          if (ok) {
+            feedback.textContent = task.congrats;
+            container.querySelector("[data-reveal]").classList.add("show");
+            addPoint(pointTeam);
+            animateCharacter("both", "celebrate");
+            showCelebration("Great job!", task.congrats);
+          } else {
+            feedback.textContent = "Try again. " + task.hint;
+            animateCharacter("nick", "wave");
+          }
+        });
+        container.querySelector("[data-reset]").addEventListener("click", function () {
+          selectedChoice[taskId] = "";
+          container.querySelector("[data-blank]").textContent = "Choose Nick's answer.";
+          container.querySelector("[data-feedback]").textContent = "请先选择一个答案。";
+          container.querySelector("[data-reveal]").classList.remove("show");
+          choices.querySelectorAll(".choice").forEach(function (choice) { choice.classList.remove("selected", "correct", "wrong"); });
+        });
+      }
+
+      function renderBuildTask(task, containerId, taskId, pointTeam) {
+        var container = document.getElementById(containerId);
+        tileState[taskId] = [];
+        var words = (task.words || []).slice().sort(function () { return Math.random() - .5; });
+        container.innerHTML = '<div class="task-title"><h3>' + task.prompt + '</h3><button class="small-btn light" type="button" data-listen>Listen prompt</button></div>' +
+          '<div class="sentence-box" data-sentence></div>' +
+          '<div class="tile-bank" data-bank></div>' +
+          '<div class="row-actions"><button class="big-btn blue" type="button" data-check>Check</button><button class="big-btn light" type="button" data-clear>Clear</button><button class="big-btn" type="button" data-read>Read</button></div>' +
+          '<div class="feedback" data-feedback>请点击词块组成句子。</div>' +
+          '<div class="answer-reveal" data-reveal>' + task.reveal + '</div>';
+        var sentence = container.querySelector("[data-sentence]");
+        var bank = container.querySelector("[data-bank]");
+        words.forEach(function (word) {
+          var button = document.createElement("button");
+          button.className = "tile";
+          button.type = "button";
+          button.textContent = word;
+          button.addEventListener("click", function () {
+            if (button.classList.contains("used")) return;
+            button.classList.add("used");
+            tileState[taskId].push({ word: word, source: button });
+            var tile = document.createElement("button");
+            tile.className = "tile";
+            tile.type = "button";
+            tile.textContent = word;
+            tile.addEventListener("click", function () {
+              sentence.removeChild(tile);
+              tileState[taskId] = tileState[taskId].filter(function (item) { return item.source !== button; });
+              button.classList.remove("used");
+            });
+            sentence.appendChild(tile);
+          });
+          bank.appendChild(button);
+        });
+        function built() {
+          return tileState[taskId].map(function (item) { return item.word; }).join(" ");
+        }
+        container.querySelector("[data-listen]").addEventListener("click", function () {
+          speak(task.prompt);
+          animateCharacter("judy", "wave");
+        });
+        container.querySelector("[data-read]").addEventListener("click", function () {
+          speak(built() || task.answer);
+        });
+        container.querySelector("[data-clear]").addEventListener("click", function () {
+          tileState[taskId] = [];
+          sentence.innerHTML = "";
+          container.querySelector("[data-feedback]").textContent = "请点击词块组成句子。";
+          container.querySelector("[data-reveal]").classList.remove("show");
+          bank.querySelectorAll(".tile").forEach(function (tile) { tile.classList.remove("used"); });
+        });
+        container.querySelector("[data-check]").addEventListener("click", function () {
+          var ok = built() === task.answer;
+          var feedback = container.querySelector("[data-feedback]");
+          if (ok) {
+            feedback.textContent = task.congrats || "Excellent! The dialogue is complete.";
+            container.querySelector("[data-reveal]").classList.add("show");
+            addPoint(pointTeam);
+            animateCharacter("both", "celebrate");
+            showCelebration("Excellent!", task.congrats || "The dialogue is complete.");
+          } else {
+            feedback.textContent = "Try again. " + task.hint;
+            animateCharacter("judy", "wave");
+          }
+        });
+      }
+
+      function renderCommandBoard() {
+        var board = document.getElementById("commandBoard");
+        board.innerHTML = "";
+        actionCommands.forEach(function (command) {
+          var button = document.createElement("button");
+          button.className = "command-card";
+          button.type = "button";
+          button.innerHTML = '<strong>' + command.text + '</strong><span>' + command.cn + '</span>';
+          button.addEventListener("click", function () {
+            board.querySelectorAll(".command-card").forEach(function (card) { card.classList.remove("active"); });
+            button.classList.add("active");
+            document.getElementById("moveFeedback").textContent = command.speaker + " says: " + command.text + " 学生完成后给小组加分。";
+            speak(command.text);
+            animateCharacter(command.character, command.action);
+          });
+          board.appendChild(button);
+        });
+        document.getElementById("randomCommand").addEventListener("click", function () {
+          var buttons = Array.from(board.querySelectorAll(".command-card"));
+          buttons[Math.floor(Math.random() * buttons.length)].click();
+        });
+      }
+
+      function renderPairTalk() {
+        var container = document.getElementById("pairTalk");
+        container.innerHTML = "";
+        pairTasks.forEach(function (task, index) {
+          var card = document.createElement("div");
+          card.className = "pair-card";
+          var selected = "";
+          card.innerHTML = '<strong>' + task.role + '</strong><p>' + task.prompt + '</p><div class="choice-grid"></div>' +
+            '<button class="small-btn" type="button" data-check>Check</button>' +
+            '<div class="feedback">先选择一个词，再检查。</div><div class="answer-reveal">' + task.reveal + '</div>';
+          var grid = card.querySelector(".choice-grid");
+          task.options.forEach(function (option) {
+            var button = document.createElement("button");
+            button.className = "choice";
+            button.type = "button";
+            button.textContent = option;
+            button.addEventListener("click", function () {
+              selected = option;
+              grid.querySelectorAll(".choice").forEach(function (choice) { choice.classList.remove("selected", "correct", "wrong"); });
+              button.classList.add("selected");
+            });
+            grid.appendChild(button);
+          });
+          card.querySelector("[data-check]").addEventListener("click", function () {
+            if (selected === task.answer) {
+              card.querySelector(".feedback").textContent = "Great! Now read it with your partner.";
+              card.querySelector(".answer-reveal").classList.add("show");
+              addPoint(index % 2 === 0 ? "a" : "b");
+              animateCharacter("both", "celebrate");
+              speak(task.reveal);
+            } else {
+              card.querySelector(".feedback").textContent = "Try again. Use today's body or party words.";
+            }
+          });
+          container.appendChild(card);
+        });
+      }
+
+      function renderPartyMission() {
+        renderBuildTask({
+          prompt: "Build the party dialogue:",
+          words: partyMission.words,
+          answer: partyMission.answer,
+          hint: partyMission.hint,
+          reveal: partyMission.reveal,
+          congrats: "Party Star! You finished the Zootopia dialogue."
+        }, "partyMission", "party", "a");
+      }
+
+      function renderChallenge() {
+        var round = challengeRounds[challengeIndex];
+        var panel = document.getElementById("challengePanel");
+        document.getElementById("challengeTitle").textContent = round.title;
+        document.getElementById("challengeProgress").textContent = (challengeIndex + 1) + " / " + challengeRounds.length;
+        if (round.type === "choice") {
+          selectedChoice.challenge = "";
+          panel.innerHTML = '<div class="task-title"><h3>' + round.prompt + '</h3></div><div class="blank-line">' + round.text + '</div>' +
+            '<div class="challenge-options"></div><div class="row-actions"><button class="big-btn blue" type="button" data-check>Check</button></div>' +
+            '<div class="feedback">先选择一个答案。</div><div class="answer-reveal">Correct answer: ' + round.answer + '</div>';
+          var options = panel.querySelector(".challenge-options");
+          round.options.forEach(function (option) {
+            var button = document.createElement("button");
+            button.className = "option";
+            button.type = "button";
+            button.textContent = option;
+            button.addEventListener("click", function () {
+              selectedChoice.challenge = option;
+              options.querySelectorAll(".option").forEach(function (item) { item.classList.remove("selected", "correct", "wrong"); });
+              button.classList.add("selected");
+            });
+            options.appendChild(button);
+          });
+          panel.querySelector("[data-check]").addEventListener("click", function () {
+            var ok = selectedChoice.challenge === round.answer;
+            options.querySelectorAll(".option").forEach(function (item) {
+              item.classList.toggle("correct", ok && item.textContent === round.answer);
+              item.classList.toggle("wrong", !ok && item.textContent === selectedChoice.challenge);
+            });
+            handleChallengeResult(ok, round);
+          });
+        } else {
+          renderBuildTask({
+            prompt: round.prompt,
+            words: round.words,
+            answer: round.answer,
+            hint: round.hint,
+            reveal: "Nick: " + round.answer,
+            congrats: "Round 2 complete!"
+          }, "challengePanel", "challengeBuild", challengeIndex % 2 === 0 ? "a" : "b");
+          var oldCheck = panel.querySelector("[data-check]");
+          oldCheck.addEventListener("click", function () {
+            if (tileState.challengeBuild.map(function (item) { return item.word; }).join(" ") === round.answer) {
+              setTimeout(nextChallengeRound, 600);
+            }
+          });
+        }
+      }
+
+      function handleChallengeResult(ok, round) {
+        var panel = document.getElementById("challengePanel");
+        if (ok) {
+          panel.querySelector(".feedback").textContent = "Correct! Go to the next round.";
+          panel.querySelector(".answer-reveal").classList.add("show");
+          addPoint(challengeIndex % 2 === 0 ? "a" : "b");
+          animateCharacter(round.character, round.action);
+          showCelebration("Correct!", "Challenge round " + (challengeIndex + 1) + " complete.");
+          setTimeout(nextChallengeRound, 700);
+        } else {
+          panel.querySelector(".feedback").textContent = "Try again. " + round.hint;
+          animateCharacter(round.character, "wave");
+        }
+      }
+
+      function nextChallengeRound() {
+        if (challengeIndex < challengeRounds.length - 1) {
+          challengeIndex += 1;
+          renderChallenge();
+          speak(challengeRounds[challengeIndex].text || challengeRounds[challengeIndex].prompt);
+          return;
+        }
+        stopChallengeTimer();
+        animateCharacter("both", "celebrate");
+        showCelebration("Party Star!", "You finished Listen, Build the dialogue, and Act it out.");
+      }
+
+      function startChallengeTimer() {
+        stopChallengeTimer();
+        challengeSeconds = 30;
+        document.getElementById("challengeTimer").textContent = challengeSeconds;
+        challengeTimer = setInterval(function () {
+          challengeSeconds -= 1;
+          document.getElementById("challengeTimer").textContent = challengeSeconds;
+          if (challengeSeconds <= 0) {
+            stopChallengeTimer();
+            showCelebration("Time!", "Try the challenge one more time.");
+          }
+        }, 1000);
+      }
+
+      function stopChallengeTimer() {
+        if (challengeTimer) clearInterval(challengeTimer);
+        challengeTimer = null;
+      }
+
+      document.getElementById("startChallenge").addEventListener("click", function () {
+        challengeIndex = 0;
+        renderChallenge();
+        startChallengeTimer();
+        speak(challengeRounds[0].text);
+      });
+      document.getElementById("listenChallenge").addEventListener("click", function () {
+        var round = challengeRounds[challengeIndex];
+        speak(round.text || round.answer);
+        animateCharacter(round.character || "both", round.action || "wave");
+      });
+
+      document.getElementById("resetLesson").addEventListener("click", function () {
+        scores = { a: 0, b: 0 };
+        learnedBodyParts = new Set();
+        activeBodyPart = null;
+        bodyExplorerMode = "explore";
+        bodyExplorerVersion = "labeled";
+        bodyExplorerTarget = null;
+        updateScores();
+        stopChallengeTimer();
+        challengeIndex = 0;
+        renderAll();
+        showCelebration("Reset complete", "The lesson is ready again.");
+      });
+
+      function renderAll() {
+        renderBodyExplorer();
+        renderDialogue(dialogueScenes[0], "dialogueOne");
+        renderChoiceTask(dialogueScenes[0], "studentTurnOne", "turnOne", "a");
+        renderDialogue(dialogueScenes[1], "dialogueTwo");
+        renderBuildTask(dialogueScenes[1].task, "studentTurnTwo", "turnTwo", "b");
+        renderCommandBoard();
+        renderPairTalk();
+        renderPartyMission();
+        renderChallenge();
+        renderAssetFrames();
+      }
+
+      document.getElementById("closeImage").addEventListener("click", function () {
+        var modal = document.getElementById("imageModal");
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.getElementById("modalImage").src = "";
+      });
+
+      updateScores();
+      renderAll();
+      updateSlide();
+    }());
+  </script>
+</body>
+</html>

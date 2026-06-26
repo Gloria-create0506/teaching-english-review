@@ -7,9 +7,17 @@ services:
     startCommand: node server.js
     healthCheckPath: /healthz
     envVars:
-      - key: ACCESS_PASSWORD
+      - key: RESEND_API_KEY
         sync: false
-      - key: MAX_IPS_PER_PASSWORD
-        value: "2"
+      - key: EMAIL_FROM
+        sync: false
+      - key: APP_BASE_URL
+        sync: false
+      - key: ALLOWED_EMAIL_DOMAINS
+        sync: false
       - key: SESSION_HOURS
-        value: "8"
+        value: "24"
+      - key: VERIFY_TOKEN_HOURS
+        value: "24"
+      - key: RESET_TOKEN_MINUTES
+        value: "30"
